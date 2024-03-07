@@ -36,8 +36,14 @@ checkAuth()
 
       <VerticalNavLink :item="{
       title: 'Driver',
-      icon: 'bx-car',
+      icon: 'bx-user',
       to: '/admin/driver',
+    }" v-if="user?.roles[0].name === 'admin'" />
+
+      <VerticalNavLink :item="{
+      title: 'Truck',
+      icon: 'bx-car',
+      to: '/admin/truck',
     }" v-if="user?.roles[0].name === 'admin'" />
 
       <VerticalNavLink :item="{
