@@ -1,0 +1,9 @@
+<template>
+    <VCol>
+        <VRow>
+            <VCol>
+                <h1>Dashboard</h1>
+            </VCol>
+        </VRow>
+    </VCol>
+</template>
