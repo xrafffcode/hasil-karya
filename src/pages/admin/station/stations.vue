@@ -1,5 +1,5 @@
 <script setup>
-import { useDriverStore } from '@/stores/driver';
+import { useStationStore } from '@/stores/station'; // Assuming you have a station store
 
 const headers = [
   {
@@ -12,6 +12,10 @@ const headers = [
     value: 'name',
   },
   {
+    text: 'Kategori',
+    value: 'category',
+  },
+  {
     text: 'Aktif',
     value: 'is_active',
   },
@@ -22,38 +26,30 @@ const headers = [
   },
 ]
 
+const { stations, loading, error, success } = storeToRefs(useStationStore())
+const { fetchStations, deleteStation, activateStation } = useStationStore()
 
+fetchStations()
 
-const { drivers, loading, error, success } = storeToRefs(useDriverStore())
-const { fetchDrivers, deleteDriver, activateDriver } = useDriverStore()
-
-fetchDrivers()
-
-async function handleDeleteDriver(driver) {
-
-  const confirmed = confirm('Apakah Anda yakin ingin menghapus driver ini?')
-
+async function handleDeleteStation(station) {
+  const confirmed = confirm('Apakah Anda yakin ingin menghapus stasiun ini?')
   if (confirmed) {
-    await deleteDriver(driver.id)
-    fetchDrivers()
+    await deleteStation(station.id)
+    fetchStations()
   }
 }
 
-async function handleActivateDriver(driver) {
+async function handleActivateStation(station) {
   const formData = new FormData()
-
-  formData.append('is_active', driver.is_active ? 1 : 0)
-
-  await activateDriver(driver.id, formData)
-
-  fetchDrivers()
+  formData.append('is_active', station.is_active ? 1 : 0)
+  await activateStation(station.id, formData)
+  fetchStations()
 }
-
 
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Driver'
+  document.title = 'Station'
 })
 
 onUnmounted(() => {
@@ -78,38 +74,39 @@ onUnmounted(() => {
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Driver
+        Station
       </h2>
 
-      <VBtn :to="{ name: 'admin-driver-create' }" color="primary">
-        Tambah Driver
+      <VBtn :to="{ name: 'admin-station-create' }" color="primary">
+        Tambah Station
       </VBtn>
     </VCol>
 
     <VCol cols="12">
-      <VTextField v-model="search" label="Cari Driver" placeholder="Cari Driver" clearable :loading="loading"
+      <VTextField v-model="search" label="Cari Station" placeholder="Cari Station" clearable :loading="loading"
         variant="solo" />
     </VCol>
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable :headers="headers" :items="drivers" :loading="loading" :search-value="search" buttons-pagination
-          show-index class="data-table">
+        <EasyDataTable :headers="headers" :items="stations" :loading="loading" :search-value="search" buttons-pagination
+          show-index>
           <template #loading>
             <img src="https://i.pinimg.com/originals/94/fd/2b/94fd2bf50097ade743220761f41693d5.gif"
               style="width: 100px; height: 80px;">
           </template>
           <template #item-is_active="item">
-            <VSwitch v-model="item.is_active" color="primary" @change="() => handleActivateDriver(item)" />
+            <VSwitch v-model="item.is_active" color="primary" @change="() => handleActivateStation(item)" />
           </template>
           <template #item-operation="item">
-            <VBtn :to="{ name: 'admin-driver-edit', params: { id: item.id } }" color="primary" size="small" class="m-5">
+            <VBtn :to="{ name: 'admin-station-edit', params: { id: item.id } }" color="primary" size="small"
+              class="m-5">
               Ubah
             </VBtn>
-            <VBtn :to="{ name: 'admin-driver-view', params: { id: item.id } }" color="info" size="small">
+            <VBtn :to="{ name: 'admin-station-view', params: { id: item.id } }" color="info" size="small">
               Detail
             </VBtn>
-            <VBtn color="error" size="small" class="m-5" @click="() => handleDeleteDriver(item)">
+            <VBtn color="error" size="small" class="m-5" @click="() => handleDeleteStation(item)">
               Hapus
             </VBtn>
           </template>

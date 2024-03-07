@@ -47,6 +47,12 @@ checkAuth()
     }" v-if="user?.roles[0].name === 'admin'" />
 
       <VerticalNavLink :item="{
+      title: 'Station',
+      icon: 'bx-building',
+      to: '/admin/station',
+    }" v-if="user?.roles[0].name === 'admin'" />
+
+      <VerticalNavLink :item="{
       title: 'Checker',
       icon: 'bx-check',
       to: '/admin/checker',
