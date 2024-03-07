@@ -2,10 +2,10 @@
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Checker
+        Driver
       </h2>
 
-      <VBtn to="/admin/checker" color="primary">
+      <VBtn :to="{ name: 'admin-driver' }" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -25,12 +25,6 @@
                 :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading"
                 readonly />
             </VCol>
-
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []" :disabled="loading" :loading="loading"
-                readonly />
-            </VCol>
           </VRow>
         </VForm>
       </VCard>
@@ -39,40 +33,37 @@
 </template>
 
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useDriverStore } from '@/stores/driver';
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useCheckerStore())
-const { fetchChecker } = useCheckerStore()
+const { loading, error } = storeToRefs(useDriverStore())
+const { fetchDriver } = useDriverStore()
 
-const checkerId = route.params.id
+const driverId = route.params.id
 
 const code = ref('')
 const name = ref('')
-const email = ref('')
-const password = ref('')
-const is_active = ref(0)
 
-const fetchCheckerData = async () => {
+
+const fetchDriverData = async () => {
   try {
-    const checker = await fetchChecker(checkerId)
+    const driver = await fetchDriver(driverId)
 
-    code.value = checker.code
-    name.value = checker.name
-    email.value = checker.email
+    code.value = driver.code
+    name.value = driver.name
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchCheckerData()
+  fetchDriverData()
 
-  document.title = 'Checker'
+  document.title = 'Driver'
 })
 </script>
 

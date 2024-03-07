@@ -2,10 +2,10 @@
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Edit Checker
+        Edit Driver
       </h2>
 
-      <VBtn to="/admin/checker" color="primary">
+      <VBtn :to="{ name: 'admin-driver' }" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -22,17 +22,6 @@
             <VCol cols="12" md="6">
               <VTextField v-model="name" label="Nama" placeholder="Nama Client"
                 :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading" />
-            </VCol>
-
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []" :disabled="loading" :loading="loading" />
-            </VCol>
-
-            <VCol cols="12" md="6">
-              <VTextField v-model="password" label="Password" placeholder="Password Checker"
-                :error-messages="error && error.password ? [error.password] : []" :disabled="loading"
-                :loading="loading" />
             </VCol>
 
             <VCol cols="12" class="d-flex gap-4">
@@ -52,50 +41,46 @@
 </template>
 
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useDriverStore } from '@/stores/driver';
 import { storeToRefs } from 'pinia'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useCheckerStore())
-const { fetchChecker, updateChecker } = useCheckerStore()
+const { loading, error } = storeToRefs(useDriverStore())
+const { fetchDriver, updateDriver } = useDriverStore()
 
-const checkerId = route.params.id
+const driverId = route.params.id
 
 const code = ref('')
 const name = ref('')
-const email = ref('')
-const password = ref('')
 const is_active = ref(0)
 
-const fetchCheckerData = async () => {
+const fetchDriverData = async () => {
   try {
-    const checker = await fetchChecker(checkerId)
+    const driver = await fetchDriver(driverId)
 
-    code.value = checker.code
-    name.value = checker.name
-    email.value = checker.email
-    is_active.value = checker.is_active === true ? 1 : 0
+    code.value = driver.code
+    name.value = driver.name
+    email.value = driver.email
+    is_active.value = driver.is_active === true ? 1 : 0
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchCheckerData()
+  fetchDriverData()
 
-  document.title = 'Edit Checker'
+  document.title = 'Edit Driver'
 })
 
 const handleSubmit = () => {
-  updateChecker({
-    id: checkerId,
+  updateDriver({
+    id: driverId,
     code: code.value,
     name: name.value,
-    email: email.value,
-    password: password.value,
     is_active: is_active.value,
   })
 }

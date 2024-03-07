@@ -1,34 +1,29 @@
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useDriverStore } from '@/stores/driver';
 import { storeToRefs } from 'pinia'
 
-const { loading, error } = storeToRefs(useCheckerStore())
-const { createChecker } = useCheckerStore()
+const { loading, error } = storeToRefs(useDriverStore())
+const { createDriver } = useDriverStore()
 
 const code = ref('AUTO')
 const name = ref('')
-const email = ref('')
-const password = ref('')
+
 
 const handleReset = () => {
   code.value = 'AUTO'
   name.value = ''
-  email.value = ''
-  password.value = ''
 }
 
 const handleSubmit = () => {
-  createChecker({
+  createDriver({
     code: code.value,
     name: name.value,
-    email: email.value,
-    password: password.value,
     is_active: 1,
   })
 }
 
 onMounted(() => {
-  document.title = 'Tambah Checker'
+  document.title = 'Tambah Driver'
 })
 
 onUnmounted(() => {
@@ -43,10 +38,10 @@ onUnmounted(() => {
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Tambah Checker
+        Tambah Driver
       </h2>
 
-      <VBtn to="/admin/checker" color="primary">
+      <VBtn to="/admin/driver" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -63,16 +58,6 @@ onUnmounted(() => {
             <VCol cols="12" md="6">
               <VTextField v-model="name" label="Nama" placeholder="Nama Client"
                 :error-messages="error && error.name ? [error.name] : []" />
-            </VCol>
-
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []" />
-            </VCol>
-
-            <VCol cols="12" md="6">
-              <VTextField v-model="password" label="Password" placeholder="Password Checker"
-                :error-messages="error && error.password ? [error.password] : []" />
             </VCol>
 
 

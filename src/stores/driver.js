@@ -58,7 +58,7 @@ export const useDriverStore = defineStore({
             try {
                 this.loading = true
 
-                const response = await axiosInstance.put(`/driver/${payload.id}`, payload)
+                const response = await axiosInstance.post(`/driver/${payload.id}`, payload)
 
                 this.success = response.data.message
 
@@ -86,7 +86,7 @@ export const useDriverStore = defineStore({
             try {
                 this.loading = true
 
-                const response = await axiosInstance.post(`/driver/activate/${id}`, payload)
+                const response = await axiosInstance.post(`/driver/active/${id}`, payload)
 
                 this.success = response.data.message
             } catch (error) {

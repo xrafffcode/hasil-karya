@@ -1,5 +1,5 @@
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useDriverStore } from '@/stores/driver';
 
 const headers = [
   {
@@ -10,10 +10,6 @@ const headers = [
   {
     text: 'Nama',
     value: 'name',
-  },
-  {
-    text: 'Email',
-    value: 'email',
   },
   {
     text: 'Aktif',
@@ -28,36 +24,36 @@ const headers = [
 
 
 
-const { checkers, loading, error, success } = storeToRefs(useCheckerStore())
-const { fetchCheckers, deleteChecker, activateChecker } = useCheckerStore()
+const { drivers, loading, error, success } = storeToRefs(useDriverStore())
+const { fetchDrivers, deleteDriver, activateDriver } = useDriverStore()
 
-fetchCheckers()
+fetchDrivers()
 
-async function handleDeleteChecker(checker) {
+async function handleDeleteDriver(driver) {
 
-  const confirmed = confirm('Apakah Anda yakin ingin menghapus checker ini?')
+  const confirmed = confirm('Apakah Anda yakin ingin menghapus driver ini?')
 
   if (confirmed) {
-    await deleteChecker(checker.id)
-    fetchCheckers()
+    await deleteDriver(driver.id)
+    fetchDrivers()
   }
 }
 
-async function handleActivateChecker(checker) {
+async function handleActivateDriver(driver) {
   const formData = new FormData()
 
-  formData.append('is_active', checker.is_active ? 1 : 0)
+  formData.append('is_active', driver.is_active ? 1 : 0)
 
-  await activateChecker(checker.id, formData)
+  await activateDriver(driver.id, formData)
 
-  fetchCheckers()
+  fetchDrivers()
 }
 
 
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Checker'
+  document.title = 'Driver'
 })
 
 onUnmounted(() => {
@@ -82,39 +78,38 @@ onUnmounted(() => {
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Checker
+        Driver
       </h2>
 
-      <VBtn to="/admin/checker/create" color="primary">
-        Tambah Checker
+      <VBtn :to="{ name: 'admin-driver-create' }" color="primary">
+        Tambah Driver
       </VBtn>
     </VCol>
 
     <VCol cols="12">
-      <VTextField v-model="search" label="Cari Checker" placeholder="Cari Checker" clearable :loading="loading"
+      <VTextField v-model="search" label="Cari Driver" placeholder="Cari Driver" clearable :loading="loading"
         variant="solo" />
     </VCol>
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable :headers="headers" :items="checkers" :loading="loading" :search-value="search" buttons-pagination
+        <EasyDataTable :headers="headers" :items="drivers" :loading="loading" :search-value="search" buttons-pagination
           show-index>
           <template #loading>
             <img src="https://i.pinimg.com/originals/94/fd/2b/94fd2bf50097ade743220761f41693d5.gif"
               style="width: 100px; height: 80px;">
           </template>
           <template #item-is_active="item">
-            <VSwitch v-model="item.is_active" color="primary" @change="() => handleActivateChecker(item)" />
+            <VSwitch v-model="item.is_active" color="primary" @change="() => handleActivateDriver(item)" />
           </template>
           <template #item-operation="item">
-            <VBtn :to="{ name: 'admin-checker-edit', params: { id: item.id } }" color="primary" size="small"
-              class="m-5">
+            <VBtn :to="{ name: 'admin-driver-edit', params: { id: item.id } }" color="primary" size="small" class="m-5">
               Ubah
             </VBtn>
-            <VBtn :to="{ name: 'admin-checker-view', params: { id: item.id } }" color="info" size="small">
+            <VBtn :to="{ name: 'admin-driver-view', params: { id: item.id } }" color="info" size="small">
               Detail
             </VBtn>
-            <VBtn color="error" size="small" class="m-5" @click="() => handleDeleteChecker(item)">
+            <VBtn color="error" size="small" class="m-5" @click="() => handleDeleteDriver(item)">
               Hapus
             </VBtn>
           </template>
