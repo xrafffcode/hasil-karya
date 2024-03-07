@@ -1,11 +1,17 @@
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Edit Checker
       </h2>
 
-      <VBtn to="/admin/checker" color="primary">
+      <VBtn
+        to="/admin/checker"
+        color="primary"
+      >
         Kembali
       </VBtn>
     </VCol>
@@ -14,33 +20,80 @@
       <VCard>
         <VForm @submit.prevent="handleSubmit">
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Checker"
+                :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Client"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []" :disabled="loading" :loading="loading" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="email"
+                label="Email"
+                placeholder="Email Checker"
+                :error-messages="error && error.email ? [error.email] : []"
+                :disabled="loading"
+                :loading="loading"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="password" label="Password" placeholder="Password Checker"
-                :error-messages="error && error.password ? [error.password] : []" :disabled="loading"
-                :loading="loading" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="password"
+                label="Password"
+                placeholder="Password Checker"
+                :error-messages="error && error.password ? [error.password] : []"
+                :disabled="loading"
+                :loading="loading"
+              />
             </VCol>
 
-            <VCol cols="12" class="d-flex gap-4">
-              <VBtn type="submit" :loading="loading" color="primary">
+            <VCol
+              cols="12"
+              class="d-flex gap-4"
+            >
+              <VBtn
+                type="submit"
+                :loading="loading"
+                color="primary"
+              >
                 Simpan
               </VBtn>
 
-              <VBtn type="reset" color="secondary" variant="tonal" @click="handleReset">
+              <VBtn
+                type="reset"
+                color="secondary"
+                variant="tonal"
+                @click="handleReset"
+              >
                 Reset
               </VBtn>
             </VCol>

@@ -1,19 +1,26 @@
 <script setup>
-import { useDriverStore } from '@/stores/driver'
+import { useMaterialMovementStore } from '@/stores/materialMovement'
 
 const headers = [
   {
-    text: 'Kode',
-    value: 'code',
-    width: 200,
+    text: 'Tanggal',
+    value: 'formatted_date',
+  }, 
+  {
+    text: 'Driver',
+    value: 'driver.name',
   },
   {
-    text: 'Nama',
-    value: 'name',
+    text: 'Truck',
+    value: 'truck.name',
   },
   {
-    text: 'Aktif',
-    value: 'is_active',
+    text: 'POS',
+    value: 'station.name',
+  },
+  {
+    text: 'Pemeriksa',
+    value: 'checker.name',
   },
   {
     text: 'Aksi',
@@ -22,39 +29,25 @@ const headers = [
   },
 ]
 
+const { movements, loading, error, success } = storeToRefs(useMaterialMovementStore())
+const { fetchMaterialMovements, deleteMaterialMovement } = useMaterialMovementStore()
 
+fetchMaterialMovements()
 
-const { drivers, loading, error, success } = storeToRefs(useDriverStore())
-const { fetchDrivers, deleteDriver, activateDriver } = useDriverStore()
-
-fetchDrivers()
-
-async function handleDeleteDriver(driver) {
-
-  const confirmed = confirm('Apakah Anda yakin ingin menghapus driver ini?')
-
+async function handleDeleteMaterialMovement(materialMovement) {
+  const confirmed = confirm('Apakah Anda yakin ingin menghapus Perpindahan material ini?')
   if (confirmed) {
-    await deleteDriver(driver.id)
-    fetchDrivers()
+    await deleteMaterialMovement(materialMovement.id)
+    fetchMaterialMovements()
   }
 }
-
-async function handleActivateDriver(driver) {
-  const formData = new FormData()
-
-  formData.append('is_active', driver.is_active ? 1 : 0)
-
-  await activateDriver(driver.id, formData)
-
-  fetchDrivers()
-}
-
 
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Driver'
+  document.title = 'Material Movement'
 })
+
 
 onUnmounted(() => {
   error.value = null
@@ -89,22 +82,22 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Driver
+        Perpindahan Material
       </h2>
 
       <VBtn
-        :to="{ name: 'admin-driver-create' }"
+        :to="{ name: 'admin-material-movement-create' }"
         color="primary"
       >
-        Tambah Driver
+        Tambah Perpindahan Material
       </VBtn>
     </VCol>
 
     <VCol cols="12">
       <VTextField
         v-model="search"
-        label="Cari Driver"
-        placeholder="Cari Driver"
+        label="Cari Perpindahan Material"
+        placeholder="Cari Perpindahan Material"
         clearable
         :loading="loading"
         variant="solo"
@@ -115,12 +108,11 @@ onUnmounted(() => {
       <VCard>
         <EasyDataTable
           :headers="headers"
-          :items="drivers"
+          :items="movements"
           :loading="loading"
           :search-value="search"
           buttons-pagination
           show-index
-          class="data-table"
         >
           <template #loading>
             <img
@@ -128,16 +120,9 @@ onUnmounted(() => {
               style="width: 100px; height: 80px;"
             >
           </template>
-          <template #item-is_active="item">
-            <VSwitch
-              v-model="item.is_active"
-              color="primary"
-              @change="() => handleActivateDriver(item)"
-            />
-          </template>
           <template #item-operation="item">
             <VBtn
-              :to="{ name: 'admin-driver-edit', params: { id: item.id } }"
+              :to="{ name: 'admin-material-movement-edit', params: { id: item.id } }"
               color="primary"
               size="small"
               class="m-5"
@@ -145,7 +130,7 @@ onUnmounted(() => {
               Ubah
             </VBtn>
             <VBtn
-              :to="{ name: 'admin-driver-view', params: { id: item.id } }"
+              :to="{ name: 'admin-material-movement-view', params: { id: item.id } }"
               color="info"
               size="small"
             >
@@ -155,7 +140,7 @@ onUnmounted(() => {
               color="error"
               size="small"
               class="m-5"
-              @click="() => handleDeleteDriver(item)"
+              @click="() => handleDeleteMaterialMovement(item)"
             >
               Hapus
             </VBtn>

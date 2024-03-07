@@ -1,11 +1,17 @@
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Checker
       </h2>
 
-      <VBtn to="/admin/checker" color="primary">
+      <VBtn
+        to="/admin/checker"
+        color="primary"
+      >
         Kembali
       </VBtn>
     </VCol>
@@ -14,22 +20,49 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Checker"
+                :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Client"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="email"
+                label="Email"
+                placeholder="Email Checker"
+                :error-messages="error && error.email ? [error.email] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
           </VRow>
         </VForm>

@@ -1,5 +1,5 @@
 <script setup>
-import { useTruckStore } from '@/stores/truck'; // assuming you have a truck store
+import { useTruckStore } from '@/stores/truck' // assuming you have a truck store
 import { storeToRefs } from 'pinia'
 
 const { loading, error } = storeToRefs(useTruckStore())
@@ -37,12 +37,18 @@ onUnmounted(() => {
 
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Tambah Truck
       </h2>
 
-      <VBtn to="/admin/truck" color="primary">
+      <VBtn
+        to="/admin/truck"
+        color="primary"
+      >
         Kembali
       </VBtn>
     </VCol>
@@ -51,28 +57,60 @@ onUnmounted(() => {
       <VCard>
         <VForm @submit.prevent="handleSubmit">
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Checker"
+                :error-messages="error && error.code ? [error.code] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Client"
+                :error-messages="error && error.name ? [error.name] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="capacity" label="Kapasitas" placeholder="Kapasitas"
-                :error-messages="error && error.capacity ? [error.capacity] : []" />
+            <VCol
+              cols="12"
+              md="12"
+            >
+              <VTextField
+                v-model="capacity"
+                label="Kapasitas"
+                placeholder="Kapasitas"
+                :error-messages="error && error.capacity ? [error.capacity] : []"
+              />
             </VCol>
 
 
-            <VCol cols="12" class="d-flex gap-4">
-              <VBtn type="submit" :loading="loading" color="primary">
+            <VCol
+              cols="12"
+              class="d-flex gap-4"
+            >
+              <VBtn
+                type="submit"
+                :loading="loading"
+                color="primary"
+              >
                 Simpan
               </VBtn>
 
-              <VBtn color="secondary" variant="tonal" @click="handleReset">
+              <VBtn
+                color="secondary"
+                variant="tonal"
+                @click="handleReset"
+              >
                 Reset
               </VBtn>
             </VCol>

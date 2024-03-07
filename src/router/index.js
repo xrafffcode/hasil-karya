@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import adminRoutes from './admin'
 import publicRouter from './public'
 import { useAuthStore } from '@/stores/auth'
+import checkerRoutes from './checker'
 
-``
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,6 +20,14 @@ const router = createRouter({
           name: 'dashboard',
         },
         ...adminRoutes,
+      ],
+    },
+    {
+      path: '/checker',
+      component: () => import('../layouts/default.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        ...checkerRoutes,
       ],
     },
     {

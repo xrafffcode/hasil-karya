@@ -1,11 +1,18 @@
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Truck <!-- Changed title to Truck -->
       </h2>
 
-      <VBtn :to="{ name: 'admin-truck' }" color="primary"> <!-- Update the route -->
+      <VBtn
+        :to="{ name: 'admin-truck' }"
+        color="primary"
+      >
+        <!-- Update the route -->
         Kembali
       </VBtn>
     </VCol>
@@ -14,22 +21,49 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Truck"
-                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Truck"
+                :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Truck"
-                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Truck"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="capacity" label="Kapasitas" placeholder="Kapasitas Truck"
-                :error-messages="error && error.capacity ? [error.capacity] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="12"
+            >
+              <VTextField
+                v-model="capacity"
+                label="Kapasitas"
+                placeholder="Kapasitas Truck"
+                :error-messages="error && error.capacity ? [error.capacity] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
           </VRow>
         </VForm>
@@ -39,7 +73,7 @@
 </template>
 
 <script setup>
-import { useTruckStore } from '@/stores/truck'; // assuming you have a truck store
+import { useTruckStore } from '@/stores/truck' // assuming you have a truck store
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'

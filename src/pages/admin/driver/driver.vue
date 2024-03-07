@@ -1,11 +1,17 @@
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Driver
       </h2>
 
-      <VBtn :to="{ name: 'admin-driver' }" color="primary">
+      <VBtn
+        :to="{ name: 'admin-driver' }"
+        color="primary"
+      >
         Kembali
       </VBtn>
     </VCol>
@@ -14,16 +20,34 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Checker"
+                :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Client"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
           </VRow>
         </VForm>
@@ -33,7 +57,7 @@
 </template>
 
 <script setup>
-import { useDriverStore } from '@/stores/driver';
+import { useDriverStore } from '@/stores/driver'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'

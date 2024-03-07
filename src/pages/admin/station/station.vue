@@ -1,11 +1,18 @@
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Station <!-- Changed title to Station -->
       </h2>
 
-      <VBtn :to="{ name: 'admin-station' }" color="primary"> <!-- Update the route -->
+      <VBtn
+        :to="{ name: 'admin-station' }"
+        color="primary"
+      >
+        <!-- Update the route -->
         Kembali
       </VBtn>
     </VCol>
@@ -14,22 +21,49 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Station"
-                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Station"
+                :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Station"
-                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Station"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
 
-            <VCol cols="12" md="12">
-              <VSelect v-model="category" label="Kategori" :items="['Quary', 'Disposal']"
-                :error-messages="error && error.category ? [error.category] : []" :disabled="loading" :loading="loading"
-                readonly />
+            <VCol
+              cols="12"
+              md="12"
+            >
+              <VSelect
+                v-model="category"
+                label="Kategori"
+                :items="['Quary', 'Disposal']"
+                :error-messages="error && error.category ? [error.category] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
             </VCol>
           </VRow>
         </VForm>
@@ -39,7 +73,7 @@
 </template>
 
 <script setup>
-import { useStationStore } from '@/stores/station'; // assuming you have a station store
+import { useStationStore } from '@/stores/station' // assuming you have a station store
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'

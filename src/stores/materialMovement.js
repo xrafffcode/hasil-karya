@@ -4,33 +4,33 @@ import { handleError } from '@/helpers/errorHelper'
 
 import { defineStore } from 'pinia'
 
-export const useTruckStore = defineStore({
-  id: 'truck',
+export const useMaterialMovementStore = defineStore({
+  id: 'materialMovement',
   state: () => ({
-    trucks: [],
+    movements: [],
     loading: false,
     error: null,
     success: null,
   }),
   actions: {
-    async fetchTrucks() {
+    async fetchMaterialMovements() {
       try {
         this.loading = true
 
-        const response = await axiosInstance.get('/trucks')
+        const response = await axiosInstance.get('/material-movements')
 
-        this.trucks = response.data.data
+        this.movements = response.data.data
       } catch (error) {
         this.handleError(error)
       } finally {
         this.loading = false
       }
     },
-    async fetchTruck(id) {
+    async fetchMaterialMovement(id) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.get(`/truck/${id}`)
+        const response = await axiosInstance.get(`/material-movement/${id}`)
 
         return response.data.data
       } catch (error) {
@@ -39,54 +39,55 @@ export const useTruckStore = defineStore({
         this.loading = false
       }
     },
-    async createTruck(payload) {
+    async createMaterialMovement(payload) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.post('/truck', payload)
+        const response = await axiosInstance.post('/material-movement', payload)
 
         this.success = response.data.message
 
-        router.push({ name: 'admin-truck' })
+        router.push({ name: 'admin-material-movement' })
       } catch (error) {
         this.error = handleError(error)
       } finally {
         this.loading = false
       }
     },
-    async updateTruck(payload) {
+    async createMaterialMovementCheckers(payload) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.post(`/truck/${payload.id}`, payload)
-
-        this.success = response.data.message
-
-        router.push({ name: 'admin-truck' })
-      } catch (error) {
-        this.error = handleError(error)
-      } finally {
-        this.loading = false
-      }
-    },
-    async deleteTruck(id) {
-      try {
-        this.loading = true
-
-        const response = await axiosInstance.delete(`/truck/${id}`)
+        const response = await axiosInstance.post('/checker/store/material-movement', payload)
 
         this.success = response.data.message
       } catch (error) {
         this.error = handleError(error)
       } finally {
         this.loading = false
+        this.error = null
       }
     },
-    async activateTruck(id, payload) {
+    async updateMaterialMovement(payload) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.post(`/truck/active/${id}`, payload)
+        const response = await axiosInstance.post(`/material-movement/${payload.id}`, payload)
+
+        this.success = response.data.message
+
+        router.push({ name: 'admin-material-movement' })
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async deleteMaterialMovement(id) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.delete(`/material-movement/${id}`)
 
         this.success = response.data.message
       } catch (error) {

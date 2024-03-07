@@ -15,7 +15,10 @@ checkAuth()
   <VerticalNavLayout>
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
-        <IconBtn class="ms-n3 d-lg-none" @click="toggleVerticalOverlayNavActive(true)">
+        <IconBtn
+          class="ms-n3 d-lg-none"
+          @click="toggleVerticalOverlayNavActive(true)"
+        >
           <VIcon icon="bx-menu" />
         </IconBtn>
 
@@ -28,36 +31,69 @@ checkAuth()
     </template>
 
     <template #vertical-nav-content>
-      <VerticalNavLink :item="{
-      title: 'Dashboard',
-      icon: 'bx-home',
-      to: '/admin/dashboard',
-    }" v-if="user?.roles[0].name === 'admin' || user?.roles[0].name === 'checker'" />
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin' || user?.roles[0].name === 'checker'"
+        :item="{
+          title: 'Dashboard',
+          icon: 'bx-home',
+          to: '/admin/dashboard',
+        }"
+      />
 
-      <VerticalNavLink :item="{
-      title: 'Driver',
-      icon: 'bx-user',
-      to: '/admin/driver',
-    }" v-if="user?.roles[0].name === 'admin'" />
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Driver',
+          icon: 'bx-user',
+          to: '/admin/driver',
+        }"
+      />
 
-      <VerticalNavLink :item="{
-      title: 'Truck',
-      icon: 'bx-car',
-      to: '/admin/truck',
-    }" v-if="user?.roles[0].name === 'admin'" />
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Truck',
+          icon: 'bx-car',
+          to: '/admin/truck',
+        }"
+      />
 
-      <VerticalNavLink :item="{
-      title: 'Station',
-      icon: 'bx-building',
-      to: '/admin/station',
-    }" v-if="user?.roles[0].name === 'admin'" />
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Station',
+          icon: 'bx-building',
+          to: '/admin/station',
+        }"
+      />
 
-      <VerticalNavLink :item="{
-      title: 'Checker',
-      icon: 'bx-check',
-      to: '/admin/checker',
-    }" v-if="user?.roles[0].name === 'admin'" />
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Material Movement',
+          icon: 'bx-transfer',
+          to: '/admin/material-movement',
+        }"
+      />
 
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'checker'"
+        :item="{
+          title: 'Material Movement',
+          icon: 'bx-transfer',
+          to: '/checker/material-movement/create',
+        }"
+      />
+
+
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Checker',
+          icon: 'bx-check',
+          to: '/admin/checker',
+        }"
+      />
     </template>
     <slot />
   </VerticalNavLayout>

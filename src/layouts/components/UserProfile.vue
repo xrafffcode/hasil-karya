@@ -11,15 +11,27 @@ checkAuth()
 </script>
 
 <template>
-  <VAvatar class="cursor-pointer" color="primary" variant="tonal">
+  <VAvatar
+    class="cursor-pointer"
+    color="primary"
+    variant="tonal"
+  >
     <!-- SECTION Menu -->
-    <VMenu activator="parent" width="230" location="bottom end" offset="14px">
+    <VMenu
+      activator="parent"
+      width="230"
+      location="bottom end"
+      offset="14px"
+    >
       <VList>
         <!-- 👉 User Avatar & Name -->
         <VListItem>
           <template #prepend>
             <VListItemAction start>
-              <VAvatar color="primary" variant="tonal" />
+              <VAvatar
+                color="primary"
+                variant="tonal"
+              />
             </VListItemAction>
           </template>
 
@@ -36,7 +48,11 @@ checkAuth()
         <!-- 👉 Logout -->
         <VListItem @click="handleLogout">
           <template #prepend>
-            <VIcon class="me-2" icon="bx-log-out" size="22" />
+            <VIcon
+              class="me-2"
+              icon="bx-log-out"
+              size="22"
+            />
           </template>
 
           <VListItemTitle>Logout</VListItemTitle>
