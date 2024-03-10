@@ -43,9 +43,27 @@ checkAuth()
       <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
+          title: 'Client',
+          icon: 'bx-user',
+          to: '/admin/client',
+        }"
+      />
+
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
           title: 'Driver',
           icon: 'bx-user',
           to: '/admin/driver',
+        }"
+      />
+
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Vendor',
+          icon: 'bx-store',
+          to: '/admin/vendor',
         }"
       />
 

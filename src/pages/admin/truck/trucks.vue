@@ -161,6 +161,3 @@ onUnmounted(() => {
     </VCol>
   </VRow>
 </template>
-```
-
-Make sure you also update your routes and other components related to truck management accordingly.
