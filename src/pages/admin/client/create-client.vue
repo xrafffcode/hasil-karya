@@ -106,7 +106,7 @@ watch(district, value => {
               <VTextField
                 v-model="code"
                 label="Kode"
-                placeholder="Kode Checker"
+                placeholder="Kode Client"
                 :error-messages="error && error.code ? [error.code] : []"
               />
             </VCol>

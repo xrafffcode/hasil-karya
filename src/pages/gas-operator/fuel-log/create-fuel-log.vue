@@ -1,7 +1,8 @@
 <script setup>
-import { useMaterialMovementStore } from '@/stores/materialMovement'
+import { useFuelLogStore } from '@/stores/fuelLog'
 import { useDriverStore } from '@/stores/driver'
 import { useTruckStore } from '@/stores/truck'
+import { useHeavyVehicleStore } from '@/stores/heavyVehicle'
 import { useStationStore } from '@/stores/station'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
@@ -9,6 +10,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 
 const { drivers } = storeToRefs(useDriverStore())
 const { trucks } = storeToRefs(useTruckStore())
+const { heavyVehicles } = storeToRefs(useHeavyVehicleStore())
 const { stations } = storeToRefs(useStationStore())
 const { user, checkAuth } = useAuthStore()
 
@@ -16,36 +18,57 @@ const { user, checkAuth } = useAuthStore()
 
 const { fetchDrivers } = useDriverStore()
 const { fetchTrucks } = useTruckStore()
+const { fetchHeavyVehicles } = useHeavyVehicleStore()
 const { fetchStations } = useStationStore()
 
 fetchDrivers()
 fetchTrucks()
+fetchHeavyVehicles()
 fetchStations()
 checkAuth()
 
-const { success, loading, error } = storeToRefs(useMaterialMovementStore())
-const { createMaterialMovementCheckers } = useMaterialMovementStore()
+const { success, loading, error } = storeToRefs(useFuelLogStore())
+const { createFuelLogGasOperator } = useFuelLogStore()
 
 
-
-const driver_id = ref('')
+const code = ref('AUTO')
 const truck_id = ref('')
+const heavy_vehicle_id = ref('')
+const driver_id = ref('')
 const station_id = ref('')
-
+const gas_operator_id = ref(user.gas_operator.id)
+const fuel_type = ref('diesel')
+const volume = ref('')
+const odometer = ref('')
+const hourmeter = ref('')
 const remarks = ref('')
 
 const handleReset = () => {
-  driver_id.value = ''
+  code.value = 'AUTO'
   truck_id.value = ''
+  heavy_vehicle_id.value = ''
+  driver_id.value = ''
   station_id.value = ''
+  gas_operator_id.value = user.gas_operator.id
+  fuel_type.value = 'diesel'
+  volume.value = ''
+  odometer.value = ''
+  hourmeter.value = ''
   remarks.value = ''
 }
 
 const handleSubmit = () => {
-  createMaterialMovementCheckers({
-    driver_id: driver_id.value,
+  createFuelLogGasOperator({
+    code: code.value,
     truck_id: truck_id.value,
+    heavy_vehicle_id: heavy_vehicle_id.value,
+    driver_id: driver_id.value,
     station_id: station_id.value,
+    gas_operator_id: gas_operator_id.value,
+    fuel_type: fuel_type.value,
+    volume: volume.value,
+    odometer: odometer.value,
+    hourmeter: hourmeter.value,
     remarks: remarks.value,
   })
 
@@ -53,7 +76,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Tambah Material Movement'
+  document.title = 'Tambah Transaksi BBM'
 })
 
 onUnmounted(() => {
