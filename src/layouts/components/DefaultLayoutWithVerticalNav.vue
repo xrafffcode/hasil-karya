@@ -116,6 +116,10 @@ checkAuth()
               title: 'Driver',
               to: '/admin/driver',
             },
+            {
+              title: 'Gas Operator',
+              to: '/admin/gas-operator',
+            },
           ],
         }"
       />
