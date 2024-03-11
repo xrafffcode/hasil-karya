@@ -1,6 +1,7 @@
 <script setup>
-import { useStationStore } from '@/stores/station' // Assuming you have a station store
+import { useStationStore } from '@/stores/station' 
 import { useRegionStore } from '@/stores/region'
+import { useMaterialStore } from '@/stores/material'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
 
@@ -14,6 +15,11 @@ const { fetchProvinces, fetchRegencies, fetchDistricts, fetchSubdistricts } = us
 
 fetchProvinces()
 
+const { materials } = storeToRefs(useMaterialStore())
+const { fetchMaterials } = useMaterialStore()
+
+fetchMaterials()
+
 const code = ref('AUTO')
 const name = ref('')
 const province = ref('')
@@ -22,6 +28,7 @@ const district = ref('')
 const subdistrict = ref('')
 const address = ref('')
 const category = ref('')
+const material_id = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
@@ -32,6 +39,7 @@ const handleReset = () => {
   subdistrict.value = ''
   address.value = ''
   category.value = ''
+  material_id.value = ''
 }
 
 const handleSubmit = () => {
@@ -49,6 +57,7 @@ const handleSubmit = () => {
     subdistrict: subdistrictName,
     address: address.value,
     category: category.value,
+    material_id: material_id.value,
     is_active: 1,
   })
 }
@@ -192,9 +201,9 @@ watch(district, value => {
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="category"
                 label="Kategori"
                 :items="categories"
@@ -202,6 +211,20 @@ watch(district, value => {
                 item-value="name"
                 placeholder="Pilih Kategori Station"
                 :error-messages="error && error.category ? [error.category] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="material_id"
+                label="Material"
+                :items="materials"
+                :error-messages="error && error.material_id ? [error.material_id] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
               />
             </VCol>
 

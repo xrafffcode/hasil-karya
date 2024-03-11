@@ -110,15 +110,46 @@
               />
             </VCol>
 
+             
             <VCol
               cols="12"
               md="12"
             >
-              <VSelect
+              <VTextarea
+                v-model="address"
+                label="Alamat"
+                placeholder="Alamat Station"
+                :error-messages="error && error.address ? [error.address] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
                 v-model="category"
                 label="Kategori"
-                :items="['Quary', 'Disposal']"
+                placeholder="Kategori Station"
                 :error-messages="error && error.category ? [error.category] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="material"
+                label="Material"
+                placeholder="Material Station"
+                :error-messages="error && error.material ? [error.material] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -152,6 +183,8 @@ const regency = ref(null)
 const district = ref(null)
 const subdistrict = ref(null)
 const category = ref('')
+const material = ref('')
+
 
 const fetchStationData = async () => {
   try {
@@ -165,6 +198,7 @@ const fetchStationData = async () => {
     district.value = station.district
     subdistrict.value = station.subdistrict
     category.value = station.category
+    material.value = station.material.name
   } catch (error) {
     console.error(error)
   }
