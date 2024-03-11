@@ -86,16 +86,28 @@ checkAuth()
       />
 
       <VerticalNavLink
+        v-if="user?.roles[0].name === 'gas-operator'"
+        :item="{
+          title: 'Fuel Log',
+          icon: 'bx-gas-pump',
+          to: '/gas-operator/fuel-log/create',
+        }"
+      />
+
+      <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
           title: 'Manajemen Kendaraan',
           icon: 'bx-car',
           children: [
             {
-              title: 'Truck',
+              title: 'Truk',
               to: '/admin/truck',
             },
-
+            {
+              title: 'Kendaraan Berat',
+              to: '/admin/heavy-vehicle',
+            },
           ],
         }"
       />

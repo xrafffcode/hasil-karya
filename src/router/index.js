@@ -3,6 +3,7 @@ import adminRoutes from './admin'
 import publicRouter from './public'
 import { useAuthStore } from '@/stores/auth'
 import checkerRoutes from './checker'
+import gasOperatorRoutes from './gas-operator'
 
 
 const router = createRouter({
@@ -28,6 +29,14 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         ...checkerRoutes,
+      ],
+    },
+    {
+      path: '/gas-operator',
+      component: () => import('../layouts/default.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        ...gasOperatorRoutes,
       ],
     },
     {
