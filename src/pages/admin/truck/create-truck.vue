@@ -1,26 +1,45 @@
 <script setup>
-import { useTruckStore } from '@/stores/truck' // assuming you have a truck store
+import { useTruckStore } from '@/stores/truck'
+import { useVendorStore } from '@/stores/vendor'
 import { storeToRefs } from 'pinia'
+import { VDatePickerYears } from 'vuetify/lib/components/index.mjs'
 
 const { loading, error } = storeToRefs(useTruckStore())
 const { createTruck } = useTruckStore()
 
+const { vendors } = storeToRefs(useVendorStore())
+const { fetchVendors } = useVendorStore()
+
+fetchVendors()
+
+
 const code = ref('AUTO')
-const name = ref('')
+const brand = ref('')
+const model = ref('')
 const capacity = ref(0)
+const production_year = ref('')
+const vendor_id = ref()
+const is_active = ref(1)
 
 const handleReset = () => {
   code.value = 'AUTO'
-  name.value = ''
+  brand.value = ''
+  model.value = ''
   capacity.value = 0
+  production_year.value = ''
+  vendor_id.value = 0
+  is_active.value = 1  
 }
 
 const handleSubmit = () => {
   createTruck({
     code: code.value,
-    name: name.value,
+    brand: brand.value,
+    model: model.value,
     capacity: capacity.value,
-    is_active: 1,
+    production_year: production_year.value,
+    vendor_id: vendor_id.value,
+    is_active: is_active.value,
   })
 }
 
@@ -74,16 +93,55 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []"
+                v-model="brand"
+                label="Merk"
+                placeholder="Merk"
+                :error-messages="error && error.brand ? [error.brand] : []"
               />
             </VCol>
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
+            >
+              <VTextField
+                v-model="model"
+                label="Model"
+                placeholder="Model"
+                :error-messages="error && error.model ? [error.model] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="production_year"
+                label="Tahun Produksi"
+                placeholder="Tahun Produksi"
+                :error-messages="error && error.production_year ? [error.production_year] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="vendor_id"
+                :items="vendors"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                label="Vendor"
+                placeholder="Vendor"
+                :error-messages="error && error.vendor_id ? [error.vendor_id] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
             >
               <VTextField
                 v-model="capacity"

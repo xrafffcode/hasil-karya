@@ -9,12 +9,14 @@ const code = ref('AUTO')
 const name = ref('')
 const address = ref('')
 const phone = ref('')
+const is_active = ref(1)
 
 const handleReset = () => {
   code.value = 'AUTO'
   name.value = ''
   address.value = ''
   phone.value = ''
+  is_active.value = 1
 }
 
 const handleSubmit = () => {
@@ -23,6 +25,7 @@ const handleSubmit = () => {
     name: name.value,
     address: address.value,
     phone: phone.value,
+    is_active: is_active.value,
   })
 }
 

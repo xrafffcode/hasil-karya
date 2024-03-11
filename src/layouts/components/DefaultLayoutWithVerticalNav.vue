@@ -52,27 +52,9 @@ checkAuth()
       <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
-          title: 'Driver',
-          icon: 'bx-user',
-          to: '/admin/driver',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
           title: 'Vendor',
           icon: 'bx-store',
           to: '/admin/vendor',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Truck',
-          icon: 'bx-car',
-          to: '/admin/truck',
         }"
       />
 
@@ -103,13 +85,38 @@ checkAuth()
         }"
       />
 
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Manajemen Kendaraan',
+          icon: 'bx-car',
+          children: [
+            {
+              title: 'Truck',
+              to: '/admin/truck',
+            },
+
+          ],
+        }"
+      />
+
+      
 
       <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
-          title: 'Checker',
-          icon: 'bx-check',
-          to: '/admin/checker',
+          title: 'Manajemen User',
+          icon: 'bx-user',
+          children: [
+            {
+              title: 'Checker',
+              to: '/admin/checker',
+            },
+            {
+              title: 'Driver',
+              to: '/admin/driver',
+            },
+          ],
         }"
       />
     </template>

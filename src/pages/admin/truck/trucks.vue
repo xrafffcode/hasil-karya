@@ -8,8 +8,20 @@ const headers = [
     width: 200,
   },
   {
-    text: 'Nama',
-    value: 'name',
+    text: 'Merek',
+    value: 'brand',
+  },
+  {
+    text: 'Model',
+    value: 'model',
+  },
+  {
+    text: 'Tahun Produksi',
+    value: 'production_year',
+  },
+  {
+    text: 'Vendor',
+    value: 'vendor.name',
   },
   {
     text: 'Kapasitas',

@@ -41,10 +41,10 @@
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Truck"
-                :error-messages="error && error.name ? [error.name] : []"
+                v-model="brand"
+                label="Merk"
+                placeholder="Merk Truck"
+                :error-messages="error && error.brand ? [error.brand] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -53,7 +53,55 @@
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
+            >
+              <VTextField
+                v-model="model"
+                label="Model"
+                placeholder="Model Truck"
+                :error-messages="error && error.model ? [error.model] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="production_year"
+                label="Tahun Produksi"
+                placeholder="Tahun Produksi Truck"
+                :error-messages="error && error.production_year ? [error.production_year] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="vendor_id"
+                label="Vendor"
+                placeholder="Vendor Truck"
+                :error-messages="error && error.vendor_id ? [error.vendor_id] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            
+            
+
+            <VCol
+              cols="12"
+              md="6"
             >
               <VTextField
                 v-model="capacity"
@@ -73,7 +121,8 @@
 </template>
 
 <script setup>
-import { useTruckStore } from '@/stores/truck' // assuming you have a truck store
+import { useTruckStore } from '@/stores/truck' 
+import { useVendorStore } from '@/stores/vendor'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -86,16 +135,24 @@ const { fetchTruck } = useTruckStore()
 const truckId = route.params.id
 
 const code = ref('')
-const name = ref('')
+const brand = ref('')
+const model = ref('')
 const capacity = ref(0)
+const production_year = ref('')
+const vendor_id = ref()
+const is_active = ref(1)
 
 const fetchTruckData = async () => {
   try {
     const truck = await fetchTruck(truckId)
 
     code.value = truck.code
-    name.value = truck.name
+    brand.value = truck.brand
+    model.value = truck.model
     capacity.value = truck.capacity
+    production_year.value = truck.production_year
+    vendor_id.value = truck.vendor.name
+    is_active.value = truck.is_active
   } catch (error) {
     console.error(error)
   }
