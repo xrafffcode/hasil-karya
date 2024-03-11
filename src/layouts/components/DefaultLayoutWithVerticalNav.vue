@@ -86,6 +86,15 @@ checkAuth()
       />
 
       <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Material',
+          icon: 'bx-package',
+          to: '/admin/material',
+        }"
+      />
+
+      <VerticalNavLink
         v-if="user?.roles[0].name === 'gas-operator'"
         :item="{
           title: 'Fuel Log',
