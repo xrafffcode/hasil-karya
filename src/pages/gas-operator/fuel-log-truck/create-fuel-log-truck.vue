@@ -2,7 +2,6 @@
 import { useFuelLogStore } from '@/stores/fuelLog'
 import { useDriverStore } from '@/stores/driver'
 import { useTruckStore } from '@/stores/truck'
-import { useHeavyVehicleStore } from '@/stores/heavyVehicle'
 import { useStationStore } from '@/stores/station'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
@@ -10,7 +9,6 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 
 const { drivers } = storeToRefs(useDriverStore())
 const { trucks } = storeToRefs(useTruckStore())
-const { heavyVehicles } = storeToRefs(useHeavyVehicleStore())
 const { stations } = storeToRefs(useStationStore())
 const { user, checkAuth } = useAuthStore()
 
@@ -18,57 +16,49 @@ const { user, checkAuth } = useAuthStore()
 
 const { fetchDrivers } = useDriverStore()
 const { fetchTrucks } = useTruckStore()
-const { fetchHeavyVehicles } = useHeavyVehicleStore()
 const { fetchStations } = useStationStore()
 
 fetchDrivers()
 fetchTrucks()
-fetchHeavyVehicles()
-fetchStations()
+fetchStations({ type: 'gas_station' })
 checkAuth()
 
 const { success, loading, error } = storeToRefs(useFuelLogStore())
-const { createFuelLogGasOperator } = useFuelLogStore()
+const { createFuelLogTruckGasOperator } = useFuelLogStore()
 
 
 const code = ref('AUTO')
 const truck_id = ref('')
-const heavy_vehicle_id = ref('')
 const driver_id = ref('')
 const station_id = ref('')
 const gas_operator_id = ref(user.gas_operator.id)
 const fuel_type = ref('diesel')
 const volume = ref('')
 const odometer = ref('')
-const hourmeter = ref('')
 const remarks = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
   truck_id.value = ''
-  heavy_vehicle_id.value = ''
   driver_id.value = ''
   station_id.value = ''
   gas_operator_id.value = user.gas_operator.id
   fuel_type.value = 'diesel'
   volume.value = ''
   odometer.value = ''
-  hourmeter.value = ''
   remarks.value = ''
 }
 
 const handleSubmit = () => {
-  createFuelLogGasOperator({
+  createFuelLogTruckGasOperator({
     code: code.value,
     truck_id: truck_id.value,
-    heavy_vehicle_id: heavy_vehicle_id.value,
     driver_id: driver_id.value,
     station_id: station_id.value,
     gas_operator_id: gas_operator_id.value,
     fuel_type: fuel_type.value,
     volume: volume.value,
     odometer: odometer.value,
-    hourmeter: hourmeter.value,
     remarks: remarks.value,
   })
 
@@ -76,7 +66,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Tambah Transaksi BBM'
+  document.title = 'Catat BBM Truk'
 })
 
 onUnmounted(() => {
@@ -116,7 +106,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="driver_id"
                 :items="drivers"
                 label="Driver"
@@ -131,7 +121,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="truck_id"
                 :items="trucks"
                 label="Truck"
@@ -146,7 +136,7 @@ onUnmounted(() => {
               cols="12"
               md="12"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="station_id"
                 :items="stations"
                 label="POS"
@@ -159,17 +149,41 @@ onUnmounted(() => {
 
             <VCol
               cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="volume"
+                label="Volume"
+                placeholder="Volume BBM"
+                :error-messages="error && error.volume ? [error.volume] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="odometer"
+                label="Odometer"
+                placeholder="Odometer"
+                :error-messages="error && error.odometer ? [error.odometer] : []"
+              />
+            </VCol>
+            
+
+            <VCol
+              cols="12"
               md="12"
             >
               <VTextarea
                 v-model="remarks"
                 label="Keterangan"
-                placeholder="Keterangan Material Movement"
+                placeholder="Keterangan Material"
                 :error-messages="error && error.remarks ? [error.remarks] : []"
               />
             </VCol>
             
-
             <VCol
               cols="12"
               class="d-flex gap-4"
@@ -202,4 +216,4 @@ onUnmounted(() => {
 .v-row {
   margin: 0px !important
 }
-</style>
+</style>@/stores/fuelLogTruck@/stores/fuelLog

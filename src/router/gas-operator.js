@@ -1,7 +1,7 @@
-import gasOperatorFuelLogRoutes from "./gas-operator-fuel-log"
+import gasOperatorFuelLogTruckRoutes from "./gas-operator-fuel-log-truck"
 
 const gasOperatorRoutes = [
-  ...gasOperatorFuelLogRoutes,
+  ...gasOperatorFuelLogTruckRoutes,
 ]
 
 export default gasOperatorRoutes

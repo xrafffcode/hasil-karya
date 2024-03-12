@@ -14,11 +14,11 @@ export const useStationStore = defineStore({
     success: null,
   }),
   actions: {
-    async fetchStations() {
+    async fetchStations(params) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.get('/stations')
+        const response = await axiosInstance.get('/stations', { params })
 
         this.stations = response.data.data
       } catch (error) {

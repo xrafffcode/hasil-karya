@@ -18,6 +18,10 @@ export const useTruckStore = defineStore({
         this.loading = true
 
         const response = await axiosInstance.get('/trucks')
+        
+        response.data.data.forEach(truck => {
+          truck.name = `${truck.brand} ${truck.model}`
+        })
 
         this.trucks = response.data.data
       } catch (error) {

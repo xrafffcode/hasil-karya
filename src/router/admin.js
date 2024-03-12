@@ -1,6 +1,7 @@
 import adminCheckerRoutes from "./admin-checker"
 import adminClientRoutes from "./admin-client"
 import adminDriverRoutes from "./admin-driver"
+import adminFuelLogRoutes from "./admin-fuel-logs"
 import adminGasOperatorRoutes from "./admin-gas-operator"
 import adminHeavyVehicleRoutes from "./admin-heavy-vehicle"
 import adminMaterialRoutes from "./admin-material"
@@ -22,6 +23,7 @@ const adminRoutes = [
   ...adminHeavyVehicleRoutes,
   ...adminMaterialRoutes,
   ...adminVehicleRentalRecordRoutes,
+  ...adminFuelLogRoutes,
 ]
 
 export default adminRoutes

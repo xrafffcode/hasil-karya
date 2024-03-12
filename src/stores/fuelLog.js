@@ -54,11 +54,11 @@ export const useFuelLogStore = defineStore({
         this.loading = false
       }
     },
-    async createFuelLogGasOperator(payload) {
+    async createFuelLogTruckGasOperator(payload) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.post('/gas-operator/fuel-log/store', payload)
+        const response = await axiosInstance.post('/gas-operator/fuel-log/truck/store', payload)
 
         this.success = response.data.message
 

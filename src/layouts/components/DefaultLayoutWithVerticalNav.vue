@@ -86,6 +86,15 @@ checkAuth()
       />
 
       <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Fuel Log',
+          icon: 'bx-gas-pump',
+          to: '/admin/fuel-log',
+        }"
+      />
+
+      <VerticalNavLink
         v-if="user?.roles[0].name === 'checker'"
         :item="{
           title: 'Material Movement',
@@ -97,9 +106,9 @@ checkAuth()
       <VerticalNavLink
         v-if="user?.roles[0].name === 'gas-operator'"
         :item="{
-          title: 'Fuel Log',
+          title: 'Catat BBM Truk',
           icon: 'bx-gas-pump',
-          to: '/gas-operator/fuel-log/create',
+          to: '/gas-operator/fuel-log-truck/create',
         }"
       />
 
