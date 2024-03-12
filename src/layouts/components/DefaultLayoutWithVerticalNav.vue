@@ -61,6 +61,15 @@ checkAuth()
       <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
+          title: 'Material',
+          icon: 'bx-package',
+          to: '/admin/material',
+        }"
+      />
+
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
           title: 'Station',
           icon: 'bx-building',
           to: '/admin/station',
@@ -86,15 +95,6 @@ checkAuth()
       />
 
       <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Material',
-          icon: 'bx-package',
-          to: '/admin/material',
-        }"
-      />
-
-      <VerticalNavLink
         v-if="user?.roles[0].name === 'gas-operator'"
         :item="{
           title: 'Fuel Log',
@@ -110,11 +110,15 @@ checkAuth()
           icon: 'bx-car',
           children: [
             {
+              title: 'Penyewaan Kendaraan',
+              to: '/admin/vehicle-rental-record',
+            },
+            {
               title: 'Truk',
               to: '/admin/truck',
             },
             {
-              title: 'Kendaraan Berat',
+              title: 'Alat Berat',
               to: '/admin/heavy-vehicle',
             },
           ],

@@ -7,6 +7,7 @@ import adminMaterialRoutes from "./admin-material"
 import adminMaterialMovementRoutes from "./admin-material-movement"
 import adminStationRoutes from "./admin-station"
 import adminTruckRoutes from "./admin-truck"
+import adminVehicleRentalRecordRoutes from "./admin-vehicle-rental-record"
 import adminVendorRoutes from "./admin-vendor"
 
 const adminRoutes = [
@@ -20,6 +21,7 @@ const adminRoutes = [
   ...adminGasOperatorRoutes,
   ...adminHeavyVehicleRoutes,
   ...adminMaterialRoutes,
+  ...adminVehicleRentalRecordRoutes,
 ]
 
 export default adminRoutes
