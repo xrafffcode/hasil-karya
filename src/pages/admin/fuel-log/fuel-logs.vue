@@ -115,12 +115,6 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
-          <template #loading>
-            <img
-              src="https://i.pinimg.com/originals/94/fd/2b/94fd2bf50097ade743220761f41693d5.gif"
-              style="width: 100px; height: 80px;"
-            >
-          </template>
           <template #item-vehicle="item">
             <span v-if="item.truck">{{ item.truck.brand }} {{ item.truck.model }}</span>
             <span v-if="item.heavy_vehicle">{{ item.heavy_vehicle.brand }} {{ item.heavy_vehicle.model }}</span>

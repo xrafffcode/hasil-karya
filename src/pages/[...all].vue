@@ -1,6 +1,5 @@
 <script setup>
 import ErrorHeader from '@/components/ErrorHeader.vue'
-import misc404 from '@images/pages/404.png'
 </script>
 
 <template>
@@ -13,12 +12,6 @@ import misc404 from '@images/pages/404.png'
 
     <!-- 👉 Image -->
     <div class="misc-avatar w-100 text-center">
-      <VImg
-        :src="misc404"
-        alt="Coming Soon"
-        :max-width="800"
-        class="mx-auto"
-      />
       <VBtn
         to="/"
         class="mt-10"
