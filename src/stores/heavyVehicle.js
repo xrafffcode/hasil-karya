@@ -19,6 +19,10 @@ export const useHeavyVehicleStore = defineStore({
 
         const response = await axiosInstance.get('/heavy-vehicles')
 
+        response.data.data.forEach(heavyVehicle => {
+          heavyVehicle.name = `${heavyVehicle.brand} ${heavyVehicle.model}`
+        })
+
         this.heavyVehicles = response.data.data
       } catch (error) {
         this.handleError(error)

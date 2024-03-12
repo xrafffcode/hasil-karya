@@ -113,6 +113,7 @@ onUnmounted(() => {
           :search-value="search"
           buttons-pagination
           show-index
+          class="data-table"
         >
           <template #loading>
             <img

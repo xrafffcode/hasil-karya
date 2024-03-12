@@ -113,6 +113,15 @@ checkAuth()
       />
 
       <VerticalNavLink
+        v-if="user?.roles[0].name === 'gas-operator'"
+        :item="{
+          title: 'Catat BBM Alat Berat',
+          icon: 'bx-gas-pump',
+          to: '/gas-operator/fuel-log-heavy-vehicle/create',
+        }"
+      />
+
+      <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
           title: 'Manajemen Kendaraan',
