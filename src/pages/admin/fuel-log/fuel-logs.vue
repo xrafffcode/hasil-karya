@@ -31,14 +31,14 @@ const headers = [
 ]
 
 const { fuelLogs, loading, error, success } = storeToRefs(useFuelLogStore())
-const { fetchFuelLogs, deleteFuelLogTruck } = useFuelLogStore()
+const { fetchFuelLogs, deleteFuelLog } = useFuelLogStore()
 
 fetchFuelLogs()
 
-async function handleDeleteFuelLogTruck(fuelLogTruck) {
+async function handleDeleteFuelLog(fuelLogTruck) {
   const confirmed = confirm('Apakah Anda yakin ingin menghapus fuel log truck ini?')
   if (confirmed) {
-    await deleteFuelLogTruck(fuelLogTruck.id)
+    await deleteFuelLog(fuelLogTruck.id)
     fetchFuelLogs()
   }
 }
@@ -139,7 +139,7 @@ onUnmounted(() => {
               color="error"
               size="small"
               class="m-5"
-              @click="() => handleDeleteGasOperator(item)"
+              @click="() => handleDeleteFuelLog(item)"
             >
               Hapus
             </VBtn>

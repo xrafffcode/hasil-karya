@@ -20,7 +20,7 @@ const { fetchStations } = useStationStore()
 
 fetchDrivers()
 fetchTrucks()
-fetchStations()
+fetchStations({ type: 'station' })
 checkAuth()
 
 const { success, loading, error } = storeToRefs(useMaterialMovementStore())
@@ -32,6 +32,7 @@ const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref(user.checker.id)
+const observation_ratio_percentage = ref('')
 const remarks = ref('')
 
 const handleReset = () => {
@@ -39,6 +40,7 @@ const handleReset = () => {
   truck_id.value = ''
   station_id.value = ''
   checker_id.value = user.checker.id
+  observation_ratio_percentage.value = ''
   remarks.value = ''
 }
 
@@ -48,6 +50,7 @@ const handleSubmit = () => {
     truck_id: truck_id.value,
     station_id: station_id.value,
     checker_id: checker_id.value,
+    observation_ratio_percentage: observation_ratio_percentage.value,
     remarks: remarks.value,
   })
 
@@ -95,7 +98,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="driver_id"
                 :items="drivers"
                 label="Driver"
@@ -110,7 +113,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="truck_id"
                 :items="trucks"
                 label="Truck"
@@ -123,9 +126,24 @@ onUnmounted(() => {
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
-              <VSelect
+              <VAutocomplete
+                v-model="observation_ratio_percentage"
+                :items="[{ label: '30%', value: 30 }, { label: '40%', value: 40 }, { label: '50%', value: 50 }, { label: '60%', value: 60 }, { label: '70%', value: 70 }, { label: '80%', value: 80 }, { label: '90%', value: 90 }, { label: '100%', value: 100 }]"
+                label="Observation Ratio"
+                placeholder="Pilih Observation Ratio"
+                :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
+                :item-title="ratio => ratio.label"
+                :item-value="ratio => ratio.value"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
                 v-model="station_id"
                 :items="stations"
                 label="POS"
@@ -143,7 +161,7 @@ onUnmounted(() => {
               <VTextarea
                 v-model="remarks"
                 label="Keterangan"
-                placeholder="Keterangan Material Movement"
+                placeholder="Keterangan"
                 :error-messages="error && error.remarks ? [error.remarks] : []"
               />
             </VCol>

@@ -19,6 +19,10 @@ export const useMaterialMovementStore = defineStore({
 
         const response = await axiosInstance.get('/material-movements')
 
+        response.data.data.forEach(movement => {
+          movement.truck.name = `${movement.truck.brand} ${movement.truck.model}`
+        })
+
         this.movements = response.data.data
       } catch (error) {
         this.handleError(error)
@@ -58,7 +62,7 @@ export const useMaterialMovementStore = defineStore({
       try {
         this.loading = true
 
-        const response = await axiosInstance.post('/checker/store/material-movement', payload)
+        const response = await axiosInstance.post('/checker/material-movement/store', payload)
 
         this.success = response.data.message
       } catch (error) {

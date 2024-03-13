@@ -43,54 +43,26 @@ checkAuth()
       <VerticalNavLink
         v-if="user?.roles[0].name === 'admin'"
         :item="{
-          title: 'Client',
-          icon: 'bx-user',
-          to: '/admin/client',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Vendor',
-          icon: 'bx-store',
-          to: '/admin/vendor',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Material',
-          icon: 'bx-package',
-          to: '/admin/material',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Station',
-          icon: 'bx-building',
-          to: '/admin/station',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Material Movement',
-          icon: 'bx-transfer',
-          to: '/admin/material-movement',
-        }"
-      />
-
-      <VerticalNavLink
-        v-if="user?.roles[0].name === 'admin'"
-        :item="{
-          title: 'Fuel Log',
-          icon: 'bx-gas-pump',
-          to: '/admin/fuel-log',
+          title: 'Master Data',
+          icon: 'bx-data',
+          children: [
+            {
+              title: 'Klien',
+              to: '/admin/client',
+            },
+            {
+              title: 'Vendor',
+              to: '/admin/vendor',
+            },
+            {
+              title: 'Material',
+              to: '/admin/material',
+            },
+            {
+              title: 'POS',
+              to: '/admin/station',
+            },
+          ],
         }"
       />
 
@@ -128,16 +100,20 @@ checkAuth()
           icon: 'bx-car',
           children: [
             {
-              title: 'Penyewaan Kendaraan',
-              to: '/admin/vehicle-rental-record',
-            },
-            {
               title: 'Truk',
               to: '/admin/truck',
             },
             {
               title: 'Alat Berat',
               to: '/admin/heavy-vehicle',
+            },
+            {
+              title: 'Pencatatan BBM Kendaraan',
+              to: '/admin/fuel-log',
+            },
+            {
+              title: 'Penyewaan Kendaraan',
+              to: '/admin/vehicle-rental-record',
             },
           ],
         }"
@@ -152,18 +128,28 @@ checkAuth()
           icon: 'bx-user',
           children: [
             {
-              title: 'Checker',
+              title: 'Pemeriksa',
               to: '/admin/checker',
             },
             {
-              title: 'Driver',
+              title: 'Pengemudi',
               to: '/admin/driver',
             },
             {
-              title: 'Gas Operator',
+              title: 'Operator BBM',
               to: '/admin/gas-operator',
             },
           ],
+        }"
+      />
+
+
+      <VerticalNavLink
+        v-if="user?.roles[0].name === 'admin'"
+        :item="{
+          title: 'Perpindahan Material',
+          icon: 'bx-transfer',
+          to: '/admin/material-movement',
         }"
       />
     </template>

@@ -113,13 +113,26 @@
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VTextField
-                v-model="amount"
-                label="Jumlah"
-                placeholder="Jumlah Material Movement"
-                :error-messages="error && error.amount ? [error.amount] : []"
+                v-model="observation_ratio_percentage"
+                label="Observation Ratio"
+                placeholder="Observation Ratio"
+                :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="observation_ratio_number"
+                label="Observation Ratio Number"
+                placeholder="Observation Ratio Number"
+                :error-messages="error && error.observation_ratio_number ? [error.observation_ratio_number] : []"
                 readonly=""
               />
             </VCol>
@@ -181,7 +194,8 @@ const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
-const amount = ref('')
+const observation_ratio_percentage = ref('')
+const observation_ratio_number = ref('')
 const remarks = ref('')
 
 const fetchMaterialMovementData = async () => {
@@ -194,7 +208,8 @@ const fetchMaterialMovementData = async () => {
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
     date.value = materialMovementData.date
-    amount.value = materialMovementData.amount
+    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage
+    observation_ratio_number.value = materialMovementData.observation_ratio_number
     remarks.value = materialMovementData.remarks
   } catch (error) {
     console.error(error)
