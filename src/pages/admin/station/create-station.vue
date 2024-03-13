@@ -43,10 +43,10 @@ const handleReset = () => {
 }
 
 const handleSubmit = () => {
-  const provinceName = provinces.value.find(item => item.id === province.value)?.name
-  const regencyName = regencies.value.find(item => item.id === regency.value)?.name
-  const districtName = districts.value.find(item => item.id === district.value)?.name
-  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.name
+  const provinceName = provinces.value.find(item => item.id === province.value)?.nama
+  const regencyName = regencies.value.find(item => item.id === regency.value)?.nama
+  const districtName = districts.value.find(item => item.id === district.value)?.nama
+  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.nama
 
   createStation({
     code: code.value,
@@ -140,7 +140,7 @@ watch(district, value => {
                 label="Provinsi"
                 :items="provinces"
                 :error-messages="error && error.province ? [error.province] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -154,7 +154,7 @@ watch(district, value => {
                 label="Kabupaten/Kota"
                 :items="regencies"
                 :error-messages="error && error.regency ? [error.regency] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -168,7 +168,7 @@ watch(district, value => {
                 label="Kecamatan"
                 :items="districts"
                 :error-messages="error && error.district ? [error.district] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -182,7 +182,7 @@ watch(district, value => {
                 label="Kelurahan/Desa"
                 :items="subdistricts"
                 :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>

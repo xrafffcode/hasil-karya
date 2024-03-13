@@ -164,7 +164,6 @@
 
 <script setup>
 import { useClientStore } from '@/stores/client'
-import { useRegionStore } from '@/stores/region'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -173,11 +172,6 @@ const route = useRoute()
 
 const { loading, error } = storeToRefs(useClientStore())
 const { fetchClient } = useClientStore()
-
-const { provinces, regencies, districts, subdistricts } = storeToRefs(useRegionStore())
-const { fetchProvinces, fetchRegencies, fetchDistricts, fetchSubdistricts } = useRegionStore()
-
-fetchProvinces()
 
 
 const clientId = route.params.id
@@ -196,28 +190,14 @@ const fetchClientData = async () => {
   try { 
 
     const client = await fetchClient(clientId)
-
-    const provinceName = provinces.value.find(item => item.id === client.province)?.name
-    
-    fetchRegencies(client.province)
-
-    const regencyName = regencies.value.find(item => item.id === client.regency)?.name
-
-    fetchDistricts(client.regency)
-
-    const districtName = districts.value.find(item => item.id === client.district)?.name
-
-    fetchSubdistricts(client.district)
-
-    const subdistrictName = subdistricts.value.find(item => item.id === client.subdistrict)?.name
-    
+  
 
     code.value = client.code
     name.value = client.name
-    province.value = provinceName
-    regency.value = regencyName
-    district.value = districtName
-    subdistrict.value = subdistrictName
+    province.value =  client.province
+    regency.value = client.regency
+    district.value = client.district
+    subdistrict.value = client.subdistrict
     address.value = client.address
     phone.value = client.phone
     email.value = client.email

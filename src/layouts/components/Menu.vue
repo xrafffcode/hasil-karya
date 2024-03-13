@@ -46,6 +46,10 @@ const is = roles => {
           title: 'POS',
           to: '/admin/station',
         },
+        {
+          title: 'Projek',
+          to: '/admin/project',
+        },
       ],
     }"
   />

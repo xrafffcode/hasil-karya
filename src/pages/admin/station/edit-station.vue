@@ -53,7 +53,7 @@
                 label="Provinsi"
                 :items="provinces"
                 :error-messages="error && error.province ? [error.province] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -67,7 +67,7 @@
                 label="Kabupaten/Kota"
                 :items="regencies"
                 :error-messages="error && error.regency ? [error.regency] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -81,7 +81,7 @@
                 label="Kecamatan"
                 :items="districts"
                 :error-messages="error && error.district ? [error.district] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -95,7 +95,7 @@
                 label="Kelurahan/Desa"
                 :items="subdistricts"
                 :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
               />
             </VCol>
@@ -218,14 +218,19 @@ onMounted(() => {
 })
 
 const handleSubmit = () => {
+  const provinceName = provinces.value.find(item => item.id === province.value)?.nama
+  const regencyName = regencies.value.find(item => item.id === regency.value)?.nama
+  const districtName = districts.value.find(item => item.id === district.value)?.nama
+  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.nama
+
   updateStation({
     id: stationId,
     code: code.value,
     name: name.value,
-    province: province.value,
-    regency: regency.value,
-    district: district.value,
-    subdistrict: subdistrict.value,
+    province: provinceName,
+    regency: regencyName,
+    district: districtName,
+    subdistrict: subdistrictName,
     address: address.value,
     category: category.value,
     material_id: material_id.value,

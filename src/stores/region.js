@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { defineStore } from 'pinia'
 
 export const useRegionStore = defineStore({
@@ -16,11 +17,10 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        const response = await fetch('../../../src/json/provinces.json')
-        
-        const provinces = await response.json()
+        const response = await axios.get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
+      
 
-        this.provinces = provinces
+        this.provinces = response.data.provinsi
       } catch (error) {
         console.error(error)
       } finally {
@@ -31,9 +31,9 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await fetch(`../../../src/json/regencies/${provinceId}.json`)
-            
-        const regencies = await response.json()
+        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
+
+        this.regencies = response.data.kota_kabupaten
 
         this.regencies = regencies
       } catch (error) {
@@ -46,9 +46,9 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await fetch(`../../../src/json/districts/${regencyId}.json`)
-            
-        const districts = await response.json()
+        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
+
+        this.districts = response.data.kecamatan
 
         this.districts = districts
       } catch (error) {
@@ -61,9 +61,9 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await fetch(`../../../src/json/villages/${districtId}.json`)
-            
-        const subdistricts = await response.json()
+        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
+
+        this.subdistricts = response.data.kelurahan
 
         this.subdistricts = subdistricts
       } catch (error) {

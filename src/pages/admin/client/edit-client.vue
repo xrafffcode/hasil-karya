@@ -56,7 +56,7 @@
                 v-model="province"
                 label="Provinsi"
                 :items="provinces"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
                 placeholder="Provinsi"
                 :error-messages="error && error.province ? [error.province] : []"
@@ -74,7 +74,7 @@
                 v-model="regency"
                 label="Kabupaten/Kota"
                 :items="regencies"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
                 placeholder="Kabupaten/Kota"
                 :error-messages="error && error.regency ? [error.regency] : []"
@@ -92,7 +92,7 @@
                 v-model="district"
                 label="Kecamatan"
                 :items="districts"
-                :item-title="item => item.name"
+                :item-title="item => item.nama"
                 :item-value="item => item.id"
                 placeholder="Kecamatan"
                 :error-messages="error && error.district ? [error.district] : []"
@@ -110,7 +110,7 @@
                 v-model="subdistrict"
                 label="Kelurahan/Desa"
                 :items="subdistricts"
-                :item-title="item => item.name" 
+                :item-title="item => item.nama" 
                 :item-value="item => item.id"
                 placeholder="Kelurahan/Desa"
                 :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
@@ -243,14 +243,19 @@ onMounted(() => {
 })
 
 const handleSubmit = () => {
+  const provinceName = provinces.value.find(item => item.id === province.value)?.nama
+  const regencyName = regencies.value.find(item => item.id === regency.value)?.nama
+  const districtName = districts.value.find(item => item.id === district.value)?.nama
+  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.nama
+
   updateClient({
     id: clientId,
     code: code.value,
     name: name.value,
-    province: province.value,
-    regency: regency.value,
-    district: district.value,
-    subdistrict: subdistrict.value,
+    province: provinceName,
+    regency: regencyName,
+    district: districtName,
+    subdistrict: subdistrictName,
     address: address.value,
     phone: phone.value,
     email: email.value,
