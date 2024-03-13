@@ -52,7 +52,7 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VTextField
                 v-model="email"
