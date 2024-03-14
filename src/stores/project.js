@@ -19,6 +19,7 @@ export const useProjectStore = defineStore({
         this.loading = true
 
         const response = await axiosInstance.get('/projects')
+        
 
         this.projects = response.data.data
       } catch (error) {
@@ -45,6 +46,14 @@ export const useProjectStore = defineStore({
         this.loading = true
 
         const response = await axiosInstance.get(`/project/${id}`)
+
+        response.data.data.trucks.forEach(truck => {
+          truck.name = `${truck.brand} ${truck.model}`
+        })
+        
+        response.data.data.heavy_vehicles.forEach(heavy_vehicle => {
+          heavy_vehicle.name = `${heavy_vehicle.brand} ${heavy_vehicle.model}`
+        })
 
         return response.data.data
       } catch (error) {

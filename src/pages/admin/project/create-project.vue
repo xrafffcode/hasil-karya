@@ -192,7 +192,7 @@ watch(district, value => {
             @click="error = null"
           >
             Close
-          </VBtn>
+        </VBtn>
         </VCardActions>
       </VCard>
     </VDialog>

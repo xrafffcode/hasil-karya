@@ -125,6 +125,14 @@ onUnmounted(() => {
         >
           <template #item-operation="item">
             <VBtn
+              :to="{ name: 'admin-project-edit', params: { id: item.id } }"
+              color="primary"
+              size="small"
+              class="m-5"
+            >
+              Edit
+            </VBtn>
+            <VBtn
               :to="{ name: 'admin-project-view', params: { id: item.id } }"
               color="info"
               size="small"
