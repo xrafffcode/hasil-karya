@@ -1,7 +1,9 @@
 export function handleError(error) {
   if (error.response && error.response.status === 422) {
     return error.response.data.errors
-  } else {
+  }  else if (error.response && error.response.status === 401) {
     return error.response.data.message
+  } else {
+    alert('Something went wrong. Please try again later.')
   }
 }

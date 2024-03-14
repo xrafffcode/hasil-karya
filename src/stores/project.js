@@ -8,6 +8,7 @@ export const useProjectStore = defineStore({
   id: 'project',
   state: () => ({
     projects: [],
+    projectStatus: [],
     loading: false,
     error: null,
     success: null,
@@ -20,6 +21,19 @@ export const useProjectStore = defineStore({
         const response = await axiosInstance.get('/projects')
 
         this.projects = response.data.data
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchProjectStatus() {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.get('/project/read/status')
+
+        this.projectStatus = response.data.data
       } catch (error) {
         this.handleError(error)
       } finally {

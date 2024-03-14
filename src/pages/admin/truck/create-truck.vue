@@ -16,7 +16,7 @@ fetchVendors()
 const code = ref('AUTO')
 const brand = ref('')
 const model = ref('')
-const capacity = ref(0)
+const capacity = ref('')
 const production_year = ref('')
 const vendor_id = ref()
 const is_active = ref(1)
@@ -145,8 +145,8 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="capacity"
-                label="Kapasitas"
-                placeholder="Kapasitas"
+                label="Kapasitas/m³"
+                placeholder="Kapasitas/m³"
                 :error-messages="error && error.capacity ? [error.capacity] : []"
               />
             </VCol>

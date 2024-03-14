@@ -122,6 +122,7 @@ const code = ref('')
 const name = ref('')
 const address = ref('')
 const phone = ref('')
+const is_active = ref(1)
 
 
 const fetchVendorData = async () => {
@@ -132,6 +133,7 @@ const fetchVendorData = async () => {
     name.value = vendor.name
     address.value = vendor.address
     phone.value = vendor.phone
+    is_active.value = vendor.is_active === true ? 1 : 0
   } catch (error) {
     console.error(error)
   }
@@ -150,6 +152,7 @@ const handleSubmit = () => {
     name: name.value,
     address: address.value,
     phone: phone.value,
+    is_active: is_active.value
   })
 }
 </script>

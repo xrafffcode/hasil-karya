@@ -1,6 +1,6 @@
 <script setup>
 import { useVehicleRentalRecordStore } from '@/stores/vehicleRentalRecord' 
-import { toRupiah } from '@/@core/utils/formatters'
+import { toRupiah, formatDateTime } from '@/@core/utils/formatters'
 
 const headers = [
   {
@@ -135,6 +135,12 @@ onUnmounted(() => {
           <template #item-brand="item">
             <span v-if="item.truck">{{ item.truck.brand }} {{ item.truck.model }}</span>
             <span v-if="item.heavy_vehicle">{{ item.heavy_vehicle.brand }} {{ item.heavy_vehicle.model }}</span>
+          </template>
+          <template #item-start_date="item">
+            {{ formatDateTime(item.start_date) }}
+          </template>
+          <template #item-end_date="item">
+            {{ formatDateTime(item.end_date) }}
           </template>
           <template #item-rental_cost="item">
             {{ toRupiah(item.rental_cost) }}

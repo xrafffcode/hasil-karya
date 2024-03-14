@@ -22,12 +22,7 @@ export const kFormatter = num => {
  * @param {String} value date to format
  * @param {Intl.DateTimeFormatOptions} formatting Intl object to format with
  */
-export const formatDate = (value, formatting = { month: 'short', day: 'numeric', year: 'numeric' }) => {
-  if (!value)
-    return value
-  
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
-}
+
 
 /**
  * Return short human friendly month representation of date
@@ -54,4 +49,34 @@ export const toRupiah = value => {
   })
   
   return formatter.format(value)
+}
+
+export const numeral = value => {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'decimal',
+    minimumFractionDigits: 0,
+  })
+  
+  return formatter.format(value)
+}
+
+export const formatDate = (value, 
+  formatting = { month: 'short', day: 'numeric', year: 'numeric' }) => {
+  if (!value)
+    return value
+  
+  return new Intl.DateTimeFormat('id-ID', formatting).format(new Date(value))
+}
+
+export const formatDateTime = value => {
+  if (!value)
+    return value
+  
+  return new Intl.DateTimeFormat('id-ID', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).format(new Date(value))
 }

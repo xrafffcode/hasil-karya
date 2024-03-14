@@ -1,5 +1,6 @@
 <script setup>
-import { useTruckStore } from '@/stores/truck' // Assuming you have a truck store
+import { useTruckStore } from '@/stores/truck'
+import { numeral } from '@/@core/utils/formatters'
 
 const headers = [
   {
@@ -131,6 +132,9 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
+          <template #item-capacity="item">
+            {{ numeral(item.capacity) }} m³
+          </template>
           <template #item-is_active="item">
             <VSwitch
               v-model="item.is_active"

@@ -12,8 +12,10 @@ import { useGasOperatorStore } from '@/stores/gasOperator'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 
-const { loading, error } = storeToRefs(useProjectStore())
-const { createProject } = useProjectStore()
+const { projectStatus, loading, error } = storeToRefs(useProjectStore())
+const { createProject, fetchProjectStatus } = useProjectStore()
+
+fetchProjectStatus()
 
 const { provinces, regencies, districts, subdistricts } = storeToRefs(useRegionStore())
 const { fetchProvinces, fetchRegencies, fetchDistricts, fetchSubdistricts } = useRegionStore()
@@ -111,7 +113,7 @@ const handleSubmit = () => {
     start_date: start_date.value,
     end_date: end_date.value,
     person_in_charge: person_in_charge.value,
-    amount: amount.value,
+    amount: amount.value.replace(/\D/g, ''),
     client_id: client_id.value,
     province: provinceName,
     regency: regencyName,
@@ -169,304 +171,684 @@ watch(district, value => {
       </VBtn>
     </VCol>
 
+    <VDialog
+      v-model="error"
+      persistent
+      max-width="390"
+    >
+      <VCard>
+        <div class="p-5">
+          <p
+            v-for="(value, key) in error"
+            :key="key"
+          >
+            {{ value.join(', ') }}
+          </p>
+        </div>
+
+        <VCardActions>
+          <VBtn
+            text
+            @click="error = null"
+          >
+            Close
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
+      
+
     <VCol cols="12">
       <VCard>
         <VForm @submit.prevent="handleSubmit">
-          <VRow>
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Projek"
-                :error-messages="error && error.code ? [error.code] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Projek"
-                :error-messages="error && error.name ? [error.name] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="description"
-                label="Deskripsi"
-                placeholder="Deskripsi Projek"
-                :error-messages="error && error.description ? [error.description] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="start_date"
-                label="Tanggal Mulai"
-                placeholder="Tanggal Mulai Projek"
-                type="date"
-                :error-messages="error && error.start_date ? [error.start_date] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="end_date"
-                label="Tanggal Selesai"
-                placeholder="Tanggal Selesai Projek"
-                type="date"
-                :error-messages="error && error.end_date ? [error.end_date] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="person_in_charge"
-                label="Penanggung Jawab"
-                placeholder="Penanggung Jawab Projek"
-                :error-messages="error && error.person_in_charge ? [error.person_in_charge] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="amount"
-                label="Pendapatan"
-                placeholder="Pendapatan Projek"
-                :error-messages="error && error.amount ? [error.amount] : []"
-              />
-            </VCol>
-            
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="client_id"
-                label="Client"
-                :items="clients"
-                :error-messages="error && error.client_id ? [error.client_id] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="status"
-                label="Status"
-                :items="['DRAFT', 'PENDING', 'ONGOING', 'FINISHED']"
-                :error-messages="error && error.status ? [error.status] : []"
-              />
-            </VCol>
-            
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="driverArr"
-                label="Driver"
-                :items="drivers"
-                multiple
-                :error-messages="error && error.driverArr ? [error.driverArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="truckArr"
-                label="Truck"
-                :items="trucks"
-                multiple
-                :error-messages="error && error.truckArr ? [error.truckArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="heavyVehicleArr"
-                label="Alat Berat"
-                :items="heavyVehicles"
-                multiple
-                :error-messages="error && error.heavyVehicleArr ? [error.heavyVehicleArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="stationArr"
-                label="Station"
-                :items="stations"
-                multiple
-                :error-messages="error && error.stationArr ? [error.stationArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="checkerArr"
-                label="Checker"
-                :items="checkers"
-                multiple
-                :error-messages="error && error.checkerArr ? [error.checkerArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="technicalAdminArr"
-                label="Technical Admin"
-                :items="technicalAdmins"
-                multiple
-                :error-messages="error && error.technicalAdminArr ? [error.technicalAdminArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="gasOperatorArr"
-                label="Gas Operator"
-                :items="gasOperators"
-                multiple
-                :error-messages="error && error.gasOperatorArr ? [error.gasOperatorArr] : []"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="province"
-                label="Provinsi"
-                :items="provinces"
-                :error-messages="error && error.province ? [error.province] : []"
-                :item-title="item => item.nama"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="regency"
-                label="Kabupaten/Kota"
-                :items="regencies"
-                :error-messages="error && error.regency ? [error.regency] : []"
-                :item-title="item => item.nama"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="district"
-                label="Kecamatan"
-                :items="districts"
-                :error-messages="error && error.district ? [error.district] : []"
-                :item-title="item => item.nama"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VAutocomplete
-                v-model="subdistrict"
-                label="Kelurahan/Desa"
-                :items="subdistricts"
-                :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
-                :item-title="item => item.nama"
-                :item-value="item => item.id"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              class="d-flex gap-4"
-            >
-              <VBtn
-                type="submit"
-                :loading="loading"
-                color="primary"
+          <VStepper 
+            :items="['Umum', 'Lokasi', 'Personil', 'Preview']"
+            next-text="Selanjutnya"
+            prev-text="Sebelumnya"
+            alt-labels
+          >
+            <template #item.1>
+              <VCard
+                title="Umum"
+                flat
               >
-                Simpan
-              </VBtn>
+                <VRow>
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="code"
+                      label="Kode"
+                      placeholder="Kode Projek"
+                      :error-messages="error && error.code ? [error.code] : []"
+                    />
+                  </VCol>
 
-              <VBtn
-                color="secondary"
-                variant="tonal"
-                @click="handleReset"
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="name"
+                      label="Nama"
+                      placeholder="Nama Projek"
+                      :error-messages="error && error.name ? [error.name] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="description"
+                      label="Deskripsi"
+                      placeholder="Deskripsi Projek"
+                      :error-messages="error && error.description ? [error.description] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="start_date"
+                      label="Tanggal Mulai"
+                      placeholder="Tanggal Mulai Projek"
+                      type="date"
+                      :error-messages="error && error.start_date ? [error.start_date] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="end_date"
+                      label="Tanggal Selesai"
+                      placeholder="Tanggal Selesai Projek"
+                      type="date"
+                      :error-messages="error && error.end_date ? [error.end_date] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="person_in_charge"
+                      label="Penanggung Jawab"
+                      placeholder="Penanggung Jawab Projek"
+                      :error-messages="error && error.person_in_charge ? [error.person_in_charge] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="amount"
+                      label="Nilai Projek"
+                      placeholder="Nilai Projek"
+                      :error-messages="error && error.amount ? [error.amount] : []"
+                      @input="amount = amount.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                    >
+                      <template #prepend-inner>
+                        <span class="text-body-2">
+                          Rp
+                        </span>
+                      </template>
+                    </VTextField>
+                  </VCol>
+            
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="client_id"
+                      label="Client"
+                      :items="clients"
+                      :error-messages="error && error.client_id ? [error.client_id] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VAutocomplete
+                      v-model="status"
+                      label="Status"
+                      :items="projectStatus"
+                      :item-title="item => item.name"
+                      :error-messages="error && error.status ? [error.status] : []"
+                    />
+                  </VCol>
+                </VRow>
+              </VCard>
+            </template>
+
+            <template #item.2>
+              <VCard
+                title="Lokasi"
+                flat
               >
-                Reset
-              </VBtn>
-            </VCol>
-          </VRow>
+                <VRow>
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="province"
+                      label="Provinsi"
+                      :items="provinces"
+                      :error-messages="error && error.province ? [error.province] : []"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="regency"
+                      label="Kabupaten/Kota"
+                      :items="regencies"
+                      :error-messages="error && error.regency ? [error.regency] : []"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="district"
+                      label="Kecamatan"
+                      :items="districts"
+                      :error-messages="error && error.district ? [error.district] : []"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="subdistrict"
+                      label="Kelurahan/Desa"
+                      :items="subdistricts"
+                      :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+                </VRow>
+              </VCard>
+            </template>
+
+            <template #item.3>
+              <VCard
+                title="Personil"
+                flat
+              >
+                <VRow>
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="driverArr"
+                      label="Driver"
+                      :items="drivers"
+                      multiple
+                      :error-messages="error && error.driverArr ? [error.driverArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="truckArr"
+                      label="Truck"
+                      :items="trucks"
+                      multiple
+                      :error-messages="error && error.truckArr ? [error.truckArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="heavyVehicleArr"
+                      label="Alat Berat"
+                      :items="heavyVehicles"
+                      multiple
+                      :error-messages="error && error.heavyVehicleArr ? [error.heavyVehicleArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="stationArr"
+                      label="Station"
+                      :items="stations"
+                      multiple
+                      :error-messages="error && error.stationArr ? [error.stationArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="checkerArr"
+                      label="Checker"
+                      :items="checkers"
+                      multiple
+                      :error-messages="error && error.checkerArr ? [error.checkerArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="technicalAdminArr"
+                      label="Technical Admin"
+                      :items="technicalAdmins"
+                      multiple
+                      :error-messages="error && error.technicalAdminArr ? [error.technicalAdminArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VAutocomplete
+                      v-model="gasOperatorArr"
+                      label="Gas Operator"
+                      :items="gasOperators"
+                      multiple
+                      :error-messages="error && error.gasOperatorArr ? [error.gasOperatorArr] : []"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                    />
+                  </VCol>
+                </VRow>
+              </VCard>
+            </template>
+
+            <template #item.4>
+              <VCard
+                title="Preview"
+                flat
+              >
+                <VRow>
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="code"
+                      label="Kode"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="name"
+                      label="Nama"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="description"
+                      label="Deskripsi"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="start_date"
+                      label="Tanggal Mulai"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="end_date"
+                      label="Tanggal Selesai"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="person_in_charge"
+                      label="Penanggung Jawab"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="amount"
+                      label="Pendapatan"
+                      readonly
+                    />
+                  </VCol>
+            
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="client_id"
+                      label="Client"
+                      :items="clients"
+                      :item-title="item => item.name"
+                      :item-value="item => item.id"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="province"
+                      label="Provinsi"
+                      :items="provinces"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="regency"
+                      label="Kabupaten/Kota"
+                      :items="regencies"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="district"
+                      label="Kecamatan"
+                      :items="districts"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VAutocomplete
+                      v-model="subdistrict"
+                      label="Kelurahan/Desa"
+                      :items="subdistricts"
+                      :item-title="item => item.nama"
+                      :item-value="item => item.id"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                  >
+                    <VTextField
+                      v-model="status"
+                      label="Status"
+                      readonly
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Driver
+                    </Text>
+                   
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in drivers.filter(item => driverArr.includes(item.id))"
+                        :key="index"
+                        label="Driver"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Truck
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in trucks.filter(item => truckArr.includes(item.id))"
+                        :key="index"
+                        label="Truck"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Alat Berat
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in heavyVehicles.filter(item => heavyVehicleArr.includes(item.id))"
+                        :key="index"
+                        label="Alat Berat"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Station
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in stations.filter(item => stationArr.includes(item.id))"
+                        :key="index"
+                        label="Station"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Checker
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in checkers.filter(item => checkerArr.includes(item.id))"
+                        :key="index"
+                        label="Checker"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Technical Admin
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in technicalAdmins.filter(item => technicalAdminArr.includes(item.id))"
+                        :key="index"
+                        label="Technical Admin"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="6"
+                    class="d-flex flex-column"
+                  >
+                    <Text>
+                      Gas Operator
+                    </Text>
+
+                    <div class="d-flex flex-wrap">
+                      <VChip
+                        v-for="(item, index) in gasOperators.filter(item => gasOperatorArr.includes(item.id))"
+                        :key="index"
+                        label="Gas Operator"
+                        color="primary"
+                        class="mr-2 mb-2"
+                      >
+                        {{ item.name }}
+                      </VChip>
+                    </div>
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VBtn
+                      type="submit"
+                      color="primary"
+                      class="float-right"
+                    >
+                      Simpan
+                    </VBtn>
+                  </VCol>
+                </VRow>
+              </VCard>
+            </template>
+          </VStepper>
         </VForm>
       </VCard>
     </VCol>
@@ -476,5 +858,9 @@ watch(district, value => {
 <style lang="scss">
 .v-row {
   margin: 0px !important;
+}
+
+.p-5 {
+  padding: 1.25rem !important;
 }
 </style>

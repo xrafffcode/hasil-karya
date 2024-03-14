@@ -21,7 +21,7 @@ const truck_id = ref()
 const heavy_vehicle_id = ref()
 const start_date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const rental_duration = ref()
-const rental_cost = ref()
+const rental_cost = ref('')
 const is_paid = ref(0)
 const remarks = ref('')
 
@@ -43,7 +43,7 @@ const handleSubmit = () => {
     heavy_vehicle_id: heavy_vehicle_id.value,
     start_date: start_date.value.split('T').join(' ') + ':00',
     rental_duration: rental_duration.value,
-    rental_cost: rental_cost.value,
+    rental_cost: rental_cost.value.replace(/\D/g, ''),
     is_paid: is_paid.value,
     remarks: remarks.value,
   })
@@ -159,7 +159,12 @@ onUnmounted(() => {
                 label="Biaya Penyewaan"
                 placeholder="Biaya Penyewaan"
                 :error-messages="error && error.rental_cost ? [error.rental_cost] : []"
-              />
+                @input="rental_cost = rental_cost.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+              >
+                <template #prepend-inner>
+                  Rp
+                </template>
+              </VTextField>
             </VCol>
 
             <VCol

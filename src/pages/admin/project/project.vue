@@ -232,6 +232,114 @@
                 multiple
               />
             </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="trucks"
+                label="Truk"
+                :items="trucks"
+                :item-title="item => item.brand + ' ' + item.model"
+                :item-value="item => item.id"
+                :error-messages="error && error.trucks ? [error.trucks] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="heavyVehicles"
+                label="Kendaraan Berat"
+                :items="heavyVehicles"
+                :item-title="item => item.brand + ' ' + item.model"
+                :item-value="item => item.id"
+                :error-messages="error && error.heavyVehicles ? [error.heavyVehicles] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="stations"
+                label="Stasiun"
+                :items="stations"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                :error-messages="error && error.stations ? [error.stations] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="checkers"
+                label="Checker"
+                :items="checkers"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                :error-messages="error && error.checkers ? [error.checkers] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="technicalAdmins"
+                label="Admin Teknis"
+                :items="technicalAdmins"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                :error-messages="error && error.technicalAdmins ? [error.technicalAdmins] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VSelect
+                v-model="gasOperators"
+                label="Operator Gas"
+                :items="gasOperators"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                :error-messages="error && error.gasOperators ? [error.gasOperators] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+                multiple
+              />
+            </VCol>
           </VRow>
         </VForm>
       </VCard>
@@ -268,9 +376,11 @@ const subdistrict = ref('')
 const status = ref('')
 const drivers = ref([])
 const trucks = ref([])
+const heavyVehicles = ref([])
 const stations = ref([])
 const checkers = ref([])
 const technicalAdmins = ref([])
+const gasOperators = ref([])
 
 const fetchProjectData = async () => {
   try { 
@@ -292,9 +402,11 @@ const fetchProjectData = async () => {
     status.value = project.status
     drivers.value = project.drivers
     trucks.value = project.trucks
+    heavyVehicles.value = project.heavyVehicles
     stations.value = project.stations
     checkers.value = project.checkers
-    technicalAdmins.value = project.technicalAdmins
+    technicalAdmins.value = project.technical_admins
+    gasOperators.value = project.gas_operators
   } catch (error) {
     console.error(error)
   }

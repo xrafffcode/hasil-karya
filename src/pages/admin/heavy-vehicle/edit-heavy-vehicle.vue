@@ -70,7 +70,7 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VAutocomplete
                 v-model="vendor_id"
@@ -82,19 +82,6 @@
                 :error-messages="error && error.vendor_id ? [error.vendor_id] : []"
               />
             </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="capacity"
-                label="Kapasitas"
-                placeholder="Kapasitas"
-                :error-messages="error && error.capacity ? [error.capacity] : []"
-              />
-            </VCol>
-
 
             <VCol
               cols="12"

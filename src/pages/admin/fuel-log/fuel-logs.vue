@@ -9,7 +9,7 @@ const headers = [
   },
   {
     text: 'Tanggal',
-    value: 'formatted_date',
+    value: 'date',
   },
   {
     text: 'Kendaraan',
@@ -46,7 +46,7 @@ async function handleDeleteFuelLog(fuelLogTruck) {
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Cek Log BBM Truck'
+  document.title = 'Cek Log BBM'
 })
 
 onUnmounted(() => {
@@ -82,11 +82,11 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Fuel Log Truck
+        Pencatatan BBM Kendaraan
       </h2>
 
       <VBtn
-        to="/admin/gas-operator/create"
+        to="/admin/fuel-log/create"
         color="primary"
       >
         Tambah Log BBM Truck
@@ -121,7 +121,7 @@ onUnmounted(() => {
           </template>
           <template #item-operation="item">
             <VBtn
-              :to="{ name: 'admin-gas-operator-edit', params: { id: item.id } }"
+              :to="{ name: 'admin-fuel-log-edit', params: { id: item.id } }"
               color="primary"
               size="small"
               class="m-5"
@@ -129,7 +129,7 @@ onUnmounted(() => {
               Ubah
             </VBtn>
             <VBtn
-              :to="{ name: 'admin-gas-operator-view', params: { id: item.id } }"
+              :to="{ name: 'admin-fuel-log-view', params: { id: item.id } }"
               color="info"
               size="small"
             >
