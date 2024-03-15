@@ -31,7 +31,7 @@ export const useFuelLogStore = defineStore({
         this.loading = true
 
         const response = await axiosInstance.get(`/fuel-log/${id}`)
-
+      
         return response.data.data
       } catch (error) {
         this.handleError(error)
@@ -39,11 +39,26 @@ export const useFuelLogStore = defineStore({
         this.loading = false
       }
     },
-    async createFuelLog(payload) {
+    async createFuelLogTruck(payload) {
       try {
         this.loading = true
 
-        const response = await axiosInstance.post('/fuel-log', payload)
+        const response = await axiosInstance.post('/fuel-log/truck', payload)
+
+        this.success = response.data.message
+
+        router.push({ name: 'admin-fuel-log' })
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async createFuelLogHeavyVehicle(payload) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.post('/fuel-log/heavy-vehicle', payload)
 
         this.success = response.data.message
 
@@ -89,6 +104,36 @@ export const useFuelLogStore = defineStore({
         this.loading = true
 
         const response = await axiosInstance.post(`/fuel-log/${payload.id}`, payload)
+
+        this.success = response.data.message
+
+        router.push({ name: 'admin-fuel-log' })
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async updateFuelLogTruck(payload) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.post(`/fuel-log/truck/${payload.id}`, payload)
+
+        this.success = response.data.message
+
+        router.push({ name: 'admin-fuel-log' })
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async updateFuelLogHeavyVehicle(payload) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.post(`/fuel-log/heavy-vehicle/${payload.id}`, payload)
 
         this.success = response.data.message
 

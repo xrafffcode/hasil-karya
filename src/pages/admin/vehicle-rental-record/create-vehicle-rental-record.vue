@@ -143,8 +143,8 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="rental_duration"
-                label="Durasi Penyewaan"
-                placeholder="Durasi Penyewaan"
+                label="Durasi Penyewaan (Hari)"
+                placeholder="Durasi Penyewaan (Hari)"
                 :error-messages="error && error.rental_duration ? [error.rental_duration] : []"
                 type="number"
               />

@@ -3301,11 +3301,6 @@ kolorist@^1.7.0:
   resolved "https://registry.npmjs.org/kolorist/-/kolorist-1.8.0.tgz"
   integrity sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==
 
-laravel-permission-to-vuejs@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/laravel-permission-to-vuejs/-/laravel-permission-to-vuejs-3.0.2.tgz"
-  integrity sha512-dI3tdP/91KCOgsBQlZqiH/tBiNhWYUDCW+tnxJiXce4Z4QNQuFVxgrQcKDKruJS503NPZC0A/K6gbOnU6FDqiw==
-
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -4281,6 +4276,11 @@ punycode@^2.1.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.3.0.tgz"
   integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
+
+qrcode.vue@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.npmjs.org/qrcode.vue/-/qrcode.vue-3.4.1.tgz"
+  integrity sha512-wq/zHsifH4FJ1GXQi8/wNxD1KfQkckIpjK1KPTc/qwYU5/Bkd4me0w4xZSg6EXk6xLBkVDE0zxVagewv5EMAVA==
 
 qrcode@^1.0.0:
   version "1.5.3"

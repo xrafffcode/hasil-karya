@@ -57,7 +57,7 @@
                 label="Email"
                 placeholder="Email Checker"
                 :error-messages="error && error.email ? [error.email] : []"
-                :disabled="loading"
+                disabled
                 :loading="loading"
               />
             </VCol>

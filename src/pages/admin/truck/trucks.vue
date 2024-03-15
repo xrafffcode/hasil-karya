@@ -1,6 +1,7 @@
 <script setup>
 import { useTruckStore } from '@/stores/truck'
 import { numeral } from '@/@core/utils/formatters'
+import { downloadQRCode } from '@/helpers/qrHelper'
 
 const headers = [
   {
@@ -35,7 +36,7 @@ const headers = [
   {
     text: 'Aksi',
     value: 'operation',
-    width: 300,
+    width: 400,
   },
 ]
 
@@ -61,6 +62,11 @@ async function handleActivateTruck(truck) {
 }
 
 const search = ref('')
+
+function printQRCode(id) {
+  downloadQRCode(id)
+}
+
 
 onMounted(() => {
   document.title = 'Truck'
@@ -143,6 +149,14 @@ onUnmounted(() => {
             />
           </template>
           <template #item-operation="item">
+            <VBtn
+              color="info"
+              size="small"
+              class="m-5"
+              @click="printQRCode(item.id)"
+            >
+              Print QR Code
+            </VBtn>
             <VBtn
               :to="{ name: 'admin-truck-edit', params: { id: item.id } }"
               color="primary"

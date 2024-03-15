@@ -85,12 +85,22 @@ onUnmounted(() => {
         Pencatatan BBM Kendaraan
       </h2>
 
-      <VBtn
-        to="/admin/fuel-log/create"
-        color="primary"
-      >
-        Tambah Log BBM Truck
-      </VBtn>
+      <div class="d-flex align-items-center">
+        <VBtn
+          to="/admin/fuel-log-truck/create"
+          color="primary"
+          class="mr-5"
+        >
+          Tambah Log Truk
+        </VBtn>
+
+        <VBtn
+          to="/admin/fuel-log-heavy-vehicle/create"
+          color="primary"
+        >
+          Tambah Log Kendaraan Berat
+        </VBtn>
+      </div>
     </VCol>
 
     <VCol cols="12">
@@ -121,7 +131,17 @@ onUnmounted(() => {
           </template>
           <template #item-operation="item">
             <VBtn
-              :to="{ name: 'admin-fuel-log-edit', params: { id: item.id } }"
+              v-if="item.truck"
+              :to="{ name: 'admin-fuel-log-truck-edit', params: { id: item.id } }"
+              color="primary"
+              size="small"
+              class="m-5"
+            >
+              Ubah
+            </VBtn>
+            <VBtn
+              v-if="item.heavy_vehicle"
+              :to="{ name: 'admin-fuel-log-heavy-vehicle-edit', params: { id: item.id } }"
               color="primary"
               size="small"
               class="m-5"

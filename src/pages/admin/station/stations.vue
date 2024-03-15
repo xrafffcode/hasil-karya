@@ -1,5 +1,6 @@
 <script setup>
-import { useStationStore } from '@/stores/station' // Assuming you have a station store
+import { downloadQRCode } from '@/helpers/qrHelper'
+import { useStationStore } from '@/stores/station' 
 
 const headers = [
   {
@@ -22,7 +23,7 @@ const headers = [
   {
     text: 'Aksi',
     value: 'operation',
-    width: 300,
+    width: 400,
   },
 ]
 
@@ -47,7 +48,12 @@ async function handleActivateStation(station) {
   fetchStations()
 }
 
+
 const search = ref('')
+
+function printQRCode(id) {
+  downloadQRCode(id)
+}
 
 onMounted(() => {
   document.title = 'Station'
@@ -127,6 +133,14 @@ onUnmounted(() => {
             />
           </template>
           <template #item-operation="item">
+            <VBtn
+              color="info"
+              size="small"
+              class="m-5"
+              @click="printQRCode(item.id)"
+            >
+              Print QR Code
+            </VBtn>
             <VBtn
               :to="{ name: 'admin-station-edit', params: { id: item.id } }"
               color="primary"

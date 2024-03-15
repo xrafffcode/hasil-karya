@@ -1,4 +1,5 @@
 <script setup>
+import { downloadQRCode } from '@/helpers/qrHelper'
 import { useDriverStore } from '@/stores/driver'
 
 const headers = [
@@ -18,7 +19,7 @@ const headers = [
   {
     text: 'Aksi',
     value: 'operation',
-    width: 300,
+    width: 400,
   },
 ]
 
@@ -51,6 +52,10 @@ async function handleActivateDriver(driver) {
 
 
 const search = ref('')
+
+function printQRCode(id) {
+  downloadQRCode(id)
+}
 
 onMounted(() => {
   document.title = 'Driver'
@@ -130,6 +135,14 @@ onUnmounted(() => {
             />
           </template>
           <template #item-operation="item">
+            <VBtn
+              color="info"
+              size="small"
+              class="m-5"
+              @click="printQRCode(item.id)"
+            >
+              Print QR Code
+            </VBtn>
             <VBtn
               :to="{ name: 'admin-driver-edit', params: { id: item.id } }"
               color="primary"

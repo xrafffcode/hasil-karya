@@ -57,7 +57,7 @@
                 label="Email"
                 placeholder="Email Gas Operator"
                 :error-messages="error && error.email ? [error.email] : []"
-                :disabled="loading"
+                disabled
                 :loading="loading"
               />
             </VCol>

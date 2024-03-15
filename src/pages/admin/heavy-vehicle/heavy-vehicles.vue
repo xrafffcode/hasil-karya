@@ -1,4 +1,5 @@
 <script setup>
+import { downloadQRCode } from '@/helpers/qrHelper'
 import { useHeavyVehicleStore } from '@/stores/heavyVehicle' // Assuming you have a Alat Berat store
 
 const headers = [
@@ -30,7 +31,7 @@ const headers = [
   {
     text: 'Aksi',
     value: 'operation',
-    width: 300,
+    width: 400,
   },
 ]
 
@@ -56,6 +57,10 @@ async function handleActivateHeavyVehicle(heavyVehicle) {
 }
 
 const search = ref('')
+
+function printQRCode(id) {
+  downloadQRCode(id)
+}
 
 onMounted(() => {
   document.title = 'Alat Berat'
@@ -135,6 +140,14 @@ onUnmounted(() => {
             />
           </template>
           <template #item-operation="item">
+            <VBtn
+              color="info"
+              size="small"
+              class="m-5"
+              @click="printQRCode(item.id)"
+            >
+              Print QR Code
+            </VBtn>
             <VBtn
               :to="{ name: 'admin-heavy-vehicle-edit', params: { id: item.id } }"
               color="primary"
