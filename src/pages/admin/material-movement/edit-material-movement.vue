@@ -105,17 +105,31 @@
               />
             </VCol>
 
+        
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VTextField
-                v-model="amount"
-                label="Jumlah"
-                placeholder="Jumlah Material Movement"
-                :error-messages="error && error.amount ? [error.amount] : []"
+                v-model="observation_ratio_percentage"
+                label="Rasio Pengamatan"
+                placeholder="Masukan Rasio Pengamatan"
+                :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
               />
             </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="solid_ratio"
+                label="Rasio Padat"
+                placeholder="Rasio Padat"
+                :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+              />
+            </VCol>
+
 
             <VCol
               cols="12"
@@ -193,6 +207,8 @@ const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
+const observation_ratio_percentage = ref('')
+const solid_ratio = ref(0)
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const amount = ref('')
 const remarks = ref('')
@@ -201,11 +217,14 @@ const fetchMaterialMovementData = async () => {
   try {
     const materialMovementData = await fetchMaterialMovement(materialMovementId)
 
+
     code.value = materialMovementData.code
     driver_id.value = materialMovementData.driver.id
     truck_id.value = materialMovementData.truck.id
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
+    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage
+    solid_ratio.value = materialMovementData.solid_ratio
     date.value = materialMovementData.date
     amount.value = materialMovementData.amount
     remarks.value = materialMovementData.remarks
@@ -238,7 +257,9 @@ const handleSubmit = () => {
     truck_id: truck_id.value,
     station_id: station_id.value,
     checker_id: checker_id.value,
-    date: date.value.split('T').join(' '),
+    date: date.value.split('T').join(' ') + ':00',
+    observation_ratio_percentage: observation_ratio_percentage.value,
+    solid_ratio: solid_ratio.value,
     amount: amount.value,
     remarks: remarks.value,
   })

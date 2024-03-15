@@ -23,6 +23,22 @@ const headers = [
     value: 'checker.name',
   },
   {
+    text: 'Rasio Pengamatan (%)',
+    value: 'observation_ratio_percentage',
+  },
+  {
+    text: 'Rasio Pengamatan/m3"',
+    value: 'observation_ratio_number',
+  },
+  {
+    text: 'Rasio Padat',
+    value: 'solid_ratio',
+  },
+  {
+    text: 'Estimasi Volume',
+    value: 'solid_volume_estimate',
+  },
+  {
     text: 'Aksi',
     value: 'operation',
     width: 300,

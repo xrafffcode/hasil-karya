@@ -117,8 +117,8 @@
             >
               <VTextField
                 v-model="observation_ratio_percentage"
-                label="Observation Ratio"
-                placeholder="Observation Ratio"
+                label="Rasio Pengamatan (%)"
+                placeholder="Rasio Pengamatan (%)"
                 :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
                 readonly=""
               />
@@ -130,9 +130,35 @@
             >
               <VTextField
                 v-model="observation_ratio_number"
-                label="Observation Ratio Number"
-                placeholder="Observation Ratio Number"
+                label="Rasio Pengamatan/m3"
+                placeholder="Rasio Pengamatan/m3"
                 :error-messages="error && error.observation_ratio_number ? [error.observation_ratio_number] : []"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="solid_ratio"
+                label="Rasio Padat"
+                placeholder="Rasio Padat"
+                :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="solid_volume_estimate"
+                label="Estimasi Volume"
+                placeholder="Estimasi Volume"
+                :error-messages="error && error.solid_volume_estimate ? [error.solid_volume_estimate] : []"
                 readonly=""
               />
             </VCol>
@@ -196,6 +222,8 @@ const checker_id = ref('')
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const observation_ratio_percentage = ref('')
 const observation_ratio_number = ref('')
+const solid_ratio = ref('')
+const solid_volume_estimate = ref('')
 const remarks = ref('')
 
 const fetchMaterialMovementData = async () => {
@@ -210,6 +238,8 @@ const fetchMaterialMovementData = async () => {
     date.value = materialMovementData.date
     observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage
     observation_ratio_number.value = materialMovementData.observation_ratio_number
+    solid_ratio.value = materialMovementData.solid_ratio
+    solid_volume_estimate.value = materialMovementData.solid_volume_estimate
     remarks.value = materialMovementData.remarks
   } catch (error) {
     console.error(error)

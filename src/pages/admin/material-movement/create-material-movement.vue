@@ -32,9 +32,12 @@ const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
+const observation_ratio_percentage = ref('')
+const solid_ratio = ref(0)
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const amount = ref('')
 const remarks = ref('')
+
 
 const handleReset = () => {
   code.value = 'AUTO'
@@ -48,6 +51,8 @@ const handleSubmit = () => {
     station_id: station_id.value,
     checker_id: checker_id.value,
     date: date.value.split('T').join(' ') + ':00',
+    observation_ratio_percentage: observation_ratio_percentage.value,
+    solid_ratio: solid_ratio.value,
     amount: amount.value,
     remarks: remarks.value,
   })
@@ -101,7 +106,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="driver_id"
                 :items="drivers"
                 label="Driver"
@@ -116,7 +121,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="truck_id"
                 :items="trucks"
                 label="Truck"
@@ -131,7 +136,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="station_id"
                 :items="stations"
                 label="POS"
@@ -146,7 +151,7 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
-              <VSelect
+              <VAutocomplete
                 v-model="checker_id"
                 :items="checkers"
                 label="Pemeriksa"
@@ -169,18 +174,33 @@ onUnmounted(() => {
                 type="datetime-local"
               />
             </VCol>
+            
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VTextField
-                v-model="amount"
-                label="Jumlah"
-                placeholder="Jumlah Material Movement"
-                :error-messages="error && error.amount ? [error.amount] : []"
+                v-model="observation_ratio_percentage"
+                label="Rasio Pengamatan"
+                placeholder="Masukan Rasio Pengamatan"
+                :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
               />
             </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="solid_ratio"
+                label="Rasio Padat"
+                placeholder="Rasio Padat"
+                :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+              />
+            </VCol>
+
+         
 
             <VCol
               cols="12"

@@ -170,6 +170,8 @@
 
 <script setup>
 import { useStationStore } from '@/stores/station'
+import { useRegionStore } from '@/stores/region'
+import { useMaterialStore } from '@/stores/material'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -179,16 +181,25 @@ const route = useRoute()
 const { categories, loading, error } = storeToRefs(useStationStore())
 const { fetchStation, fetchStationCategories, updateStation } = useStationStore()
 
+const { materials } = storeToRefs(useMaterialStore())
+const { fetchMaterials } = useMaterialStore()
+
+fetchMaterials()
+
 fetchStationCategories()
+
+const { provinces, regencies, districts, subdistricts } = storeToRefs(useRegionStore())
+const { fetchProvinces, fetchRegencies, fetchDistricts, fetchSubdistricts } = useRegionStore()
+
 
 const stationId = route.params.id
 
 const code = ref('AUTO')
 const name = ref('')
-const province = ref('')
-const regency = ref('')
-const district = ref('')
-const subdistrict = ref('')
+const province = ref(null)
+const regency = ref(null)
+const district = ref(null)
+const subdistrict = ref(null)
 const address = ref('')
 const category = ref('')
 const material_id = ref('')
@@ -205,7 +216,7 @@ const fetchStationData = async () => {
     subdistrict.value = station.subdistrict
     address.value = station.address
     category.value = station.category
-    material_id.value = station.material_id
+    material_id.value = station.material.id
   } catch (error) {
     console.error(error)
   }
@@ -223,6 +234,7 @@ const handleSubmit = () => {
   const districtName = districts.value.find(item => item.id === district.value)?.nama
   const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.nama
 
+
   updateStation({
     id: stationId,
     code: code.value,
@@ -237,6 +249,21 @@ const handleSubmit = () => {
     is_active: 1,
   })
 }
+
+fetchProvinces()
+
+
+watch(province, value => {
+  fetchRegencies(value)
+})
+
+watch(regency, value => {
+  fetchDistricts(value)
+})
+
+watch(district, value => {
+  fetchSubdistricts(value)
+})
 </script>
 
 <style lang="scss">
