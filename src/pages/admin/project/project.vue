@@ -131,8 +131,8 @@
             >
               <VTextField
                 v-model="client"
-                label="Klien"
-                placeholder="Klien Projek"
+                label="Pelanggan"
+                placeholder="Pelanggan Projek"
                 :error-messages="error && error.client ? [error.client] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -415,7 +415,7 @@ const fetchProjectData = async () => {
 onMounted(() => {
   fetchProjectData()
 
-  document.title = 'Projek'
+  document.title = 'Proyek'
 })
 </script>
 

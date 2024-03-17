@@ -37,6 +37,20 @@
               cols="12"
               md="6"
             >
+              <VTextField
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal Material Movement"
+                :error-messages="error && error.date ? [error.date] : []"
+                type="datetime-local"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
               <VSelect
                 v-model="driver_id"
                 :items="drivers"
@@ -102,24 +116,13 @@
               md="6"
             >
               <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                :error-messages="error && error.date ? [error.date] : []"
-                type="datetime-local"          
-                readonly=""  
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="observation_ratio_percentage"
-                label="Rasio Pengamatan (%)"
-                placeholder="Rasio Pengamatan (%)"
+                label="Presentase Rasio Index"
+                placeholder="Presentase Rasio Index"
                 :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
+                type="number"
+                step="1"
+                suffix="%"
                 readonly=""
               />
             </VCol>
@@ -130,9 +133,11 @@
             >
               <VTextField
                 v-model="observation_ratio_number"
-                label="Rasio Pengamatan/m3"
-                placeholder="Rasio Pengamatan/m3"
+                label="Rasio Index"
+                placeholder="Rasio Index"
                 :error-messages="error && error.observation_ratio_number ? [error.observation_ratio_number] : []"
+                type="number"
+                suffix="m³"
                 readonly=""
               />
             </VCol>
@@ -146,6 +151,9 @@
                 label="Rasio Padat"
                 placeholder="Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+                type="number"
+                step="1"
+                suffix="%"
                 readonly=""
               />
             </VCol>
@@ -159,6 +167,8 @@
                 label="Estimasi Volume"
                 placeholder="Estimasi Volume"
                 :error-messages="error && error.solid_volume_estimate ? [error.solid_volume_estimate] : []"
+                type="number"
+                suffix="m³"
                 readonly=""
               />
             </VCol>
@@ -236,10 +246,10 @@ const fetchMaterialMovementData = async () => {
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
     date.value = materialMovementData.date
-    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage
-    observation_ratio_number.value = materialMovementData.observation_ratio_number
-    solid_ratio.value = materialMovementData.solid_ratio
-    solid_volume_estimate.value = materialMovementData.solid_volume_estimate
+    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage * 100
+    observation_ratio_number.value = materialMovementData.observation_ratio_number * 1
+    solid_ratio.value = materialMovementData.solid_ratio * 100
+    solid_volume_estimate.value = materialMovementData.solid_volume_estimate * 1
     remarks.value = materialMovementData.remarks
   } catch (error) {
     console.error(error)

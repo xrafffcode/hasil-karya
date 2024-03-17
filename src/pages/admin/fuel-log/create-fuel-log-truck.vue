@@ -12,7 +12,6 @@ const { drivers } = storeToRefs(useDriverStore())
 const { trucks } = storeToRefs(useTruckStore())
 const { stations } = storeToRefs(useStationStore())
 
-
 const { fetchGasOperators } = useGasOperatorStore()
 const { fetchDrivers } = useDriverStore()
 const { fetchTrucks } = useTruckStore()
@@ -27,6 +26,7 @@ const { success, loading, error } = storeToRefs(useFuelLogStore())
 const { createFuelLogTruck } = useFuelLogStore()
 
 const code = ref('AUTO')
+const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const truck_id = ref('')
 const driver_id = ref('')
 const station_id = ref('')
@@ -38,6 +38,7 @@ const remarks = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
+  date.value = null
   truck_id.value = ''
   driver_id.value = ''
   station_id.value = ''
@@ -51,13 +52,14 @@ const handleReset = () => {
 const handleSubmit = () => {
   createFuelLogTruck({
     code: code.value,
+    date: date.value.split('T').join(' ') + ':00',
     truck_id: truck_id.value,
     driver_id: driver_id.value,
     station_id: station_id.value,
     gas_operator_id: gas_operator_id.value,
     fuel_type: fuel_type.value,
-    volume: volume.value,
-    odometer: odometer.value,
+    volume: volume.value.replace(/\D/g, ''),
+    odometer: odometer.value.replace(/\D/g, ''),
     remarks: remarks.value,
   })
 
@@ -65,7 +67,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Catat BBM Truk'
+  document.title = 'Tambah Data Pencatatan BBM Truk'
 })
 
 onUnmounted(() => {
@@ -134,10 +136,23 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
+              <VTextField
+                v-model="date"
+                label="Tanggal Mulai"
+                placeholder="Tanggal Mulai"
+                type="datetime-local"
+                :error-messages="error && error.date ? [error.date] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
               <VAutocomplete
                 v-model="gas_operator_id"
                 :items="gasOperators"
-                label="Operator"
+                label="Solar Man"
                 placeholder="Pilih Operator"
                 :error-messages="error && error.gas_operator_id ? [error.gas_operator_id] : []"
                 :item-title="gasOperator => gasOperator.name"
@@ -177,7 +192,7 @@ onUnmounted(() => {
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VAutocomplete
                 v-model="station_id"
@@ -196,9 +211,10 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="volume"
-                label="Volume/liter"
-                placeholder="Volume BBM/liter"
+                label="Volume BBM (L)"
+                placeholder="Volume BBM (L)"
                 :error-messages="error && error.volume ? [error.volume] : []"
+                @input="volume = volume.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
             </VCol>
 
@@ -208,12 +224,13 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="odometer"
-                label="Odometer/km"
-                placeholder="Odometer/km"
+                label="Odometer (KM)"
+                placeholder="Odometer (KM)"
                 :error-messages="error && error.odometer ? [error.odometer] : []"
+                @input="odometer = odometer.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
             </VCol>
-            
+
 
             <VCol
               cols="12"
@@ -226,7 +243,7 @@ onUnmounted(() => {
                 :error-messages="error && error.remarks ? [error.remarks] : []"
               />
             </VCol>
-            
+
             <VCol
               cols="12"
               class="d-flex gap-4"

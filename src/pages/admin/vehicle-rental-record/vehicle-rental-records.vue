@@ -9,6 +9,10 @@ const headers = [
     width: 100,
   },
   {
+    text: 'Jenis Kendaraan',
+    value: 'type',
+  },
+  {
     text: 'Nama Truk/Alat Berat',
     value: 'brand',
   },
@@ -31,6 +35,10 @@ const headers = [
   {
     text: 'Status Bayar',
     value: 'is_paid',
+  },
+  {
+    text: 'Bukti Pembayaran',
+    value: 'payment_proof_image',
   },
   {
     text: 'Aksi',
@@ -132,19 +140,28 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
-          <template #item-brand="item">
+          <template #item-type="item">             
+            <span v-if="item.truck">Truk</span>       
+            <span v-if="item.heavy_vehicle">Alat Berat</span>
+          </template>
+
+          <template #item-brand="item">            
             <span v-if="item.truck">{{ item.truck.brand }} {{ item.truck.model }}</span>
             <span v-if="item.heavy_vehicle">{{ item.heavy_vehicle.brand }} {{ item.heavy_vehicle.model }}</span>
           </template>
+
           <template #item-start_date="item">
             {{ formatDate(item.start_date) }}
           </template>
+
           <template #item-end_date="item">
             {{ formatDate(item.end_date) }}
           </template>
+
           <template #item-rental_cost="item">
             {{ toRupiah(item.rental_cost) }}
           </template>
+
           <template #item-is_paid="item">
             <VSwitch
               v-model="item.is_paid"
@@ -152,6 +169,18 @@ onUnmounted(() => {
               @change="() => handlePaymentVehicleRentalRecord(item)"
             />
           </template>
+
+          <template #item-payment_proof_image="item">
+            <VImg
+              v-if="item.payment_proof_image"
+              :src="item.payment_proof_image_url"
+              width="100"
+              height="100"
+              contain
+            />
+            <span v-else>-</span>
+          </template>
+
           <template #item-operation="item">
             <VBtn
               :to="{ name: 'admin-vehicle-rental-record-edit', params: { id: item.id } }"

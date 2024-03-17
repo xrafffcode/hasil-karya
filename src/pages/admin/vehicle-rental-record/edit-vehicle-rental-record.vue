@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Tambah Penyewaan Kendaraan
+        Ubah Data Penyewaan Kendaraan
       </h2>
 
       <VBtn
@@ -129,7 +129,23 @@
               />
             </VCol>
 
-            
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VFileInput
+                v-model="payment_proof_image"
+                label="Bukti Pembayaran"
+                placeholder="Pilih Berkas"
+                :error-messages="error && error.payment_proof_image ? [error.payment_proof_image] : []"
+              />
+              <VImg
+                v-if="payment_proof_image_url"
+                :src="payment_proof_image_url"
+              />
+            </VCol>
+
+
             <VCol
               cols="12"
               class="d-flex gap-4"
@@ -163,6 +179,7 @@ import { useTruckStore } from '@/stores/truck'
 import { useHeavyVehicleStore } from '@/stores/heavyVehicle'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
+import { VFileInput } from 'vuetify/lib/components/index.mjs'
 
 
 const { loading, error } = storeToRefs(useVehicleRentalRecordStore())
@@ -187,10 +204,32 @@ const rental_duration = ref()
 const rental_cost = ref()
 const is_paid = ref(0)
 const remarks = ref('')
+const payment_proof_image = ref(null)
+const payment_proof_image_url = ref(null)
 
 const fetchVehicleRentalRecordData = async () => {
+
   try {
     const vehicleRentalRecord = await fetchVehicleRentalRecord(vehicleRentalRecordId)
+
+    if (vehicleRentalRecord.payment_proof_image_url != null) {
+      fetch(vehicleRentalRecord.payment_proof_image_url)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          
+          a.href = url
+          a.download = 'image.jpg'
+          document.body.appendChild(a)
+          a.click()
+          window.URL.revokeObjectURL(url)
+        })
+        .catch(error => {
+          console.error('Gagal mengunduh gambar:', error)
+          alert('Gagal mengunduh gambar.')
+        })
+    }
 
     code.value = vehicleRentalRecord.code
     truck_id.value = vehicleRentalRecord.truck?.id
@@ -200,6 +239,8 @@ const fetchVehicleRentalRecordData = async () => {
     rental_cost.value = vehicleRentalRecord.rental_cost
     is_paid.value = vehicleRentalRecord.is_paid === true ? 1 : 0
     remarks.value = vehicleRentalRecord.remarks
+    payment_proof_image.value = vehicleRentalRecord.payment_proof_image
+    payment_proof_image_url.value = vehicleRentalRecord.payment_proof_image_url
   } catch (e) {
     console.error(e)
   }
@@ -217,6 +258,7 @@ const handleSubmit = () => {
     rental_cost: rental_cost.value,
     is_paid: is_paid.value,
     remarks: remarks.value,
+    payment_proof_image: payment_proof_image.value,
   })
 }
 
@@ -229,11 +271,15 @@ const handleReset = () => {
   rental_cost.value = null
   is_paid.value = 0
   remarks.value = ''
+  payment_proof_image.value = null
+  payment_proof_image_url.value = null
 }
+
+
 
 onMounted(() => {
   fetchVehicleRentalRecordData()
-  
+
   document.title = 'Edit Penyewaan Kendaraan'
 })
 

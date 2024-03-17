@@ -51,9 +51,19 @@ export const toRupiah = value => {
   return formatter.format(value)
 }
 
-export const numeral = value => {
+
+export const toNumeral = value => {
   const formatter = new Intl.NumberFormat('id-ID', {
     style: 'decimal',
+    minimumFractionDigits: 0,
+  })
+  
+  return formatter.format(value)
+}
+
+export const toPercentage = value => {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'percent',
     minimumFractionDigits: 0,
   })
   

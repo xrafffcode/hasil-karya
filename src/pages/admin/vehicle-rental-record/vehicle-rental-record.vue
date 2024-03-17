@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Catatan Penyewaan Kendaraan
+        Detail Penyewaan Kendaraan
       </h2>
 
       <VBtn
@@ -27,8 +27,23 @@
               <VTextField
                 v-model="code"
                 label="Kode"
-                placeholder="Kode Catatan Penyewaan Kendaraan"
+                placeholder="Kode Detail Penyewaan Kendaraan"
                 :error-messages="error && error.code ? [error.code] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="category"
+                label="Jenis Kendaraan"
+                placeholder="Jenis Kendaraan Detail Penyewaan Kendaraan"
+                :error-messages="error && error.model ? [error.model] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -42,7 +57,7 @@
               <VTextField
                 v-model="brand"
                 label="Merk"
-                placeholder="Merk Catatan Penyewaan Kendaraan"
+                placeholder="Merk Detail Penyewaan Kendaraan"
                 :error-messages="error && error.brand ? [error.brand] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -57,7 +72,7 @@
               <VTextField
                 v-model="model"
                 label="Model"
-                placeholder="Model Catatan Penyewaan Kendaraan"
+                placeholder="Model Detail Penyewaan Kendaraan"
                 :error-messages="error && error.model ? [error.model] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -72,7 +87,7 @@
               <VTextField
                 v-model="vendor"
                 label="Vendor"
-                placeholder="Vendor Catatan Penyewaan Kendaraan"
+                placeholder="Vendor Detail Penyewaan Kendaraan"
                 :error-messages="error && error.vendor ? [error.vendor] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -87,7 +102,7 @@
               <VTextField
                 v-model="start_date"
                 label="Tanggal Mulai"
-                placeholder="Tanggal Mulai Catatan Penyewaan Kendaraan"
+                placeholder="Tanggal Mulai Detail Penyewaan Kendaraan"
                 :error-messages="error && error.start_date ? [error.start_date] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -103,7 +118,7 @@
                 v-model="rental_duration"
                 label="Durasi Penyewaan"
                 placeholder="Durasi
-                Penyewaan Catatan Penyewaan Kendaraan"
+                Penyewaan Detail Penyewaan Kendaraan"
                 :error-messages="error && error.rental_duration ? [error.rental_duration] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -118,7 +133,7 @@
               <VTextField
                 v-model="end_date"
                 label="Tanggal Selesai"
-                placeholder="Tanggal Selesai Catatan Penyewaan Kendaraan"
+                placeholder="Tanggal Selesai Detail Penyewaan Kendaraan"
                 :error-messages="error && error.end_date ? [error.end_date] : []"
                 :disabled="loading"
                 :loading="loading"
@@ -133,11 +148,25 @@
               <VTextField
                 v-model="rental_cost"
                 label="Biaya Penyewaan"
-                placeholder="Biaya Penyewaan Catatan Penyewaan Kendaraan"
+                placeholder="Biaya Penyewaan Detail Penyewaan Kendaraan"
                 :error-messages="error && error.rental_cost ? [error.rental_cost] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <p>Bukti Pembayaran</p> 
+              <VImg
+                v-if="payment_proof_image"
+                :src="payment_proof_image_url"
+                width="100"
+                height="100"
+                alt="Bukti Pembayaran"
               />
             </VCol>
           </VRow>
@@ -148,7 +177,7 @@
 </template>
 
 <script setup>
-import { useVehicleRentalRecordStore } from '@/stores/vehicleRentalRecord' 
+import { useVehicleRentalRecordStore } from '@/stores/vehicleRentalRecord'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { toRupiah } from '@/@core/utils/formatters'
@@ -162,6 +191,7 @@ const { fetchVehicleRentalRecord } = useVehicleRentalRecordStore()
 const vehicleRentalRecordId = route.params.id
 
 const code = ref('')
+const category = ref('')
 const brand = ref('')
 const model = ref('')
 const vendor = ref()
@@ -169,12 +199,15 @@ const start_date = ref('')
 const rental_duration = ref('')
 const end_date = ref('')
 const rental_cost = ref('')
+const payment_proof_image = ref('')
+const payment_proof_image_url = ref('')
 
 const fetchVehicleRentalRecordData = async () => {
   try {
     const vehicleRentalRecord = await fetchVehicleRentalRecord(vehicleRentalRecordId)
 
     code.value = vehicleRentalRecord.code
+    category.value = vehicleRentalRecord.truck ? 'Truk' : 'Alat Berat'
     brand.value = vehicleRentalRecord.truck?.brand || vehicleRentalRecord.heavy_vehicle?.brand
     model.value = vehicleRentalRecord.truck?.model || vehicleRentalRecord.heavy_vehicle?.model
     vendor.value = vehicleRentalRecord.truck?.vendor?.name || vehicleRentalRecord.heavy_vehicle?.vendor?.name
@@ -182,7 +215,9 @@ const fetchVehicleRentalRecordData = async () => {
     rental_duration.value = vehicleRentalRecord.rental_duration
     rental_cost.value = toRupiah(vehicleRentalRecord.rental_cost)
     end_date.value = vehicleRentalRecord.end_date
-    
+    payment_proof_image.value = vehicleRentalRecord.payment_proof_image
+    payment_proof_image_url.value = vehicleRentalRecord.payment_proof_image_url
+
   } catch (error) {
     console.error(error)
   }
@@ -191,7 +226,7 @@ const fetchVehicleRentalRecordData = async () => {
 onMounted(() => {
   fetchVehicleRentalRecordData()
 
-  document.title = 'Catatan Penyewaan Kendaraan'
+  document.title = 'Detail Penyewaan Kendaraan'
 })
 </script>
 

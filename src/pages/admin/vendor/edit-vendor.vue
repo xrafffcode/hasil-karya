@@ -152,7 +152,7 @@ const handleSubmit = () => {
     name: name.value,
     address: address.value,
     phone: phone.value,
-    is_active: is_active.value
+    is_active: is_active.value,
   })
 }
 </script>

@@ -6,7 +6,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Pencatatan BBM Kendaraan
+        Pencatatan Pengisian BBM
       </h2>
 
       <VBtn
