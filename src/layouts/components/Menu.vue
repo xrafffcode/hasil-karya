@@ -31,7 +31,7 @@ const is = roles => {
       icon: 'bx-data',
       children: [
         {
-          title: 'Klien',
+          title: 'Pelanggan',
           to: '/admin/client',
         },
         {
@@ -96,7 +96,7 @@ const is = roles => {
           to: '/admin/heavy-vehicle',
         },
         {
-          title: 'Pencatatan BBM Kendaraan',
+          title: 'Pengisian BBM',
           to: '/admin/fuel-log',
         },
         {

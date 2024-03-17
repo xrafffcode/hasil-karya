@@ -32,15 +32,22 @@ const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
-const observation_ratio_percentage = ref('')
-const solid_ratio = ref(0)
+const observation_ratio_percentage = ref('0')
+const solid_ratio = ref('0')
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
-const amount = ref('')
 const remarks = ref('')
 
 
 const handleReset = () => {
   code.value = 'AUTO'
+  driver_id.value = ''
+  truck_id.value = ''
+  station_id.value = ''
+  checker_id.value = ''
+  observation_ratio_percentage.value = 0
+  solid_ratio.value = 0
+  date.value = null
+  remarks.value = ''
 }
 
 const handleSubmit = () => {
@@ -51,9 +58,8 @@ const handleSubmit = () => {
     station_id: station_id.value,
     checker_id: checker_id.value,
     date: date.value.split('T').join(' ') + ':00',
-    observation_ratio_percentage: observation_ratio_percentage.value,
-    solid_ratio: solid_ratio.value,
-    amount: amount.value,
+    observation_ratio_percentage: observation_ratio_percentage.value / 100,
+    solid_ratio: solid_ratio.value / 100,
     remarks: remarks.value,
   })
 }
@@ -99,6 +105,19 @@ onUnmounted(() => {
                 label="Kode"
                 placeholder="Kode Material Movement"
                 :error-messages="error && error.code ? [error.code] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal Material Movement"
+                :error-messages="error && error.date ? [error.date] : []"
+                type="datetime-local"
               />
             </VCol>
 
@@ -167,24 +186,13 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                :error-messages="error && error.date ? [error.date] : []"
-                type="datetime-local"
-              />
-            </VCol>
-            
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="observation_ratio_percentage"
-                label="Rasio Pengamatan"
-                placeholder="Masukan Rasio Pengamatan"
+                label="Presentase Rasio Index"
+                placeholder="Masukan Presentase Rasio Index"
                 :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
+                type="number"
+                step="1"
+                suffix="%"
               />
             </VCol>
 
@@ -195,12 +203,13 @@ onUnmounted(() => {
               <VTextField
                 v-model="solid_ratio"
                 label="Rasio Padat"
-                placeholder="Rasio Padat"
+                placeholder="Masukan Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+                type="number"
+                step="1"
+                suffix="%"
               />
             </VCol>
-
-         
 
             <VCol
               cols="12"
@@ -213,7 +222,6 @@ onUnmounted(() => {
                 :error-messages="error && error.remarks ? [error.remarks] : []"
               />
             </VCol>
-            
 
             <VCol
               cols="12"

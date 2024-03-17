@@ -12,7 +12,7 @@ const headers = [
     value: 'name',
   },
   {
-    text: 'Klien',
+    text: 'Pelanggan',
     value: 'client.name',
   },
   {
@@ -123,6 +123,10 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
+          <template #item-start_date="item">
+            {{ item.start_date }}
+          </template>
+
           <template #item-operation="item">
             <VBtn
               :to="{ name: 'admin-project-edit', params: { id: item.id } }"

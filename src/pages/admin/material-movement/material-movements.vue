@@ -1,5 +1,6 @@
 <script setup>
 import { useMaterialMovementStore } from '@/stores/materialMovement'
+import { toNumeral, toPercentage } from '@/@core/utils/formatters'
 
 const headers = [
   {
@@ -23,11 +24,15 @@ const headers = [
     value: 'checker.name',
   },
   {
-    text: 'Rasio Pengamatan (%)',
+    text: 'Presentase Rasio Index',
     value: 'observation_ratio_percentage',
   },
   {
-    text: 'Rasio Pengamatan/m3"',
+    text: 'Kapasitas Truk',
+    value: 'truck_capacity',
+  },
+  {
+    text: 'Rasio Index',
     value: 'observation_ratio_number',
   },
   {
@@ -131,6 +136,26 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
+          <template #item-observation_ratio_percentage="item">
+            {{ toPercentage(item.observation_ratio_percentage) }}
+          </template>
+          
+          <template #item-truck_capacity="item">
+            {{ toNumeral(item.truck_capacity) }} m³
+          </template>
+
+          <template #item-observation_ratio_number="item">
+            {{ toNumeral(item.observation_ratio_number) }} m³
+          </template>
+
+          <template #item-solid_ratio="item">
+            {{ toPercentage(item.solid_ratio) }}
+          </template>
+
+          <template #item-solid_volume_estimate="item">
+            {{ toNumeral(item.solid_volume_estimate) }} m³
+          </template>
+
           <template #item-operation="item">
             <VBtn
               :to="{ name: 'admin-material-movement-edit', params: { id: item.id } }"

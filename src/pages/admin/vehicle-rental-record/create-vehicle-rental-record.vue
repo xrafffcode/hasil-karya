@@ -3,6 +3,7 @@ import { useVehicleRentalRecordStore } from '@/stores/vehicleRentalRecord'
 import { useTruckStore } from '@/stores/truck'
 import { useHeavyVehicleStore } from '@/stores/heavyVehicle'
 import { storeToRefs } from 'pinia'
+import { toNumeral } from '@/@core/utils/formatters'
 
 const { loading, error } = storeToRefs(useVehicleRentalRecordStore())
 const { createVehicleRentalRecord } = useVehicleRentalRecordStore()
@@ -20,20 +21,22 @@ const code = ref('AUTO')
 const truck_id = ref()
 const heavy_vehicle_id = ref()
 const start_date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
-const rental_duration = ref()
+const rental_duration = ref('0')
 const rental_cost = ref('')
 const is_paid = ref(0)
 const remarks = ref('')
+const payment_proof_image = ref(null)
 
 const handleReset = () => {
   code.value = 'AUTO'
   truck_id.value = null
   heavy_vehicle_id.value = null
   start_date.value = null
-  rental_duration.value = null
-  rental_cost.value = null
+  rental_duration.value = 0
+  rental_cost.value = 0
   is_paid.value = 0
   remarks.value = ''
+  payment_proof_image.value = null
 }
 
 const handleSubmit = () => {
@@ -42,15 +45,16 @@ const handleSubmit = () => {
     truck_id: truck_id.value,
     heavy_vehicle_id: heavy_vehicle_id.value,
     start_date: start_date.value.split('T').join(' ') + ':00',
-    rental_duration: rental_duration.value,
+    rental_duration: rental_duration.value.replace(/\D/g, ''),
     rental_cost: rental_cost.value.replace(/\D/g, ''),
     is_paid: is_paid.value,
     remarks: remarks.value,
+    payment_proof_image: payment_proof_image.value[0],
   })
 }
 
 onMounted(() => {
-  document.title = 'Tambah Penyewaan Kendaraan'
+  document.title = 'Tambah Data Penyewaan Kendaraan'
 })
 
 onUnmounted(() => {
@@ -146,7 +150,7 @@ onUnmounted(() => {
                 label="Durasi Penyewaan (Hari)"
                 placeholder="Durasi Penyewaan (Hari)"
                 :error-messages="error && error.rental_duration ? [error.rental_duration] : []"
-                type="number"
+                @input="rental_duration = rental_duration.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
               />
             </VCol>
 
@@ -196,7 +200,19 @@ onUnmounted(() => {
               />
             </VCol>
 
-            
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VFileInput
+                v-model="payment_proof_image"
+                label="Bukti Pembayaran"
+                placeholder="Pilih Berkas"
+                :error-messages="error && error.payment_proof_image ? [error.payment_proof_image] : []"
+              />
+            </VCol>
+
+
             <VCol
               cols="12"
               class="d-flex gap-4"

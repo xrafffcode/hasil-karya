@@ -12,8 +12,6 @@ const { drivers } = storeToRefs(useDriverStore())
 const { heavyVehicles } = storeToRefs(useHeavyVehicleStore())
 const { stations } = storeToRefs(useStationStore())
 
-
-
 const { fetchGasOperators } = useGasOperatorStore()
 const { fetchDrivers } = useDriverStore()
 const { fetchHeavyVehicles } = useHeavyVehicleStore()
@@ -30,6 +28,7 @@ const { createFuelLogHeavyVehicle } = useFuelLogStore()
 
 
 const code = ref('AUTO')
+const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const heavy_vehicle_id = ref('')
 const driver_id = ref('')
 const station_id = ref('')
@@ -41,6 +40,7 @@ const remarks = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
+  date.value = null
   heavy_vehicle_id.value = ''
   driver_id.value = ''
   station_id.value = ''
@@ -54,13 +54,14 @@ const handleReset = () => {
 const handleSubmit = () => {
   createFuelLogHeavyVehicle({
     code: code.value,
+    date: date.value.split('T').join(' ') + ':00',
     heavy_vehicle_id: heavy_vehicle_id.value,
     driver_id: driver_id.value,
     station_id: station_id.value,
     gas_operator_id: gas_operator_id.value,
     fuel_type: fuel_type.value,
-    volume: volume.value,
-    hourmeter: hourmeter.value,
+    volume: volume.value.replace(/\D/g, ''),
+    hourmeter: hourmeter.value.replace(/\D/g, ''),
     remarks: remarks.value,
   })
 
@@ -68,7 +69,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Catat BBM Alat Berat'
+  document.title = 'Tambah Data Pencatatan BBM Alat Berat'
 })
 
 onUnmounted(() => {
@@ -137,10 +138,23 @@ onUnmounted(() => {
               cols="12"
               md="6"
             >
+              <VTextField
+                v-model="date"
+                label="Tanggal Mulai"
+                placeholder="Tanggal Mulai"
+                type="datetime-local"
+                :error-messages="error && error.date ? [error.date] : []"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
               <VAutocomplete
                 v-model="gas_operator_id"
                 :items="gasOperators"
-                label="Operator"
+                label="Solar Man"
                 placeholder="Pilih Operator"
                 :error-messages="error && error.gas_operator_id ? [error.gas_operator_id] : []"
                 :item-title="gasOperator => gasOperator.name"
@@ -180,7 +194,7 @@ onUnmounted(() => {
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VAutocomplete
                 v-model="station_id"
@@ -199,9 +213,10 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="volume"
-                label="Volume"
-                placeholder="Volume BBM"
+                label="Volume BBM (L)"
+                placeholder="Volume BBM (L)"
                 :error-messages="error && error.volume ? [error.volume] : []"
+                @input="volume = volume.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
             </VCol>
 
@@ -211,9 +226,10 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="hourmeter"
-                label="Hourmeter"
-                placeholder="Hourmeter"
+                label="Hourmeter (HM)"
+                placeholder="Hourmeter (HM)"
                 :error-messages="error && error.hourmeter ? [error.hourmeter] : []"
+                @input="hourmeter = hourmeter.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
             </VCol>
 
@@ -224,11 +240,11 @@ onUnmounted(() => {
               <VTextarea
                 v-model="remarks"
                 label="Keterangan"
-                placeholder="Keterangan Material Movement"
+                placeholder="Keterangan Pengisian Bahan Bakar"
                 :error-messages="error && error.remarks ? [error.remarks] : []"
               />
             </VCol>
-            
+
 
             <VCol
               cols="12"

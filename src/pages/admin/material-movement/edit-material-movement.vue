@@ -36,6 +36,19 @@
               cols="12"
               md="6"
             >
+              <VTextField
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal Material Movement"
+                :error-messages="error && error.date ? [error.date] : []"
+                type="datetime-local"
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
               <VSelect
                 v-model="driver_id"
                 :items="drivers"
@@ -97,24 +110,13 @@
               md="6"
             >
               <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                :error-messages="error && error.date ? [error.date] : []"
-                type="datetime-local"            
-              />
-            </VCol>
-
-        
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="observation_ratio_percentage"
-                label="Rasio Pengamatan"
-                placeholder="Masukan Rasio Pengamatan"
+                label="Presentase Rasio Index"
+                placeholder="Masukan Presentase Rasio Index"
                 :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
+                type="number"
+                step="1"
+                suffix="%"
               />
             </VCol>
 
@@ -127,6 +129,9 @@
                 label="Rasio Padat"
                 placeholder="Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
+                type="number"
+                step="1"
+                suffix="%"
               />
             </VCol>
 
@@ -203,31 +208,30 @@ const { fetchMaterialMovement, updateMaterialMovement } = useMaterialMovementSto
 const materialMovementId = route.params.id
 
 const code = ref('')
+const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
 const observation_ratio_percentage = ref('')
-const solid_ratio = ref(0)
-const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
-const amount = ref('')
+const solid_ratio = ref('')
 const remarks = ref('')
+const payment_proof_image = ref(null)
 
 const fetchMaterialMovementData = async () => {
   try {
     const materialMovementData = await fetchMaterialMovement(materialMovementId)
 
-
     code.value = materialMovementData.code
+    date.value = materialMovementData.date
     driver_id.value = materialMovementData.driver.id
     truck_id.value = materialMovementData.truck.id
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
-    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage
-    solid_ratio.value = materialMovementData.solid_ratio
-    date.value = materialMovementData.date
-    amount.value = materialMovementData.amount
+    observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage * 100
+    solid_ratio.value = materialMovementData.solid_ratio * 100
     remarks.value = materialMovementData.remarks
+    payment_proof_image.value = materialMovementData.payment_proof_image
   } catch (error) {
     console.error(error)
   }
@@ -240,12 +244,13 @@ onMounted(() => {
 
 const handleReset = () => {
   code.value = ''
+  date.value = ''
   driver_id.value = ''
   truck_id.value = ''
   station_id.value = ''
   checker_id.value = ''
-  date.value = ''
-  amount.value = ''
+  observation_ratio_percentage.value = ''
+  solid_ratio.value = ''
   remarks.value = ''
 }
 
@@ -253,14 +258,13 @@ const handleSubmit = () => {
   updateMaterialMovement({
     id: materialMovementId,
     code: code.value,
+    date: date.value.split('T').join(' ') + ':00',
     driver_id: driver_id.value,
     truck_id: truck_id.value,
     station_id: station_id.value,
     checker_id: checker_id.value,
-    date: date.value.split('T').join(' ') + ':00',
-    observation_ratio_percentage: observation_ratio_percentage.value,
-    solid_ratio: solid_ratio.value,
-    amount: amount.value,
+    observation_ratio_percentage: observation_ratio_percentage.value / 100,
+    solid_ratio: solid_ratio.value / 100,
     remarks: remarks.value,
   })
 }

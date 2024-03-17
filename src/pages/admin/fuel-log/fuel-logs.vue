@@ -1,26 +1,30 @@
 <script setup>
 import { useFuelLogStore } from '@/stores/fuelLog'
+import { toNumeral, formatDate } from '@/@core/utils/formatters'
 
 const headers = [
   {
     text: 'Kode',
     value: 'code',
-    width: 200,
   },
   {
     text: 'Tanggal',
     value: 'date',
   },
   {
+    text: 'Jenis Kendaraan',
+    value: 'type',
+  },
+  {
     text: 'Kendaraan',
     value: 'vehicle',
   },
   {
-    text: 'Jumlah Liter',
+    text: 'Volume (L)',
     value: 'volume',
   },
   {
-    text: 'Operator',
+    text: 'Solar Man',
     value: 'gas_operator.name',
   },
   {
@@ -91,14 +95,14 @@ onUnmounted(() => {
           color="primary"
           class="mr-5"
         >
-          Tambah Log Truk
+          Tambah Pencatatan Truk
         </VBtn>
 
         <VBtn
           to="/admin/fuel-log-heavy-vehicle/create"
           color="primary"
         >
-          Tambah Log Kendaraan Berat
+          Tambah Pencatatan Kendaraan Berat
         </VBtn>
       </div>
     </VCol>
@@ -125,10 +129,31 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
+          <template #item-date="item">
+            {{ formatDate(item.date) }}
+          </template>
+
+          <template #item-type="item">
+            <span v-if="item.truck">
+              Truk <br>
+              (KM {{ toNumeral(item.odometer) }})
+            </span>
+            <span v-if="item.heavy_vehicle">
+              Kendaraan Berat <br>
+              (HM {{ toNumeral(item.hourmeter) }})
+            </span>
+          </template>
+
           <template #item-vehicle="item">
             <span v-if="item.truck">{{ item.truck.brand }} {{ item.truck.model }}</span>
-            <span v-if="item.heavy_vehicle">{{ item.heavy_vehicle.brand }} {{ item.heavy_vehicle.model }}</span>
+            <span v-if="item.heavy_vehicle">{{ item.heavy_vehicle.brand }} {{ item.heavy_vehicle.model
+            }}</span>
           </template>
+
+          <template #item-volume="item">
+            {{ toNumeral(item.volume) }}
+          </template>
+          
           <template #item-operation="item">
             <VBtn
               v-if="item.truck"
