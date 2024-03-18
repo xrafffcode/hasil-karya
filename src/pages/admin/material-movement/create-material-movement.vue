@@ -25,16 +25,14 @@ fetchCheckers()
 const { loading, error } = storeToRefs(useMaterialMovementStore())
 const { createMaterialMovement } = useMaterialMovementStore()
 
-
-
 const code = ref('AUTO')
+const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
 const observation_ratio_percentage = ref('0')
 const solid_ratio = ref('0')
-const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
 const remarks = ref('')
 
 
