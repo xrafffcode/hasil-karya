@@ -81,8 +81,8 @@
             >
               <VTextField
                 v-model="rental_duration"
-                label="Durasi Penyewaan"
-                placeholder="Durasi Penyewaan"
+                label="Durasi Penyewaan (Hari)"
+                placeholder="Masukkan Durasi Penyewaan"
                 :error-messages="error && error.rental_duration ? [error.rental_duration] : []"
                 type="number"
               />
@@ -133,15 +133,24 @@
               cols="12"
               md="6"
             >
+              <p v-if="payment_proof_image_url">
+                Bukti Pembayaran
+              </p>
+
+              <VImg
+                v-if="payment_proof_image_url"
+                :src="payment_proof_image_url"
+                width="100px"
+                height="100px"
+              />
+
+              <br>
+
               <VFileInput
                 v-model="payment_proof_image"
                 label="Bukti Pembayaran"
                 placeholder="Pilih Berkas"
                 :error-messages="error && error.payment_proof_image ? [error.payment_proof_image] : []"
-              />
-              <VImg
-                v-if="payment_proof_image_url"
-                :src="payment_proof_image_url"
               />
             </VCol>
 
@@ -212,34 +221,15 @@ const fetchVehicleRentalRecordData = async () => {
   try {
     const vehicleRentalRecord = await fetchVehicleRentalRecord(vehicleRentalRecordId)
 
-    if (vehicleRentalRecord.payment_proof_image_url != null) {
-      fetch(vehicleRentalRecord.payment_proof_image_url)
-        .then(response => response.blob())
-        .then(blob => {
-          const url = window.URL.createObjectURL(blob)
-          const a = document.createElement('a')
-          
-          a.href = url
-          a.download = 'image.jpg'
-          document.body.appendChild(a)
-          a.click()
-          window.URL.revokeObjectURL(url)
-        })
-        .catch(error => {
-          console.error('Gagal mengunduh gambar:', error)
-          alert('Gagal mengunduh gambar.')
-        })
-    }
-
     code.value = vehicleRentalRecord.code
     truck_id.value = vehicleRentalRecord.truck?.id
     heavy_vehicle_id.value = vehicleRentalRecord.heavy_vehicle?.id
     start_date.value = vehicleRentalRecord.start_date.split(':').slice(0, 2).join(':')
-    rental_duration.value = vehicleRentalRecord.rental_duration
-    rental_cost.value = vehicleRentalRecord.rental_cost
+    rental_duration.value = vehicleRentalRecord.rental_duration * 1
+    rental_cost.value = vehicleRentalRecord.rental_cost * 1
     is_paid.value = vehicleRentalRecord.is_paid === true ? 1 : 0
     remarks.value = vehicleRentalRecord.remarks
-    payment_proof_image.value = vehicleRentalRecord.payment_proof_image
+    payment_proof_image.value = null
     payment_proof_image_url.value = vehicleRentalRecord.payment_proof_image_url
   } catch (e) {
     console.error(e)
@@ -248,19 +238,28 @@ const fetchVehicleRentalRecordData = async () => {
 
 
 const handleSubmit = () => {
+  const startDateToSend = start_date.value ? start_date.value.split('T').join(' ') + ':00' : null
+  const paymentProofImageToSend = payment_proof_image.value ? payment_proof_image.value : null
+
   updateVehicleRentalRecord({
     code: code.value,
     id: vehicleRentalRecordId,
     truck_id: truck_id.value,
     heavy_vehicle_id: heavy_vehicle_id.value,
-    start_date: start_date.value.split('T').join(' ') + ':00',
+    start_date: startDateToSend,
     rental_duration: rental_duration.value,
     rental_cost: rental_cost.value,
     is_paid: is_paid.value,
     remarks: remarks.value,
-    payment_proof_image: payment_proof_image.value,
+    payment_proof_image: paymentProofImageToSend,
   })
 }
+
+onMounted(() => {
+  fetchVehicleRentalRecordData()
+
+  document.title = 'Edit Penyewaan Kendaraan'
+})
 
 const handleReset = () => {
   code.value = 'AUTO'
@@ -274,8 +273,6 @@ const handleReset = () => {
   payment_proof_image.value = null
   payment_proof_image_url.value = null
 }
-
-
 
 onMounted(() => {
   fetchVehicleRentalRecordData()

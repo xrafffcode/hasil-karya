@@ -19,7 +19,7 @@ const { fetchCheckers } = useCheckerStore()
 
 fetchDrivers()
 fetchTrucks()
-fetchStations()
+fetchStations({ type: 'station' }) 
 fetchCheckers()
 
 const { loading, error } = storeToRefs(useMaterialMovementStore())

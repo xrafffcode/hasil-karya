@@ -1,6 +1,6 @@
 <script setup>
 import { useTruckStore } from '@/stores/truck'
-import { numeral } from '@/@core/utils/formatters'
+import { toNumeral } from '@/@core/utils/formatters'
 import { downloadQRCode } from '@/helpers/qrHelper'
 
 const headers = [
@@ -139,7 +139,7 @@ onUnmounted(() => {
           class="data-table"
         >
           <template #item-capacity="item">
-            {{ numeral(item.capacity) }} m³
+            {{ toNumeral(item.capacity) }} m³
           </template>
           <template #item-is_active="item">
             <VSwitch

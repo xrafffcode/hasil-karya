@@ -20,6 +20,10 @@ const headers = [
     value: 'station.name',
   },
   {
+    text: 'Material',
+    value: 'station.material.name',
+  },
+  {
     text: 'Pemeriksa',
     value: 'checker.name',
   },
@@ -42,6 +46,10 @@ const headers = [
   {
     text: 'Estimasi Volume',
     value: 'solid_volume_estimate',
+  },
+  {
+    text: 'Keterangan',
+    value: 'remarks',
   },
   {
     text: 'Aksi',

@@ -6,7 +6,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Pencatatan Pengisian BBM
+        Detail Pengisian BBM {{ truck_id ? '( Truk )' : '' }} {{ heavy_vehicle_id ? '( Alat Berat )' : '' }}
       </h2>
 
       <VBtn
@@ -30,6 +30,20 @@
                 label="Kode"
                 placeholder="Kode"
                 :error-messages="error && error.code ? [error.code] : []"
+                readonly
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal"
+                type="datetime-local"
+                :error-messages="error && error.date ? [error.date] : []"
                 readonly
               />
             </VCol>
@@ -101,22 +115,9 @@
               md="6"
             >
               <VTextField
-                v-model="fuel_type"
-                label="Jenis BBM"
-                placeholder="Jenis BBM"
-                :error-messages="error && error.fuel_type ? [error.fuel_type] : []"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="volume"
-                label="Volume/liter"
-                placeholder="Volume BBM/liter"
+                label="Volume (L)"
+                placeholder="Volume (L)"
                 :error-messages="error && error.volume ? [error.volume] : []"
                 readonly
               />
@@ -129,16 +130,16 @@
               <VTextField
                 v-if="truck_id"
                 v-model="odometer"
-                label="Odometer"
-                placeholder="Odometer"
+                label="Odometer (KM)"
+                placeholder="Odometer (KM)"
                 :error-messages="error && error.odometer ? [error.odometer] : []"
                 readonly
               />
               <VTextField
                 v-if="heavy_vehicle_id"
                 v-model="hourmeter"
-                label="Hourmeter"
-                placeholder="Hourmeter"
+                label="Hourmeter (HM)"
+                placeholder="Hourmeter (HM)"
                 :error-messages="error && error.hourmeter ? [error.hourmeter] : []"
                 readonly
               />
@@ -177,6 +178,7 @@ const { fetchFuelLog } = useFuelLogStore()
 const fuelLogId = route.params.id
 
 const code = ref('AUTO')
+const date = ref('')
 const truck_id = ref('')
 const heavy_vehicle_id = ref('')
 const driver_id = ref('')
@@ -194,15 +196,16 @@ const fetchFuelLogData = async () => {
     const fuelLog = await fetchFuelLog(fuelLogId)
 
     code.value = fuelLog.code
+    date.value = fuelLog.date
     truck_id.value = fuelLog.truck?.brand
     heavy_vehicle_id.value = fuelLog.heavy_vehicle?.brand
     driver_id.value = fuelLog.driver.name
     station_id.value = fuelLog.station.name
     gas_operator_id.value = fuelLog.gas_operator.name
     fuel_type.value = fuelLog.fuel_type
-    volume.value = fuelLog.volume
-    odometer.value = fuelLog.odometer
-    hourmeter.value = fuelLog.hourmeter
+    volume.value = fuelLog.volume * 1
+    odometer.value = fuelLog.odometer * 1
+    hourmeter.value = fuelLog.hourmeter * 1
     remarks.value = fuelLog.remarks
 
   } catch (error) {

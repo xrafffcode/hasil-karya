@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Edit Pencatatan BBM Truk
+        Ubah Data Pengisian BBM Truk
       </h2>
 
       <VBtn
@@ -32,6 +32,20 @@
               />
             </VCol>
 
+            
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal Mulai"
+                type="datetime-local"
+                :error-messages="error && error.date ? [error.date] : []"
+              />
+            </VCol>
+
             <VCol
               cols="12"
               md="6"
@@ -39,8 +53,8 @@
               <VAutocomplete
                 v-model="gas_operator_id"
                 :items="gasOperators"
-                label="Operator"
-                placeholder="Pilih Operator"
+                label="Solar Man"
+                placeholder="Pilih Solar Man"
                 :error-messages="error && error.gas_operator_id ? [error.gas_operator_id] : []"
                 :item-title="gasOperator => gasOperator.name"
                 :item-value="gasOperator => gasOperator.id"
@@ -79,7 +93,7 @@
 
             <VCol
               cols="12"
-              md="12"
+              md="6"
             >
               <VAutocomplete
                 v-model="station_id"
@@ -205,14 +219,14 @@ const fetchFuelLogData = async () => {
     const fuelLog = await fetchFuelLog(fuelLogId)
 
     code.value = fuelLog.code
-    date.value = fuelLog.name
+    date.value = fuelLog.date
     gas_operator_id.value = fuelLog.gas_operator.id
     truck_id.value = fuelLog.truck.id
     driver_id.value = fuelLog.driver.id
     station_id.value = fuelLog.station.id
     fuel_type.value = fuelLog.fuel_type
-    volume.value = fuelLog.volume
-    odometer.value = fuelLog.odometer
+    volume.value = fuelLog.volume * 1
+    odometer.value = fuelLog.odometer * 1
     remarks.value = fuelLog.remarks
   } catch (error) {
     console.error(error)
@@ -221,7 +235,7 @@ const fetchFuelLogData = async () => {
 
 onMounted(() => {
   fetchFuelLogData()
-  document.title = 'Edit Pencatatan BBM Truk'
+  document.title = 'Ubah Data Pengisian BBM Truk'
 })
 
 const handleSubmit = () => {
