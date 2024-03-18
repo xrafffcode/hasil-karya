@@ -86,7 +86,7 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Pencatatan BBM Kendaraan
+        Pengisian BBM
       </h2>
 
       <div class="d-flex align-items-center">
@@ -95,14 +95,14 @@ onUnmounted(() => {
           color="primary"
           class="mr-5"
         >
-          Tambah Pencatatan Truk
+          Tambah Pengisian BBM Truk
         </VBtn>
 
         <VBtn
           to="/admin/fuel-log-heavy-vehicle/create"
           color="primary"
         >
-          Tambah Pencatatan Kendaraan Berat
+          Tambah Pengisian BBM Alat Berat
         </VBtn>
       </div>
     </VCol>
@@ -139,7 +139,7 @@ onUnmounted(() => {
               (KM {{ toNumeral(item.odometer) }})
             </span>
             <span v-if="item.heavy_vehicle">
-              Kendaraan Berat <br>
+              Alat Berat <br>
               (HM {{ toNumeral(item.hourmeter) }})
             </span>
           </template>

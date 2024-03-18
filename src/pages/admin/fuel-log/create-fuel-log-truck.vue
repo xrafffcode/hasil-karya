@@ -138,8 +138,8 @@ onUnmounted(() => {
             >
               <VTextField
                 v-model="date"
-                label="Tanggal Mulai"
-                placeholder="Tanggal Mulai"
+                label="Tanggal"
+                placeholder="Tanggal"
                 type="datetime-local"
                 :error-messages="error && error.date ? [error.date] : []"
               />
@@ -212,7 +212,7 @@ onUnmounted(() => {
               <VTextField
                 v-model="volume"
                 label="Volume BBM (L)"
-                placeholder="Volume BBM (L)"
+                placeholder="Masukan Volume BBM (L)"
                 :error-messages="error && error.volume ? [error.volume] : []"
                 @input="volume = volume.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
@@ -225,7 +225,7 @@ onUnmounted(() => {
               <VTextField
                 v-model="odometer"
                 label="Odometer (KM)"
-                placeholder="Odometer (KM)"
+                placeholder="Masukan Odometer (KM)"
                 :error-messages="error && error.odometer ? [error.odometer] : []"
                 @input="odometer = odometer.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
               />
