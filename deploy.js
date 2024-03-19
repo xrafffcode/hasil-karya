@@ -1,18 +1,23 @@
-import execa from 'execa'
-import fs from 'fs'
+const { execSync } = require("child_process")
+const fs = require("fs")
 
-(async () => {
-  try {
-    await execa("npm", ["run", "build"])
-    console.log("Building...")
+try {
+  execSync("git checkout --orphan gh-pages")
+  console.log("Building...")
+  execSync("npm run build")
 
-    await execa("git", ["add", "dist"])
-    await execa("git", ["commit", "-m", "deploy"])
-    await execa("git", ["push", "origin", "main"])
-    console.log("Successfully deployed")
-  } catch (e) {
-    console.log(e.message)
-    process.exit(1)
-  }
+  // Understand if it's dist or build folder
+  const folderName = fs.existsSync("dist") ? "dist" : "build"
+
+  execSync(`git --work-tree ${folderName} add --all`)
+  execSync(`git --work-tree ${folderName} commit -m "gh-pages"`)
+  console.log("Pushing to gh-pages...")
+  execSync("git push origin HEAD:gh-pages --force")
+  execSync(`rm -r ${folderName}`)
+  execSync("git checkout -f main")
+  execSync("git branch -D gh-pages")
+  console.log("Successfully deployed")
+} catch (e) {
+  console.log(e.message)
+  process.exit(1)
 }
-)()
