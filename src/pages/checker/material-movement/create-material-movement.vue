@@ -50,7 +50,7 @@ const handleSubmit = () => {
     truck_id: truck_id.value,
     station_id: station_id.value,
     checker_id: checker_id.value,
-    observation_ratio_percentage: observation_ratio_percentage.value,
+    observation_ratio_percentage: observation_ratio_percentage.value / 100,
     remarks: remarks.value,
   })
 

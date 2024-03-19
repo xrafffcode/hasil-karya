@@ -54,7 +54,7 @@ async function handleDeleteProject(project) {
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Projek'
+  document.title = 'Proyek'
 })
 
 onUnmounted(() => {
@@ -90,22 +90,22 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Projek
+        Proyek
       </h2>
 
       <VBtn
         :to="{ name: 'admin-project-create' }"
         color="primary"
       >
-        Tambah Projek
+        Tambah Proyek
       </VBtn>
     </VCol>
 
     <VCol cols="12">
       <VTextField
         v-model="search"
-        label="Cari projek"
-        placeholder="Cari projek"
+        label="Cari Proyek"
+        placeholder="Cari Proyek"
         clearable
         :loading="loading"
         variant="solo"

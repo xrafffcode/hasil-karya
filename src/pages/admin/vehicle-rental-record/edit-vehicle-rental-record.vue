@@ -239,7 +239,7 @@ const fetchVehicleRentalRecordData = async () => {
 
 const handleSubmit = () => {
   const startDateToSend = start_date.value ? start_date.value.split('T').join(' ') + ':00' : null
-  const paymentProofImageToSend = payment_proof_image.value ? payment_proof_image.value : null
+  const paymentProofImageToSend = payment_proof_image.value ? payment_proof_image.value[0] : null
 
   updateVehicleRentalRecord({
     code: code.value,
