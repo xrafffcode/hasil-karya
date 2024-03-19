@@ -1,32 +1,46 @@
-export function downloadQRCode(id) {
+import { jsPDF } from "jspdf"
+
+export function downloadQRCode(id, name) {
   const url = `https://api.qrserver.com/v1/create-qr-code/?data=${id}&size=500x500`
 
-  const win = window.open(url, '_blank')
-
-  if (win) {
-    win.focus()
-  } else {
-    alert('Please allow popups for this website')
-  }
-
+  // Fetch the QR code image
   fetch(url)
     .then(response => {
       if (response.ok) {
         return response.blob()
       } else {
-        throw new Error('Network response was not ok')
+        throw new Error("Network response was not ok")
       }
     })
     .then(blob => {
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
+      // Create a URL for the blob
+      const imageUrl = URL.createObjectURL(blob)
 
-      a.href = url
-      a.download = 'qr-code-' + id + '.png'
-      a.click()
+      // Create a new PDF document
+      const doc = new jsPDF()
 
-      URL.revokeObjectURL(url)
+      // Calculate the aspect ratio of A4 size
+      const aspectRatio = 210 / 297 // A4 dimensions: 210mm x 297mm
+      const qrSize = 160 // Adjust the QR code height as needed
+      const qrHeight = qrSize * aspectRatio
+      
+      // Calculate center position for QR code
+      const qrX = (doc.internal.pageSize.width - qrSize) / 2
+      const qrY = (doc.internal.pageSize.height - qrHeight) / 2
+
+      // Add the QR code image to the PDF
+      doc.addImage(imageUrl, "PNG", qrX, qrY, qrSize, qrHeight)
+
+      // Add name below the QR code
+      const nameX = qrX
+      const nameY = qrY + qrHeight + 10 // Adjust the vertical spacing
+
+      doc.text(name, nameX, nameY)
+
+      // Save the PDF with the QR code
+      doc.save("QRCode-" + name + ".pdf")
+
+      // Revoke the object URL to free up memory
+      URL.revokeObjectURL(imageUrl)
     })
-
-  win.close()
 }

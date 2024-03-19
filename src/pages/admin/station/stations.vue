@@ -51,8 +51,8 @@ async function handleActivateStation(station) {
 
 const search = ref('')
 
-function printQRCode(id) {
-  downloadQRCode(id)
+function printQRCode(id, name) {
+  downloadQRCode(id, 'Pos ' + name)
 }
 
 onMounted(() => {
@@ -137,7 +137,7 @@ onUnmounted(() => {
               color="info"
               size="small"
               class="m-5"
-              @click="printQRCode(item.id)"
+              @click="printQRCode(item.id, item.name)"
             >
               Print QR Code
             </VBtn>

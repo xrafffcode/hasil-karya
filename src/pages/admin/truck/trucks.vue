@@ -62,8 +62,8 @@ async function handleActivateTruck(truck) {
 
 const search = ref('')
 
-function printQRCode(id) {
-  downloadQRCode(id)
+function printQRCode(id, name) {
+  downloadQRCode(id, 'Truck ' + name)
 }
 
 
@@ -152,7 +152,7 @@ onUnmounted(() => {
               color="info"
               size="small"
               class="m-5"
-              @click="printQRCode(item.id)"
+              @click="printQRCode(item.id, item.brand + ' ' + item.model)"
             >
               Print QR Code
             </VBtn>

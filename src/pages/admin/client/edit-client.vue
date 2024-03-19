@@ -224,10 +224,20 @@ const fetchClientData = async () => {
 
     code.value = client.code
     name.value = client.name
-    province.value = client.province
-    regency.value = client.regency
-    district.value = client.district
-    subdistrict.value = client.subdistrict
+    province.value = provinces.value.find(item => item.nama === client.province)?.id
+
+    await fetchRegencies(province.value)
+
+    regency.value = regencies.value.find(item => item.nama === client.regency)?.id
+
+    await fetchDistricts(regency.value)
+
+    district.value = districts.value.find(item => item.nama === client.district)?.id
+
+    await fetchSubdistricts(district.value)
+
+    subdistrict.value = subdistricts.value.find(item => item.nama === client.subdistrict)?.id
+
     address.value = client.address
     phone.value = client.phone
     email.value = client.email

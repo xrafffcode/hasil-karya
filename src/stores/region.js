@@ -1,4 +1,3 @@
-import { Axios } from 'axios'
 import { defineStore } from 'pinia'
 
 export const useRegionStore = defineStore({
@@ -17,10 +16,15 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        const response = await Axios.get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
-      
+        fetch('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
+          .then(response => response.json())
+          .then(data => {
+            this.provinces = data.provinsi
+          })
+          .catch(error => {
+            console.error(error)
+          })
 
-        this.provinces = response.data.provinsi
       } catch (error) {
         console.error(error)
       } finally {
@@ -30,12 +34,17 @@ export const useRegionStore = defineStore({
     async fetchRegencies(provinceId) {
       try {
         this.loading = true
-    
-        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
 
-        this.regencies = response.data.kota_kabupaten
+        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.regencies = data.kota_kabupaten
 
-        this.regencies = regencies
+            this.regencies = regencies
+          })
+          .catch(error => {
+            console.error(error)
+          })
       } catch (error) {
         console.error(error)
       } finally {
@@ -45,12 +54,17 @@ export const useRegionStore = defineStore({
     async fetchDistricts(regencyId) {
       try {
         this.loading = true
-    
-        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
 
-        this.districts = response.data.kecamatan
+        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.districts = data.kecamatan
 
-        this.districts = districts
+            this.districts = districts
+          })
+          .catch(error => {
+            console.error(error)
+          })
       } catch (error) {
         console.error(error)
       } finally {
@@ -60,12 +74,17 @@ export const useRegionStore = defineStore({
     async fetchSubdistricts(districtId) {
       try {
         this.loading = true
-    
-        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
 
-        this.subdistricts = response.data.kelurahan
+        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.subdistricts = data.kelurahan
 
-        this.subdistricts = subdistricts
+            this.subdistricts = subdistricts
+          })
+          .catch(error => {
+            console.error(error)
+          })
       } catch (error) {
         console.error(error)
       } finally {
