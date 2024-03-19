@@ -768,10 +768,20 @@ const fetchProjectData = async () => {
     person_in_charge.value = project.person_in_charge
     amount.value = project.amount
     client_id.value = project.client.id
-    province.value = project.province
-    regency.value = project.regency
-    district.value = project.district
-    subdistrict.value = project.subdistrict
+    province.value = provinces.value.find(item => item.nama === project.province)?.id
+
+    await fetchRegencies(province.value)
+
+    regency.value = regencies.value.find(item => item.nama === project.regency)?.id
+
+    await fetchDistricts(regency.value)
+
+    district.value = districts.value.find(item => item.nama === project.district)?.id
+
+    await fetchSubdistricts(district.value)
+
+    subdistrict.value = subdistricts.value.find(item => item.nama === project.subdistrict)?.id
+
     status.value = project.status
     driverArr.value = project.drivers.map(item => item.id)
     truckArr.value = project.trucks.map(item => item.id)
