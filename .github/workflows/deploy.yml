@@ -1,32 +1,36 @@
-name: CI/CD for Vue.js
+name: Build and push to staging branch
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main  # Triggers the workflow on each push to the 'develop' branch.
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+        steps:
+        - name: Checkout Repo  # Checks out the repository.
+          uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+        - name: Create Node Environment  # Sets up Node.js environment.
+          uses: actions/setup-node@v4
+          with: 
+            node-version: 16.x
+            
+        - name: Install Dependencies  # Installs the project dependencies.
+          run: |
+            npm install
+            npm run build
 
-    - name: Install dependencies
-      run: npm install
+        - name: Push to Staging  # Pushes the build to the 'staging' branch.
+          run: |
+            git config --global user.email "yusfiwawan2@gmail.com"
+            git config --global user.name "xrafffcode"
+            git add .
+            git commit -m "Deploy to Staging"
+            git push origin main:staging
+            
 
-    - name: Build
-      run: npm run build
-
-    - name: Deployment to staging
-      if: github.ref == 'refs/heads/main'
-      run: |
-        echo "Deploying to staging"
-        git push origin main:staging
+ 
 
