@@ -2,6 +2,8 @@ name: CI/CD for Vue.js
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   build_and_deploy:
@@ -14,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '18'
 
     - name: Install dependencies
       run: npm install
@@ -26,3 +28,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         echo "Deploying to staging"
+        git push origin main:staging
+
