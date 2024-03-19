@@ -257,7 +257,7 @@
             >
               <VSelect
                 v-model="heavyVehicles"
-                label="Kendaraan Berat"
+                label="Alat Berat"
                 :items="heavyVehicles"
                 :item-title="item => item.brand + ' ' + item.model"
                 :item-value="item => item.id"
@@ -402,7 +402,7 @@ const fetchProjectData = async () => {
     status.value = project.status
     drivers.value = project.drivers
     trucks.value = project.trucks
-    heavyVehicles.value = project.heavyVehicles
+    heavyVehicles.value = project.heavy_vehicles
     stations.value = project.stations
     checkers.value = project.checkers
     technicalAdmins.value = project.technical_admins

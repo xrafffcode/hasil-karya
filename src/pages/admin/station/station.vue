@@ -182,6 +182,7 @@ const province = ref(null)
 const regency = ref(null)
 const district = ref(null)
 const subdistrict = ref(null)
+const address = ref('')
 const category = ref('')
 const material = ref('')
 
@@ -197,8 +198,9 @@ const fetchStationData = async () => {
     regency.value =   station.regency
     district.value = station.district
     subdistrict.value = station.subdistrict
+    address.value = station.address
     category.value = station.category
-    material.value = station.material.name
+    material.value = station.material?.name
   } catch (error) {
     console.error(error)
   }

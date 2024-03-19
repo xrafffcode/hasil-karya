@@ -60,18 +60,6 @@
                     md="6"
                   >
                     <VTextField
-                      v-model="description"
-                      label="Deskripsi"
-                      placeholder="Deskripsi Projek"
-                      :error-messages="error && error.description ? [error.description] : []"
-                    />
-                  </VCol>
-
-                  <VCol
-                    cols="12"
-                    md="6"
-                  >
-                    <VTextField
                       v-model="start_date"
                       label="Tanggal Mulai"
                       placeholder="Tanggal Mulai Projek"
@@ -140,7 +128,7 @@
 
                   <VCol
                     cols="12"
-                    md="12"
+                    md="6"
                   >
                     <VAutocomplete
                       v-model="status"
@@ -148,6 +136,18 @@
                       :items="projectStatus"
                       :item-title="item => item.name"
                       :error-messages="error && error.status ? [error.status] : []"
+                    />
+                  </VCol>
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VTextarea
+                      v-model="description"
+                      label="Deskripsi"
+                      placeholder="Deskripsi Projek"
+                      :error-messages="error && error.description ? [error.description] : []"
                     />
                   </VCol>
                 </VRow>
@@ -661,6 +661,15 @@
                       class="float-right"
                     >
                       Simpan
+                    </VBtn>
+
+                    <VBtn
+                      type="reset"
+                      color="error"
+                      class="float-right mr-2"
+                      @click="handleReset"
+                    >
+                      Reset
                     </VBtn>
                   </VCol>
                 </VRow>

@@ -242,18 +242,6 @@ watch(district, value => {
                     md="6"
                   >
                     <VTextField
-                      v-model="description"
-                      label="Deskripsi"
-                      placeholder="Deskripsi Projek"
-                      :error-messages="error && error.description ? [error.description] : []"
-                    />
-                  </VCol>
-
-                  <VCol
-                    cols="12"
-                    md="6"
-                  >
-                    <VTextField
                       v-model="start_date"
                       label="Tanggal Mulai"
                       placeholder="Tanggal Mulai Projek"
@@ -322,7 +310,7 @@ watch(district, value => {
 
                   <VCol
                     cols="12"
-                    md="12"
+                    md="6"
                   >
                     <VAutocomplete
                       v-model="status"
@@ -330,6 +318,19 @@ watch(district, value => {
                       :items="projectStatus"
                       :item-title="item => item.name"
                       :error-messages="error && error.status ? [error.status] : []"
+                    />
+                  </VCol>
+
+
+                  <VCol
+                    cols="12"
+                    md="12"
+                  >
+                    <VTextarea
+                      v-model="description"
+                      label="Deskripsi"
+                      placeholder="Deskripsi Projek"
+                      :error-messages="error && error.description ? [error.description] : []"
                     />
                   </VCol>
                 </VRow>
