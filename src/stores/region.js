@@ -1,4 +1,4 @@
-import axios from '@axios'
+import { Axios } from 'axios'
 import { defineStore } from 'pinia'
 
 export const useRegionStore = defineStore({
@@ -17,7 +17,7 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        const response = await axios.get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
+        const response = await Axios.get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
       
 
         this.provinces = response.data.provinsi
@@ -31,7 +31,7 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
+        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
 
         this.regencies = response.data.kota_kabupaten
 
@@ -46,7 +46,7 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
+        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
 
         this.districts = response.data.kecamatan
 
@@ -61,7 +61,7 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
     
-        const response = await axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
+        const response = await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
 
         this.subdistricts = response.data.kelurahan
 

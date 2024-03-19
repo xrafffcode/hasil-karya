@@ -49,7 +49,7 @@ const handleSubmit = () => {
     rental_cost: rental_cost.value.replace(/\D/g, ''),
     is_paid: is_paid.value,
     remarks: remarks.value,
-    payment_proof_image: payment_proof_image.value[0],
+    payment_proof_image: payment_proof_image,
   })
 }
 
@@ -61,6 +61,10 @@ onUnmounted(() => {
   handleReset()
   error.value = null
 })
+
+const handleFileInput = e => {
+  payment_proof_image.value = e.target.files[0]
+}
 </script>
 
 
@@ -202,13 +206,14 @@ onUnmounted(() => {
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VFileInput
                 v-model="payment_proof_image"
                 label="Bukti Pembayaran"
                 placeholder="Pilih Berkas"
                 :error-messages="error && error.payment_proof_image ? [error.payment_proof_image] : []"
+                @change="handleFileInput"
               />
             </VCol>
 
