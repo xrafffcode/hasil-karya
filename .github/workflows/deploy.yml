@@ -23,10 +23,7 @@ jobs:
           npm install
           npm run build
 
-      - name: Push to Staging
+      - name: Create Staging Branch
         run: |
-          git config --global user.email "yusfiwawan2@gmail.com"
-          git config --global user.name "xrafffcode"
-          git add .
-          git commit -m "Deploy to Staging"
-          git push origin staging
+          git checkout -b staging
+          git push -u origin staging
