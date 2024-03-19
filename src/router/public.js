@@ -1,7 +1,7 @@
 const publicRouter = [
   {
     path: '',
-    component: () => import('../pages/home.vue'),
+    redirect: 'admin/dashboard',
   },
 ]
 
