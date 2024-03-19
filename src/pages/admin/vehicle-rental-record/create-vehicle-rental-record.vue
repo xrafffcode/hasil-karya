@@ -26,6 +26,7 @@ const rental_cost = ref('')
 const is_paid = ref(0)
 const remarks = ref('')
 const payment_proof_image = ref(null)
+const payment_proof_image_name = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
@@ -40,8 +41,6 @@ const handleReset = () => {
 }
 
 const handleSubmit = () => {
-  const paymentProofImageToSend = payment_proof_image.value ? payment_proof_image.value[0] : null
-
   createVehicleRentalRecord({
     code: code.value,
     truck_id: truck_id.value,
@@ -51,7 +50,7 @@ const handleSubmit = () => {
     rental_cost: rental_cost.value.replace(/\D/g, ''),
     is_paid: is_paid.value,
     remarks: remarks.value,
-    payment_proof_image: payment_proof_image,
+    payment_proof_image: payment_proof_image.value,
   })
 }
 
@@ -64,14 +63,31 @@ onUnmounted(() => {
   error.value = null
 })
 
-const handleFileInput = e => {
-  payment_proof_image.value = e.target.files[0]
+const handleFileChange = e => {
+  const file = e.target.files[0]
+
+  if (file) {
+    payment_proof_image.value = file
+    payment_proof_image_name.value = file.name
+  }
 }
 </script>
 
 
 <template>
   <VRow>
+    <VAlert
+      v-if="error && !error.code && !error.truck_id && !error.heavy_vehicle_id && !error.start_date && !error.rental_duration && !error.rental_cost && !error.is_paid && !error.remarks && !error.payment_proof_image"
+      type="warning"
+      closable
+      close-icon="mdi-close"
+      close-label="Tutup"
+      elevation="2"
+    >
+      {{ error }}
+    </VAlert>
+
+
     <VCol
       cols="12"
       class="d-flex justify-space-between align-items-center"
@@ -110,6 +126,7 @@ const handleFileInput = e => {
             >
               <VAutocomplete
                 v-model="truck_id"
+                clearable
                 :items="trucks"
                 :item-title="item => item.brand + ' ' + item.model"
                 :item-value="item => item.id"
@@ -125,6 +142,8 @@ const handleFileInput = e => {
             >
               <VAutocomplete
                 v-model="heavy_vehicle_id"
+
+                clearable
                 :items="heavyVehicles"
                 :item-title="item => item.brand + ' ' + item.model"
                 :item-value="item => item.id"
@@ -211,11 +230,11 @@ const handleFileInput = e => {
               md="12"
             >
               <VFileInput
-                v-model="payment_proof_image"
+                v-model="payment_proof_image_name"
                 label="Bukti Pembayaran"
                 placeholder="Pilih Berkas"
                 :error-messages="error && error.payment_proof_image ? [error.payment_proof_image] : []"
-                @change="handleFileInput"
+                @change="handleFileChange"
               />
             </VCol>
 
