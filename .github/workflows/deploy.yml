@@ -24,11 +24,9 @@ jobs:
           npm run build
 
       - name: Push to Staging
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Menggunakan token GitHub bawaan
         run: |
           git config --global user.email "yusfiwawan2@gmail.com"
           git config --global user.name "xrafffcode"
           git add .
           git commit -m "Deploy to Staging"
-          git push origin main:staging
+          git push origin staging
