@@ -87,7 +87,7 @@ onUnmounted(() => {
       </h2>
 
       <VBtn
-        :to="{ name: 'admin-client-create' }"
+        to="/admin/client/create"
         color="primary"
       >
         Tambah Client

@@ -1,21 +1,21 @@
 const adminClientRoutes = [
   {
-    path: 'client',
+    path: '/admin/client',
     component: () => import('../pages/admin/client/clients.vue'),
     name: 'admin-client',
   },
   {
-    path: 'client/:id',
+    path: '/admin/client/:id',
     component: () => import('../pages/admin/client/client.vue'),
     name: 'admin-client-view',
   },
   {
-    path: 'client/create',
+    path: '/admin/client/create',
     component: () => import('../pages/admin/client/create-client.vue'),
     name: 'admin-client-create',
   },
   {
-    path: 'client/:id/edit',
+    path: '/admin/client/:id/edit',
     component: () => import('../pages/admin/client/edit-client.vue'),
     name: 'admin-client-edit',
   },

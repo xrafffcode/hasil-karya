@@ -41,8 +41,8 @@
                 v-model="date"
                 label="Tanggal"
                 placeholder="Tanggal Mulai"
-                type="datetime-local"
                 :error-messages="error && error.date ? [error.date] : []"
+                type="datetime-local"
               />
             </VCol>
 

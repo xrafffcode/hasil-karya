@@ -39,7 +39,7 @@
               <VTextField
                 v-model="date"
                 label="Tanggal"
-                placeholder="Tanggal Material Movement"
+                placeholder="Masukan Tanggal"
                 :error-messages="error && error.date ? [error.date] : []"
                 type="datetime-local"
               />
@@ -184,8 +184,10 @@ import { useCheckerStore } from '@/stores/checker'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useDate } from 'vuetify'
 
 const route = useRoute()
+const adapter = useDate()
 
 const { drivers } = storeToRefs(useDriverStore())
 const { trucks } = storeToRefs(useTruckStore())
@@ -208,7 +210,7 @@ const { fetchMaterialMovement, updateMaterialMovement } = useMaterialMovementSto
 const materialMovementId = route.params.id
 
 const code = ref('')
-const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
+const date = ref('')
 const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
@@ -221,6 +223,8 @@ const payment_proof_image = ref(null)
 const fetchMaterialMovementData = async () => {
   try {
     const materialMovementData = await fetchMaterialMovement(materialMovementId)
+
+    console.log(adapter.parseISO(materialMovementData.date))
 
     code.value = materialMovementData.code
     date.value = materialMovementData.date
@@ -258,7 +262,7 @@ const handleSubmit = () => {
   updateMaterialMovement({
     id: materialMovementId,
     code: code.value,
-    date: date.value.split('T').join(' ') + ':00',
+    date: date.value,
     driver_id: driver_id.value,
     truck_id: truck_id.value,
     station_id: station_id.value,

@@ -40,16 +40,18 @@ const handleReset = () => {
 }
 
 const handleSubmit = () => {
+  const paymentProofImageToSend = payment_proof_image.value ? payment_proof_image.value[0] : null
+
   createVehicleRentalRecord({
     code: code.value,
     truck_id: truck_id.value,
     heavy_vehicle_id: heavy_vehicle_id.value,
-    start_date: start_date.value.split('T').join(' ') + ':00',
+    start_date: start_date.value,
     rental_duration: rental_duration.value.replace(/\D/g, ''),
     rental_cost: rental_cost.value.replace(/\D/g, ''),
     is_paid: is_paid.value,
     remarks: remarks.value,
-    payment_proof_image: payment_proof_image.value[0],
+    payment_proof_image: paymentProofImageToSend,
   })
 }
 

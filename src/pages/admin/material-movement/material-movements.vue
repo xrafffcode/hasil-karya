@@ -1,11 +1,11 @@
 <script setup>
 import { useMaterialMovementStore } from '@/stores/materialMovement'
-import { toNumeral, toPercentage } from '@/@core/utils/formatters'
+import { toNumeral, toPercentage, formatDate } from '@/@core/utils/formatters'
 
 const headers = [
   {
     text: 'Tanggal',
-    value: 'formatted_date',
+    value: 'date',
   }, 
   {
     text: 'Driver',
@@ -144,6 +144,10 @@ onUnmounted(() => {
           show-index
           class="data-table"
         >
+          <template #item-date="item">
+            {{ formatDate(item.date) }}
+          </template>
+
           <template #item-observation_ratio_percentage="item">
             {{ toPercentage(item.observation_ratio_percentage) }}
           </template>
