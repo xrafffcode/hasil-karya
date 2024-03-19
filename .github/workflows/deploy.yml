@@ -1,29 +1,20 @@
-name: Build and push to staging branch
-
-on:
-  push:
-    branches:
-      - main  # Triggers the workflow on each push to the 'main' branch.
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Create Node Environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16.x
-            
-      - name: Install Dependencies
-        run: |
-          npm install
-          npm run build
-
-      - name: Create Staging Branch
-        run: |
-          git checkout -b staging
-          git push -u origin staging
+name: Deploy to Github 
+  on:
+    push:
+      branches:
+        - main
+  jobs:
+    gh-pages-deploy:
+      name: Deploying to Github 
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v2
+          - uses: actions/setup-node@v2
+            with:
+              node-version: '18'
+          - name: Install packages
+            run: npm i
+          - name: Set Creds
+            run: git config user.name "xrafffcode" && git config user.email "yusfiwawan2@gmail.com"
+          - name: Deploy
+            run: npm run deploy
