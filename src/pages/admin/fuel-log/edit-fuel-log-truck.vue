@@ -253,6 +253,10 @@ const handleSubmit = () => {
     remarks: remarks.value,
   })
 }
+
+const handleReset = () => {
+  fetchFuelLogData()
+}
 </script>
 
 <style lang="scss">

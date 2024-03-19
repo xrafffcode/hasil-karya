@@ -119,6 +119,10 @@ const handleSubmit = () => {
     is_active: is_active.value,
   })
 }
+
+const handleReset = () => {
+  fetchDriverData()
+}
 </script>
 
 <style lang="scss">

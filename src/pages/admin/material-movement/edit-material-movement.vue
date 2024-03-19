@@ -246,18 +246,6 @@ onMounted(() => {
   document.title = 'Edit Material Movement'
 })
 
-const handleReset = () => {
-  code.value = ''
-  date.value = ''
-  driver_id.value = ''
-  truck_id.value = ''
-  station_id.value = ''
-  checker_id.value = ''
-  observation_ratio_percentage.value = ''
-  solid_ratio.value = ''
-  remarks.value = ''
-}
-
 const handleSubmit = () => {
   updateMaterialMovement({
     id: materialMovementId,
@@ -274,9 +262,12 @@ const handleSubmit = () => {
 }
 
 onUnmounted(() => {
-  handleReset()
   error.value = null
 })
+
+const handleReset = () => {
+  fetchMaterialMovementData()
+}
 </script>
 
 <style lang="scss">

@@ -151,6 +151,10 @@ const handleSubmit = () => {
     is_active: is_active.value,
   })
 }
+
+const handleReset = () => {
+  fetchGasOperatorData()
+}
 </script>
 
 <style lang="scss">

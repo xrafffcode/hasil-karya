@@ -155,6 +155,10 @@ const handleSubmit = () => {
     is_active: is_active.value,
   })
 }
+
+const handleReset = () => {
+  fetchVendorData()
+}
 </script>
 
 <style lang="scss">

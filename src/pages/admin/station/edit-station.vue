@@ -274,6 +274,10 @@ watch(regency, value => {
 watch(district, value => {
   fetchSubdistricts(value)
 })
+
+const handleReset = () => {
+  fetchStationData()
+}
 </script>
 
 <style lang="scss">
