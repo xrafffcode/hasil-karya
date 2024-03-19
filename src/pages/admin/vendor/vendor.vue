@@ -52,9 +52,9 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
-              <VTextField
+              <VTextarea
                 v-model="address"
                 label="Alamat"
                 placeholder="Alamat Vendor"
@@ -67,7 +67,7 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VTextField
                 v-model="phone"
