@@ -1,20 +1,28 @@
-name: Deploy to Github Pages
+name: CI/CD for Vue.js
+
 on:
-    push:
-        branches:
-            - staging
+  push:
+
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-            - name: Setup Node.js
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 12
-            - name: Install dependencies
-              run: npm install
-            - name: Build
-              run: npm run build
-            
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deployment to staging
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying to staging"
