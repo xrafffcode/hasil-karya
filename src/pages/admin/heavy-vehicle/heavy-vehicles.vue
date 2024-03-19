@@ -58,8 +58,8 @@ async function handleActivateHeavyVehicle(heavyVehicle) {
 
 const search = ref('')
 
-function printQRCode(id) {
-  downloadQRCode(id)
+function printQRCode(id, name) {
+  downloadQRCode(id, 'Alat Berat ' + name)
 }
 
 onMounted(() => {
@@ -144,7 +144,7 @@ onUnmounted(() => {
               color="info"
               size="small"
               class="m-5"
-              @click="printQRCode(item.id)"
+              @click="printQRCode(item.id, item.brand + ' ' + item.model)"
             >
               Print QR Code
             </VBtn>
