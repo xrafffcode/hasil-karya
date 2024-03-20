@@ -53,8 +53,8 @@ async function handleActivateDriver(driver) {
 
 const search = ref('')
 
-function printQRCode(id) {
-  downloadQRCode(id)
+function printQRCode(id, name) {
+  downloadQRCode(id, 'Driver ' + name)
 }
 
 onMounted(() => {
@@ -139,7 +139,7 @@ onUnmounted(() => {
               color="info"
               size="small"
               class="m-5"
-              @click="printQRCode(item.id)"
+              @click="printQRCode(item.id, item.name)"
             >
               Print QR Code
             </VBtn>
