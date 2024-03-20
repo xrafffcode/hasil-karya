@@ -6,7 +6,6 @@ const headers = [
   {
     text: 'Kode',
     value: 'code',
-    width: 100,
   },
   {
     text: 'Jenis Kendaraan',
@@ -33,8 +32,14 @@ const headers = [
     value: 'rental_cost',
   },
   {
-    text: 'Status Bayar',
+    text: 'Status Jatuh Tempo',
+    value: 'due_status',
+    width: 100,
+  }, 
+  {
+    text: 'Status Pelunasan',
     value: 'is_paid',
+    width: 100,
   },
   {
     text: 'Bukti Pembayaran',
