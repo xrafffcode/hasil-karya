@@ -11,6 +11,7 @@ import '@/assets/css/admin-custom.css'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import Vue3EasyDataTable from 'vue3-easy-data-table'
+import VueApexCharts from "vue3-apexcharts"
 import 'vue3-easy-data-table/dist/style.css'
 
 loadFonts()
@@ -23,6 +24,7 @@ app.use(vuetify)
 app.use(createPinia())
 app.use(router)
 app.use(Vue3EasyDataTable)
+app.use(VueApexCharts)
 
 app.component('EasyDataTable', Vue3EasyDataTable)
 
