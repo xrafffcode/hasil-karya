@@ -31,6 +31,10 @@ const is = roles => {
       icon: 'bx-data',
       children: [
         {
+          title: 'Penerima Notifikasi',
+          to: '/admin/notification-recepient',
+        },
+        {
           title: 'Pelanggan',
           to: '/admin/client',
         },

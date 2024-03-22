@@ -58,21 +58,26 @@ async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, char
 
   chartOptions.value = {
     chart: {
-      width: 500,
+      width: '100%',
       type: 'pie',
     },
+    legend: {
+      position: 'right',
+    },
     labels: data.map(item => item.station),
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200,
-        },
-        legend: {
-          position: 'bottom',
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: '100%',
+          },
+          legend: {
+            position: 'bottom',
+          },
         },
       },
-    }],
+    ],
   }
   chartSeries.value = data.map(item => item.value)
 }
@@ -165,7 +170,7 @@ onMounted(() => {
         lg="6"
       >
         <VCard class="pa-3">
-          <h3>Mumet 1 Turuk</h3>
+          <h3>Mumet 1 Truk</h3>
           <div class="d-flex gap-3 mt-3">
             <div
               v-for="datePeriod in datePeriods"

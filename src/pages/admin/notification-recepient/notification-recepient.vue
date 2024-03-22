@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Edit Checker
+        Checker
       </h2>
 
       <VBtn
@@ -18,7 +18,7 @@
 
     <VCol cols="12">
       <VCard>
-        <VForm @submit.prevent="handleSubmit">
+        <VForm>
           <VRow>
             <VCol
               cols="12"
@@ -31,6 +31,7 @@
                 :error-messages="error && error.code ? [error.code] : []"
                 :disabled="loading"
                 :loading="loading"
+                readonly
               />
             </VCol>
 
@@ -45,56 +46,23 @@
                 :error-messages="error && error.name ? [error.name] : []"
                 :disabled="loading"
                 :loading="loading"
+                readonly
               />
             </VCol>
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VTextField
                 v-model="email"
                 label="Email"
                 placeholder="Email Checker"
                 :error-messages="error && error.email ? [error.email] : []"
-                disabled
-                :loading="loading"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="password"
-                label="Password"
-                placeholder="Password Checker"
-                :error-messages="error && error.password ? [error.password] : []"
                 :disabled="loading"
                 :loading="loading"
+                readonly
               />
-            </VCol>
-
-            <VCol
-              cols="12"
-              class="d-flex gap-4"
-            >
-              <VBtn
-                type="submit"
-                :loading="loading"
-                color="primary"
-              >
-                Simpan
-              </VBtn>
-
-              <VBtn
-                color="secondary"
-                variant="tonal"
-                @click="handleReset"
-              >
-                Reset
-              </VBtn>
             </VCol>
           </VRow>
         </VForm>
@@ -112,7 +80,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const { loading, error } = storeToRefs(useCheckerStore())
-const { fetchChecker, updateChecker } = useCheckerStore()
+const { fetchChecker } = useCheckerStore()
 
 const checkerId = route.params.id
 
@@ -129,7 +97,6 @@ const fetchCheckerData = async () => {
     code.value = checker.code
     name.value = checker.name
     email.value = checker.email
-    is_active.value = checker.is_active === true ? 1 : 0
   } catch (error) {
     console.error(error)
   }
@@ -138,23 +105,8 @@ const fetchCheckerData = async () => {
 onMounted(() => {
   fetchCheckerData()
 
-  document.title = 'Edit Checker'
+  document.title = 'Checker'
 })
-
-const handleSubmit = () => {
-  updateChecker({
-    id: checkerId,
-    code: code.value,
-    name: name.value,
-    email: email.value,
-    password: password.value,
-    is_active: is_active.value,
-  })
-}
-
-const handleReset = () => {
-  fetchCheckerData()
-}
 </script>
 
 <style lang="scss">
