@@ -1,7 +1,6 @@
 <script setup>
-import { useMaterialMovementErrorLogStore } from '@/stores/materialMovementErrorLog'
-import { formatDate } from '@/@core/utils/formatters'
-
+import { useFuelLogErrorLogStore } from '@/stores/fuelLogErrorLog'
+import { toNumeral, formatDate } from '@/@core/utils/formatters'
 
 const headers = [
   {
@@ -20,15 +19,15 @@ const headers = [
   },
 ]
 
-const { movements, loading, error, success } = storeToRefs(useMaterialMovementErrorLogStore())
-const { fetchMaterialMovementErrorLogs } = useMaterialMovementErrorLogStore()
+const { fuelLogErrorLogs, loading, error, success } = storeToRefs(useFuelLogErrorLogStore())
+const { fetchFuelLogErrorLogs } = useFuelLogErrorLogStore()
 
-fetchMaterialMovementErrorLogs()
+fetchFuelLogErrorLogs()
 
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Error Logs Perpindahan Material'
+  document.title = 'Error Logs Pengisian Bahan Bakar'
 })
 
 onUnmounted(() => {
@@ -53,7 +52,7 @@ onUnmounted(() => {
   <VRow>
     <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Error Logs Perpindahan Material
+        Error Logs Pencatatan Bahan Bakar
       </h2>
     </VCol>
 
@@ -64,14 +63,14 @@ onUnmounted(() => {
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable :headers="headers" :items="movements" :loading="loading" :search-value="search" button-pagination
-          show-index class="data-table">
+        <EasyDataTable :headers="headers" :items="fuelLogErrorLogs" :loading="loading" :search-value="search"
+          button-pagination show-index class="data-table">
           <template #item-created_at="item">
             {{ formatDate(item.created_at) }}
           </template>
 
           <template #item-operation="item">
-            <VBtn :to="{ name: 'admin-material-movement-error-log-view', params: { id: item.id } }" color="info"
+            <VBtn :to="{ name: 'admin-fuel-log-error-log-view', params: { id: item.id } }" color="info"
               size="small">
               Detail
             </VBtn>

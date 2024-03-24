@@ -100,7 +100,7 @@ const is = roles => {
           to: '/admin/heavy-vehicle',
         },
         {
-          title: 'Pengisian BBM',
+          title: 'Pengisian Bahan Bakar',
           to: '/admin/fuel-log',
         },
         {
@@ -167,8 +167,8 @@ const is = roles => {
         },
 
         {
-          title: 'Penerima Notifikasi',
-          to: '/admin/notification-recepient',
+          title: 'Pengisian Bahan Bakar',
+          to: '/admin/fuel-log-error-log',
         },
       ],
     }"
