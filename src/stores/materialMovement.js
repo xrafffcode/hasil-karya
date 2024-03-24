@@ -100,5 +100,57 @@ export const useMaterialMovementStore = defineStore({
         this.loading = false
       }
     },
+    async fetchStatisticTruckPerDayByStation(params) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.get('/material-movements/read/statistic-truck-per-day-by-station', { params })
+        
+        return response.data.data.original
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchStatisticRitagePerDayByStation(params) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.get('/material-movements/read/statistic-ritage-per-day-by-station', { params })
+        
+        return response.data.data.original
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchStatisticMeasurementVolumeByStation(params) {
+      try {
+        this.loading = true
+  
+        const response = await axiosInstance.get('/material-movements/read/statistic-measurement-volume-by-station', { params })
+        
+        return response.data.data.original
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchStatisticRitageVolumeByStation(params) {
+      try {
+        this.loading = true
+  
+        const response = await axiosInstance.get('/material-movements/read/statistic-ritage-volume-by-station', { params })
+        
+        return response.data.data.original
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
   },
 })

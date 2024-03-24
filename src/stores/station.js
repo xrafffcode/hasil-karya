@@ -40,6 +40,21 @@ export const useStationStore = defineStore({
         this.loading = false
       }
     },
+    async fetchStationCategoriesWithoutGas() {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.get('/station/read/categories')
+
+        this.categories = response.data.data.filter(category => category.name !== 'Gas')
+
+        return this.categories
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
     async fetchStation(id) {
       try {
         this.loading = true

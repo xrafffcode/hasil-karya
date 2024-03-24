@@ -36,13 +36,13 @@ const headers = [
 
   },
   {
-    text: 'Kapasitas Truk',
-    value: 'truck_capacity',
+    text: 'Presentase Rasio Index',
+    value: 'observation_ratio_percentage',
     width: 200,
   },
   {
-    text: 'Presentase Rasio Index',
-    value: 'observation_ratio_percentage',
+    text: 'Kapasitas Truk',
+    value: 'truck_capacity',
     width: 200,
   },
   {

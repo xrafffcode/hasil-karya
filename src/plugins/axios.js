@@ -1,4 +1,3 @@
-// eslint-disable-next-line regex/invalid
 import axios from 'axios'
 
 const token = localStorage.getItem('token')

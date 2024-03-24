@@ -1,4 +1,30 @@
 <template>
+  <VDialog
+    v-if="showPaymentProofImage"
+    v-model="showPaymentProofImage"
+    width="500"
+  >
+    <VCard>
+      <div class="d-flex justify-space-between align-center pa-4">
+        Bukti Pembayaran
+
+        <VSpacer />
+
+       
+        <VIcon @click="togglePaymentProofImage">
+          mdi-close
+        </VIcon>
+      </div>
+
+      <VImg
+        :src="payment_proof_image_url"
+        width="100%"
+        height="auto"
+        alt="Bukti Pembayaran"
+      />
+    </VCard>
+  </VDialog>
+
   <VRow>
     <VCol
       cols="12"
@@ -160,14 +186,13 @@
               cols="12"
               md="6"
             >
-              <p>Bukti Pembayaran</p> 
-              <VImg
+              <VBtn
                 v-if="payment_proof_image"
-                :src="payment_proof_image_url"
-                width="100"
-                height="100"
-                alt="Bukti Pembayaran"
-              />
+                color="primary"
+                @click="togglePaymentProofImage"
+              >
+                Lihat Bukti Pembayaran
+              </VBtn>
             </VCol>
           </VRow>
         </VForm>
@@ -228,6 +253,12 @@ onMounted(() => {
 
   document.title = 'Detail Penyewaan Kendaraan'
 })
+
+const showPaymentProofImage = ref(false)
+
+const togglePaymentProofImage = () => {
+  showPaymentProofImage.value = !showPaymentProofImage.value
+}
 </script>
 
 <style lang="scss">

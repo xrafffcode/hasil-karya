@@ -5,11 +5,11 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Edit Driver
+        Checker
       </h2>
 
       <VBtn
-        :to="{ name: 'admin-driver' }"
+        to="/admin/checker"
         color="primary"
       >
         Kembali
@@ -18,7 +18,7 @@
 
     <VCol cols="12">
       <VCard>
-        <VForm @submit.prevent="handleSubmit">
+        <VForm>
           <VRow>
             <VCol
               cols="12"
@@ -31,6 +31,7 @@
                 :error-messages="error && error.code ? [error.code] : []"
                 :disabled="loading"
                 :loading="loading"
+                readonly
               />
             </VCol>
 
@@ -45,29 +46,23 @@
                 :error-messages="error && error.name ? [error.name] : []"
                 :disabled="loading"
                 :loading="loading"
+                readonly
               />
             </VCol>
 
             <VCol
               cols="12"
-              class="d-flex gap-4"
+              md="12"
             >
-              <VBtn
-                type="submit"
+              <VTextField
+                v-model="email"
+                label="Email"
+                placeholder="Email Checker"
+                :error-messages="error && error.email ? [error.email] : []"
+                :disabled="loading"
                 :loading="loading"
-                color="primary"
-              >
-                Simpan
-              </VBtn>
-
-              <VBtn
-                type="reset"
-                color="secondary"
-                variant="tonal"
-                @click="handleReset"
-              >
-                Reset
-              </VBtn>
+                readonly
+              />
             </VCol>
           </VRow>
         </VForm>
@@ -77,52 +72,41 @@
 </template>
 
 <script setup>
-import { useDriverStore } from '@/stores/driver'
+import { useCheckerStore } from '@/stores/checker'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useDriverStore())
-const { fetchDriver, updateDriver } = useDriverStore()
+const { loading, error } = storeToRefs(useCheckerStore())
+const { fetchChecker } = useCheckerStore()
 
-const driverId = route.params.id
+const checkerId = route.params.id
 
 const code = ref('')
 const name = ref('')
+const email = ref('')
+const password = ref('')
 const is_active = ref(0)
 
-const fetchDriverData = async () => {
+const fetchCheckerData = async () => {
   try {
-    const driver = await fetchDriver(driverId)
+    const checker = await fetchChecker(checkerId)
 
-    code.value = driver.code
-    name.value = driver.name
-    is_active.value = driver.is_active === true ? 1 : 0
+    code.value = checker.code
+    name.value = checker.name
+    email.value = checker.email
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchDriverData()
+  fetchCheckerData()
 
-  document.title = 'Edit Driver'
+  document.title = 'Checker'
 })
-
-const handleSubmit = () => {
-  updateDriver({
-    id: driverId,
-    code: code.value,
-    name: name.value,
-    is_active: is_active.value,
-  })
-}
-
-const handleReset = () => {
-  fetchDriverData()
-}
 </script>
 
 <style lang="scss">

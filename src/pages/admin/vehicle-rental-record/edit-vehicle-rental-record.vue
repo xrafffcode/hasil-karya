@@ -261,19 +261,6 @@ onMounted(() => {
   document.title = 'Edit Penyewaan Kendaraan'
 })
 
-const handleReset = () => {
-  code.value = 'AUTO'
-  truck_id.value = null
-  heavy_vehicle_id.value = null
-  start_date.value = null
-  rental_duration.value = null
-  rental_cost.value = null
-  is_paid.value = 0
-  remarks.value = ''
-  payment_proof_image.value = null
-  payment_proof_image_url.value = null
-}
-
 onMounted(() => {
   fetchVehicleRentalRecordData()
 
@@ -281,9 +268,12 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  handleReset()
   error.value = null
 })
+
+const handleReset = () => {
+  fetchVehicleRentalRecordData()
+}
 </script>
 
 <style lang="scss">
