@@ -1,17 +1,11 @@
 <template>
   <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
-    >
+    <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
-        Material Movement
+        Detail Perpindahan Material
       </h2>
 
-      <VBtn
-        :to="{ name: 'admin-material-movement' }"
-        color="primary"
-      >
+      <VBtn :to="{ name: 'admin-material-movement' }" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -20,170 +14,68 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Material Movement"
-                :error-messages="error && error.code ? [error.code] : []"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="code" label="Kode" placeholder="Kode Material Movement"
+                :error-messages="error && error.code ? [error.code] : []" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                :error-messages="error && error.date ? [error.date] : []"
-                type="datetime-local"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="date" label="Tanggal" placeholder="Tanggal Material Movement"
+                :error-messages="error && error.date ? [error.date] : []" type="datetime-local" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="driver_id"
-                :items="drivers"
-                label="Driver"
-                placeholder="Pilih Driver"
-                :error-messages="error && error.driver_id ? [error.driver_id] : []"
-                :item-title="driver => driver.name"
-                :item-value="driver => driver.id"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VSelect v-model="driver_id" :items="drivers" label="Driver" placeholder="Pilih Driver"
+                :error-messages="error && error.driver_id ? [error.driver_id] : []" :item-title="driver => driver.name"
+                :item-value="driver => driver.id" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="truck_id"
-                :items="trucks"
-                label="Truck"
-                placeholder="Pilih Truck"
-                :error-messages="error && error.truck_id ? [error.truck_id] : []"
-                :item-title="truck => truck.name"
-                :item-value="truck => truck.id"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VSelect v-model="truck_id" :items="trucks" label="Truck" placeholder="Pilih Truck"
+                :error-messages="error && error.truck_id ? [error.truck_id] : []" :item-title="truck => truck.name"
+                :item-value="truck => truck.id" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="station_id"
-                :items="stations"
-                label="POS"
-                placeholder="Pilih POS"
+            <VCol cols="12" md="6">
+              <VSelect v-model="station_id" :items="stations" label="POS" placeholder="Pilih POS"
                 :error-messages="error && error.station_id ? [error.station_id] : []"
-                :item-title="station => station.name"
-                :item-value="station => station.id"
-                readonly=""
-              />
+                :item-title="station => station.name" :item-value="station => station.id" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="checker_id"
-                :items="checkers"
-                label="Pemeriksa"
-                placeholder="Pilih Pemeriksa"
+            <VCol cols="12" md="6">
+              <VSelect v-model="checker_id" :items="checkers" label="Pemeriksa" placeholder="Pilih Pemeriksa"
                 :error-messages="error && error.checker_id ? [error.checker_id] : []"
-                :item-title="checker => checker.name"
-                :item-value="checker => checker.id"
-                readonly=""
-              />
+                :item-title="checker => checker.name" :item-value="checker => checker.id" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="observation_ratio_percentage"
-                label="Presentase Rasio Index"
+            <VCol cols="12" md="6">
+              <VTextField v-model="observation_ratio_percentage" label="Presentase Rasio Index"
                 placeholder="Presentase Rasio Index"
                 :error-messages="error && error.observation_ratio_percentage ? [error.observation_ratio_percentage] : []"
-                type="number"
-                step="1"
-                suffix="%"
-                readonly=""
-              />
+                type="number" step="1" suffix="%" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="observation_ratio_number"
-                label="Rasio Index"
-                placeholder="Rasio Index"
+            <VCol cols="12" md="6">
+              <VTextField v-model="observation_ratio_number" label="Rasio Index" placeholder="Rasio Index"
                 :error-messages="error && error.observation_ratio_number ? [error.observation_ratio_number] : []"
-                type="number"
-                suffix="m³"
-                readonly=""
-              />
+                type="number" suffix="m³" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="solid_ratio"
-                label="Rasio Padat"
-                placeholder="Rasio Padat"
-                :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
-                type="number"
-                step="1"
-                suffix="%"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="solid_ratio" label="Rasio Padat" placeholder="Rasio Padat"
+                :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []" type="number" step="1"
+                suffix="%" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="solid_volume_estimate"
-                label="Estimasi Volume"
-                placeholder="Estimasi Volume"
+            <VCol cols="12" md="6">
+              <VTextField v-model="solid_volume_estimate" label="Estimasi Volume" placeholder="Estimasi Volume"
                 :error-messages="error && error.solid_volume_estimate ? [error.solid_volume_estimate] : []"
-                type="number"
-                suffix="m³"
-                readonly=""
-              />
+                type="number" suffix="m³" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="12"
-            >
-              <VTextarea
-                v-model="remarks"
-                label="Keterangan"
-                placeholder="Keterangan Material Movement"
-                :error-messages="error && error.remarks ? [error.remarks] : []"
-                readonly=""
-              />
+            <VCol cols="12" md="12">
+              <VTextarea v-model="remarks" label="Keterangan" placeholder="Keterangan Material Movement"
+                :error-messages="error && error.remarks ? [error.remarks] : []" readonly="" />
             </VCol>
           </VRow>
         </VForm>

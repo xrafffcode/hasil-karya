@@ -6,7 +6,7 @@ const headers = [
   {
     text: 'Tanggal',
     value: 'date',
-  }, 
+  },
   {
     text: 'Driver',
     value: 'driver.name',
@@ -88,9 +88,8 @@ async function handleDeleteMaterialMovement(materialMovement) {
 const search = ref('')
 
 onMounted(() => {
-  document.title = 'Material Movement'
+  document.title = 'Perpindahan Material'
 })
-
 
 onUnmounted(() => {
   error.value = null
@@ -165,7 +164,7 @@ onUnmounted(() => {
           <template #item-observation_ratio_percentage="item">
             {{ toPercentage(item.observation_ratio_percentage) }}
           </template>
-          
+
           <template #item-truck_capacity="item">
             {{ toNumeral(item.truck_capacity) }} m³
           </template>
