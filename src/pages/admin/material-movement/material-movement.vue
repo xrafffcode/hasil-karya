@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Material Movement
+        Perpindahan Material
       </h2>
 
       <VBtn
@@ -258,7 +258,7 @@ const fetchMaterialMovementData = async () => {
 
 onMounted(() => {
   fetchMaterialMovementData()
-  document.title = 'Edit Material Movement'
+  document.title = 'Detail Material Movement'
 })
 
 
