@@ -152,6 +152,10 @@ const handleSubmit = () => {
     is_active: is_active.value,
   })
 }
+
+const handleReset = () => {
+  fetchTechnicalAdminData()
+}
 </script>
 
 <style lang="scss">

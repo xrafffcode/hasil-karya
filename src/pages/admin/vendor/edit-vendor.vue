@@ -50,9 +50,9 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
-              <VTextField
+              <VTextarea
                 v-model="address"
                 label="Alamat"
                 placeholder="Alamat Vendor"
@@ -64,7 +64,7 @@
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VTextField
                 v-model="phone"
@@ -154,6 +154,10 @@ const handleSubmit = () => {
     phone: phone.value,
     is_active: is_active.value,
   })
+}
+
+const handleReset = () => {
+  fetchVendorData()
 }
 </script>
 

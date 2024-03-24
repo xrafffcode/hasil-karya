@@ -118,8 +118,7 @@ const handleSubmit = () => {
 }
 
 const handleReset = () => {
-  code.value = ''
-  name.value = ''
+  fetchMaterialData()
 }
 </script>
 

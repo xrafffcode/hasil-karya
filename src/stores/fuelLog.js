@@ -77,7 +77,7 @@ export const useFuelLogStore = defineStore({
 
         this.success = response.data.message
 
-        router.push({ name: 'gas-operator-fuel-log' })
+        router.push({ name: 'gas-operator-fuel-log-truck-create' })
       } catch (error) {
         this.error = handleError(error)
       } finally {
@@ -92,7 +92,7 @@ export const useFuelLogStore = defineStore({
 
         this.success = response.data.message
 
-        router.push({ name: 'gas-operator-fuel-log' })
+        router.push({ name: 'gas-operator-fuel-log-heavy-vehicle-create' })
       } catch (error) {
         this.error = handleError(error)
       } finally {

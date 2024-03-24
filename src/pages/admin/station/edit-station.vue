@@ -210,10 +210,20 @@ const fetchStationData = async () => {
 
     code.value = station.code
     name.value = station.name
-    province.value = station.province
-    regency.value = station.regency
-    district.value = station.district
-    subdistrict.value = station.subdistrict
+    province.value = provinces.value.find(item => item.nama === station.province)?.id
+
+    await fetchRegencies(province.value)
+    
+    regency.value = regencies.value.find(item => item.nama === station.regency)?.id
+
+    await fetchDistricts(regency.value)
+
+    district.value = districts.value.find(item => item.nama === station.district)?.id
+
+    await fetchSubdistricts(district.value)
+
+    subdistrict.value = subdistricts.value.find(item => item.nama === station.subdistrict)?.id
+
     address.value = station.address
     category.value = station.category
     material_id.value = station.material.id
@@ -264,6 +274,10 @@ watch(regency, value => {
 watch(district, value => {
   fetchSubdistricts(value)
 })
+
+const handleReset = () => {
+  fetchStationData()
+}
 </script>
 
 <style lang="scss">

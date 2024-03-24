@@ -7,6 +7,7 @@ import adminHeavyVehicleRoutes from "./admin-heavy-vehicle"
 import adminMaterialRoutes from "./admin-material"
 import adminMaterialMovementRoutes from "./admin-material-movement"
 import adminMaterialMovementErrorLog from "./admin-material-movement-error-log"
+import adminNotificationRecepientRoutes from "./admin-notification-recepient"
 import adminProjectRoutes from "./admin-project"
 import adminStationRoutes from "./admin-station"
 import adminTechnicalAdminRoutes from "./admin-technical-admin"
@@ -30,6 +31,7 @@ const adminRoutes = [
   ...adminFuelLogRoutes,
   ...adminTechnicalAdminRoutes,
   ...adminProjectRoutes,
+  ...adminNotificationRecepientRoutes,
 ]
 
 export default adminRoutes
