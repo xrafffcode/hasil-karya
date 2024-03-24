@@ -116,6 +116,22 @@
               md="6"
             >
               <VTextField
+                v-model="truck_capacity"
+                label="Kapasitas Truck"
+                placeholder="Kapasitas Truck"
+                :error-messages="error && error.truck_capacity ? [error.truck_capacity] : []"
+                type="number"
+                step="1"
+                suffix="m³"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
                 v-model="observation_ratio_percentage"
                 label="Presentase Rasio Index"
                 placeholder="Presentase Rasio Index"
@@ -230,6 +246,7 @@ const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
 const date = ref(new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16))
+const truck_capacity = ref('')
 const observation_ratio_percentage = ref('')
 const observation_ratio_number = ref('')
 const solid_ratio = ref('')
@@ -246,6 +263,7 @@ const fetchMaterialMovementData = async () => {
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
     date.value = materialMovementData.date
+    truck_capacity.value = materialMovementData.truck_capacity * 1
     observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage * 100
     observation_ratio_number.value = materialMovementData.observation_ratio_number * 1
     solid_ratio.value = materialMovementData.solid_ratio * 100

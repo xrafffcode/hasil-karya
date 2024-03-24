@@ -1,4 +1,4 @@
-const adminMaterialMovementRoutes = [
+const adminMaterialMovementErrorLogRoutes = [
   {
     path: 'material-movement-error-log',
     component: () => import('../pages/admin/material-movement-error-log/material-movement-error-logs.vue'),
@@ -11,4 +11,4 @@ const adminMaterialMovementRoutes = [
   },
 ]
 
-export default adminMaterialMovementRoutes
+export default adminMaterialMovementErrorLogRoutes

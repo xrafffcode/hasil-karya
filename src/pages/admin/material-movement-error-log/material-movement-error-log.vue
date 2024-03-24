@@ -37,19 +37,6 @@
               md="6"
             >
               <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                type="datetime-local"
-                readonly=""
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="driver_id"
                 label="Driver"
                 placeholder="Pilih Driver"
@@ -98,9 +85,10 @@
               md="6"
             >
               <VTextField
-                v-model="observation_ratio_percentage"
-                label="Observation Ratio Percentage"
-                placeholder="Masukan Observation Ratio Percentage"
+                v-model="date"
+                label="Tanggal"
+                placeholder="Tanggal Material Movement"
+                type="datetime-local"
                 readonly=""
               />
             </VCol>
@@ -110,9 +98,21 @@
               md="6"
             >
               <VTextField
-                v-model="observation_ratio_number"
-                label="Observation Ratio Number"
-                placeholder="Masukan Observation Ratio Number"
+                v-model="truck_capacity"
+                label="Kapasitas Truck"
+                placeholder="Kapasitas Truck"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="observation_ratio_percentage"
+                label="Presentase Rasio Index"
+                placeholder="Presentase Rasio Index"
                 readonly=""
               />
             </VCol>
@@ -123,8 +123,32 @@
             >
               <VTextField
                 v-model="solid_ratio"
-                label="Solid Ratio"
-                placeholder="Masukan Solid Ratio"
+                label="Rasio Padat"
+                placeholder="Rasio Padat"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="remarks"
+                label="Keterangan"
+                placeholder="Keterangan"
+                readonly=""
+              />
+            </VCol>
+
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="error_log"
+                label="Error Log"
+                placeholder="Error Log"
                 readonly=""
               />
             </VCol>
@@ -137,27 +161,26 @@
 
 <script setup>
 import { useMaterialMovementErrorLogStore } from '@/stores/materialMovementErrorLog'
-import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = useMaterialMovementErrorLogStore()
+const { loading, error } = storeToRefs(useMaterialMovementErrorLogStore())
 const { fetchMaterialMovementErrorLog } = useMaterialMovementErrorLogStore()
 
 const materialMovementErrorLogId = route.params.id
 
 const code = ref('')
-const date = ref('')
 const driver_id = ref('')
 const truck_id = ref('')
 const station_id = ref('')
 const checker_id = ref('')
+const date = ref('')
+const truck_capacity = ref('')
 const observation_ratio_percentage = ref('')
-const observation_ratio_number = ref('')
 const solid_ratio = ref('')
-const solid_volume_estimate = ref('')
+const error_log = ref('')
 const remarks = ref('')
 
 const fetchMaterialMovementData = async () => {
@@ -165,16 +188,16 @@ const fetchMaterialMovementData = async () => {
     const materialMovementErrorLogData = await fetchMaterialMovementErrorLog(materialMovementErrorLogId)
 
     code.value = materialMovementErrorLogData.code
-    date.value = materialMovementErrorLogData.date
     driver_id.value = materialMovementErrorLogData.driver_id
     truck_id.value = materialMovementErrorLogData.truck_id
     station_id.value = materialMovementErrorLogData.station_id
     checker_id.value = materialMovementErrorLogData.checker_id
+    date.value = materialMovementErrorLogData.date
+    truck_capacity.value = materialMovementErrorLogData.truck_capacity
     observation_ratio_percentage.value = materialMovementErrorLogData.observation_ratio_percentage
-    observation_ratio_number.value = materialMovementErrorLogData.observation_ratio_number
     solid_ratio.value = materialMovementErrorLogData.solid_ratio
-    solid_volume_estimate.value = materialMovementErrorLogData.solid_volume_estimate
     remarks.value = materialMovementErrorLogData.remarks
+    error_log.value = materialMovementErrorLogData.error_log
   } catch (error) {
     console.error(error)
   }

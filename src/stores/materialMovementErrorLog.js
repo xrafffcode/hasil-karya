@@ -7,7 +7,7 @@ import { defineStore } from "pinia"
 export const useMaterialMovementErrorLogStore = defineStore({
   id: "materialMovementErrorLog",
   state: () => ({
-    errorLogs: [],
+    movements: [],
     loading: false,
     error: null,
     success: null,
@@ -19,11 +19,7 @@ export const useMaterialMovementErrorLogStore = defineStore({
 
         const response = await axiosInstance.get("/material-movement-error-logs")
 
-        response.data.data.forEach(movement => {
-          movement.truck.name = `${movement.truck.brand} ${movement.truck.model}`
-        })
-
-        this.errorLogs = response.data.data
+        this.movements = response.data.data
       } catch (error) {
         this.handleError(error)
       } finally {

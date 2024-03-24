@@ -9,7 +9,7 @@ checkAuth()
 
 const is = roles => {
   const userRole = user?.roles[0].name
-  
+
   return roles.includes(userRole)
 }
 </script>
@@ -152,6 +152,25 @@ const is = roles => {
       title: 'Perpindahan Material',
       icon: 'bx-transfer',
       to: '/technical-admin/material-movement',
+    }"
+  />
+
+  <VerticalNavLink
+    v-if="is(['admin'])"
+    :item="{
+      title: 'Kesalahan Input',
+      icon: 'bx-data',
+      children: [
+        {
+          title: 'Perpindahan Material',
+          to: '/admin/material-movement-error-log',
+        },
+
+        {
+          title: 'Penerima Notifikasi',
+          to: '/admin/notification-recepient',
+        },
+      ],
     }"
   />
 </template>
