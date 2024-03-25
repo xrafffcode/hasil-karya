@@ -5,11 +5,11 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Checker
+        Penerima Notifikasi
       </h2>
 
       <VBtn
-        to="/admin/checker"
+        to="/admin/notification-recepient"
         color="primary"
       >
         Kembali
@@ -25,25 +25,25 @@
               md="6"
             >
               <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []"
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Penerima"
+                :error-messages="error && error.name ? [error.name] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
               />
-            </VCol>
-
+            </VCol>     
+            
             <VCol
               cols="12"
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []"
+                v-model="phone_number"
+                label="Nomor Telepon"
+                placeholder="Nomor Telepon"
+                :error-messages="error && error.phone_number ? [error.phone_number] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -55,10 +55,10 @@
               md="12"
             >
               <VTextField
-                v-model="email"
-                label="Email"
-                placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []"
+                v-model="job_title"
+                label="Jabatan"
+                placeholder="Jabatan"
+                :error-messages="error && error.job_title ? [error.job_title] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -72,40 +72,38 @@
 </template>
 
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useNotificationRecepientStore } from '@/stores/notificationRecepient'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useCheckerStore())
-const { fetchChecker } = useCheckerStore()
+const { loading, error } = storeToRefs(useNotificationRecepientStore())
+const { fetchRecepient } = useNotificationRecepientStore()
 
-const checkerId = route.params.id
+const recepientId = route.params.id
 
-const code = ref('')
 const name = ref('')
-const email = ref('')
-const password = ref('')
-const is_active = ref(0)
+const phone_number = ref('')
+const job_title = ref('')
 
-const fetchCheckerData = async () => {
+const fetchRecepientData = async () => {
   try {
-    const checker = await fetchChecker(checkerId)
+    const recepient = await fetchRecepient(recepientId)
 
-    code.value = checker.code
-    name.value = checker.name
-    email.value = checker.email
+    name.value = recepient.name
+    phone_number.value = recepient.phone_number
+    job_title.value = recepient.job_title
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchCheckerData()
+  fetchRecepientData()
 
-  document.title = 'Checker'
+  document.title = 'Penerima Notifikasi'
 })
 </script>
 

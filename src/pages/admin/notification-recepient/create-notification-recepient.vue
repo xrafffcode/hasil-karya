@@ -1,34 +1,31 @@
 <script setup>
-import { useCheckerStore } from '@/stores/checker'
+import { useNotificationRecepientStore } from '@/stores/notificationRecepient'
 import { storeToRefs } from 'pinia'
 
-const { loading, error } = storeToRefs(useCheckerStore())
-const { createChecker } = useCheckerStore()
+const { loading, error } = storeToRefs(useNotificationRecepientStore())
+const { createRecepient } = useNotificationRecepientStore()
 
-const code = ref('AUTO')
 const name = ref('')
-const email = ref('')
-const password = ref('')
+const phone_number = ref('')
+const job_title = ref('')
 
 const handleReset = () => {
-  code.value = 'AUTO'
   name.value = ''
-  email.value = ''
-  password.value = ''
+  phone_number.value = ''
+  job_title.value = ''
 }
 
 const handleSubmit = () => {
-  createChecker({
-    code: code.value,
+  createRecepient({
     name: name.value,
-    email: email.value,
-    password: password.value,
+    phone_number: phone_number.value,
+    job_title: job_title.value,
     is_active: 1,
   })
 }
 
 onMounted(() => {
-  document.title = 'Tambah Checker'
+  document.title = 'Tambah Penerima Notifikasi'
 })
 
 onUnmounted(() => {
@@ -46,11 +43,11 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Tambah Checker
+        Tambah Penerima Notifikasi
       </h2>
 
       <VBtn
-        to="/admin/checker"
+        to="/admin/notification-recepient"
         color="primary"
       >
         Kembali
@@ -66,21 +63,9 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Checker"
-                :error-messages="error && error.code ? [error.code] : []"
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
                 v-model="name"
                 label="Nama"
-                placeholder="Nama Client"
+                placeholder="Nama Penerima"
                 :error-messages="error && error.name ? [error.name] : []"
               />
             </VCol>
@@ -90,26 +75,25 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="email"
-                label="Email"
-                placeholder="Email Checker"
-                :error-messages="error && error.email ? [error.email] : []"
+                v-model="phone_number"
+                label="Nomor Telepon"
+                placeholder="Nomor Telepon"
+                :error-messages="error && error.phone_number ? [error.phone_number] : []"
               />
             </VCol>
 
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
               <VTextField
-                v-model="password"
-                label="Password"
-                placeholder="Password Checker"
-                :error-messages="error && error.password ? [error.password] : []"
+                v-model="job_title"
+                label="Jabatan"
+                placeholder="Jabatan"
+                :error-messages="error && error.job_title ? [error.job_title] : []"
               />
             </VCol>
-
-
+            
             <VCol
               cols="12"
               class="d-flex gap-4"
