@@ -5,7 +5,7 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Detail Error Log Pengisian BBM
+        Detail Error Log Pengisian Bahan Bakar
       </h2>
 
       <VBtn
@@ -233,7 +233,7 @@ const fetchFuelLogErrorLogData = async () => {
 
 onMounted(() => {
   fetchFuelLogErrorLogData()
-  document.title = 'Detail Error Log Pengisian BBM'
+  document.title = 'Detail Error Log Pengisian Bahan Bakar'
 })
 </script>
 

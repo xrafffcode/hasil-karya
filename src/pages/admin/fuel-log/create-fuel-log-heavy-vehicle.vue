@@ -69,7 +69,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Tambah Data Pencatatan BBM Alat Berat'
+  document.title = 'Tambah Data Pengisian Bahan Bakar Alat Berat'
 })
 
 onUnmounted(() => {
