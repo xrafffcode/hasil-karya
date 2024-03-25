@@ -1,17 +1,11 @@
 <template>
   <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
-    >
+    <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
         Detail Error Log Perpindahan Material
       </h2>
 
-      <VBtn
-        :to="{ name: 'admin-material-movement-error-log' }"
-        color="primary"
-      >
+      <VBtn :to="{ name: 'admin-material-movement-error-log' }" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -20,137 +14,50 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Material Movement"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="code" label="Kode" placeholder="Kode Material Movement" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="driver_id"
-                label="Driver"
-                placeholder="Pilih Driver"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="driver_id" label="Driver" placeholder="Pilih Driver" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="truck_id"
-                label="Truck"
-                placeholder="Pilih Truck"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="truck_id" label="Truck" placeholder="Pilih Truck" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="station_id"
-                label="Stasiun"
-                placeholder="Pilih Stasiun"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="station_id" label="Stasiun" placeholder="Pilih Stasiun" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="checker_id"
-                label="Checker"
-                placeholder="Pilih Checker"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="checker_id" label="Checker" placeholder="Pilih Checker" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal Material Movement"
-                type="datetime-local"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="date" label="Tanggal" placeholder="Tanggal Material Movement" type="datetime-local"
+                readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="truck_capacity"
-                label="Kapasitas Truck"
-                placeholder="Kapasitas Truck"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="truck_capacity" label="Kapasitas Truck" placeholder="Kapasitas Truck" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="observation_ratio_percentage"
-                label="Presentase Rasio Index"
-                placeholder="Presentase Rasio Index"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="observation_ratio_percentage" label="Presentase Rasio Index"
+                placeholder="Presentase Rasio Index" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="solid_ratio"
-                label="Rasio Padat"
-                placeholder="Rasio Padat"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="solid_ratio" label="Rasio Padat" placeholder="Rasio Padat" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="remarks"
-                label="Keterangan"
-                placeholder="Keterangan"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="remarks" label="Keterangan" placeholder="Keterangan" readonly="" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="error_log"
-                label="Error Log"
-                placeholder="Error Log"
-                readonly=""
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="error_log" label="Error Log" placeholder="Error Log" readonly="" />
             </VCol>
           </VRow>
         </VForm>

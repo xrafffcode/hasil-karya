@@ -1,18 +1,11 @@
-
 <template>
   <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
-    >
+    <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
         Detail Pengisian BBM {{ truck_id ? '( Truk )' : '' }} {{ heavy_vehicle_id ? '( Alat Berat )' : '' }}
       </h2>
 
-      <VBtn
-        to="/admin/fuel-log"
-        color="primary"
-      >
+      <VBtn to="/admin/fuel-log" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -21,141 +14,55 @@
       <VCard>
         <VForm>
           <VRow>
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode"
-                :error-messages="error && error.code ? [error.code] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="code" label="Kode" placeholder="Kode"
+                :error-messages="error && error.code ? [error.code] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="date"
-                label="Tanggal"
-                placeholder="Tanggal"
-                type="datetime-local"
-                :error-messages="error && error.date ? [error.date] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="date" label="Tanggal" placeholder="Tanggal" type="datetime-local"
+                :error-messages="error && error.date ? [error.date] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-if="truck_id"
-                v-model="truck_id"
-                label="Truk"
-                placeholder="Truk"
-                :error-messages="error && error.truck_id ? [error.truck_id] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-if="truck_id" v-model="truck_id" label="Truk" placeholder="Truk"
+                :error-messages="error && error.truck_id ? [error.truck_id] : []" readonly />
 
-              <VTextField
-                v-if="heavy_vehicle_id"
-                v-model="heavy_vehicle_id"
-                label="Alat Berat"
-                placeholder="Alat Berat"
-                :error-messages="error && error.heavy_vehicle_id ? [error.heavy_vehicle_id] : []"
-                readonly
-              />
+              <VTextField v-if="heavy_vehicle_id" v-model="heavy_vehicle_id" label="Alat Berat" placeholder="Alat Berat"
+                :error-messages="error && error.heavy_vehicle_id ? [error.heavy_vehicle_id] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="driver_id"
-                label="Sopir"
-                placeholder="Sopir"
-                :error-messages="error && error.driver_id ? [error.driver_id] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="driver_id" label="Sopir" placeholder="Sopir"
+                :error-messages="error && error.driver_id ? [error.driver_id] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="station_id"
-                label="Stasiun"
-                placeholder="Stasiun"
-                :error-messages="error && error.station_id ? [error.station_id] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="station_id" label="Stasiun" placeholder="Stasiun"
+                :error-messages="error && error.station_id ? [error.station_id] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="gas_operator_id"
-                label="Operator"
-                placeholder="Operator"
-                :error-messages="error && error.gas_operator_id ? [error.gas_operator_id] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="gas_operator_id" label="Operator" placeholder="Operator"
+                :error-messages="error && error.gas_operator_id ? [error.gas_operator_id] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="volume"
-                label="Volume (L)"
-                placeholder="Volume (L)"
-                :error-messages="error && error.volume ? [error.volume] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="volume" label="Volume (L)" placeholder="Volume (L)"
+                :error-messages="error && error.volume ? [error.volume] : []" readonly />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-if="truck_id"
-                v-model="odometer"
-                label="Odometer (KM)"
-                placeholder="Odometer (KM)"
-                :error-messages="error && error.odometer ? [error.odometer] : []"
-                readonly
-              />
-              <VTextField
-                v-if="heavy_vehicle_id"
-                v-model="hourmeter"
-                label="Hourmeter (HM)"
-                placeholder="Hourmeter (HM)"
-                :error-messages="error && error.hourmeter ? [error.hourmeter] : []"
-                readonly
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-if="truck_id" v-model="odometer" label="Odometer (KM)" placeholder="Odometer (KM)"
+                :error-messages="error && error.odometer ? [error.odometer] : []" readonly />
+              <VTextField v-if="heavy_vehicle_id" v-model="hourmeter" label="Hourmeter (HM)"
+                placeholder="Hourmeter (HM)" :error-messages="error && error.hourmeter ? [error.hourmeter] : []"
+                readonly />
             </VCol>
-            
-            <VCol
-              cols="12"
-              md="12"
-            >
-              <VTextField
-                v-model="remarks"
-                label="Keterangan"
-                placeholder="Keterangan"
-                :error-messages="error && error.remarks ? [error.remarks] : []"
-                readonly
-              />
+
+            <VCol cols="12" md="12">
+              <VTextField v-model="remarks" label="Keterangan" placeholder="Keterangan"
+                :error-messages="error && error.remarks ? [error.remarks] : []" readonly />
             </VCol>
           </VRow>
         </VForm>
@@ -177,14 +84,14 @@ const { fetchFuelLog } = useFuelLogStore()
 
 const fuelLogId = route.params.id
 
-const code = ref('AUTO')
+const code = ref('')
 const date = ref('')
 const truck_id = ref('')
 const heavy_vehicle_id = ref('')
 const driver_id = ref('')
 const station_id = ref('')
 const gas_operator_id = ref('')
-const fuel_type = ref('diesel')
+const fuel_type = ref('')
 const volume = ref('')
 const odometer = ref('')
 const hourmeter = ref('')
@@ -207,7 +114,6 @@ const fetchFuelLogData = async () => {
     odometer.value = fuelLog.odometer * 1
     hourmeter.value = fuelLog.hourmeter * 1
     remarks.value = fuelLog.remarks
-
   } catch (error) {
     console.error(error)
   }
@@ -215,7 +121,7 @@ const fetchFuelLogData = async () => {
 
 onMounted(() => {
   fetchFuelLogData()
-  document.title = 'Pencatatan BBM Kendaraan'
+  document.title = 'Detail Pengisian BBM'
 })
 </script>
 

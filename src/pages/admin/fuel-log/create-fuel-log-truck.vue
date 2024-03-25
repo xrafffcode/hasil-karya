@@ -67,7 +67,7 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  document.title = 'Tambah Data Pencatatan BBM Truk'
+  document.title = 'Tambah Data Pengisian Bahan Bakar Truk'
 })
 
 onUnmounted(() => {

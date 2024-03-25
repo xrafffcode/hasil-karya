@@ -37,20 +37,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VDialog
-    v-if="success"
-    v-model="success"
-    max-width="400"
-  >
+  <VDialog v-if="success" v-model="success" max-width="400">
     <VCard>
       <VCardText>
         {{ success }}
       </VCardText>
       <VCardActions>
-        <VBtn
-          color="primary"
-          @click="() => (success = null)"
-        >
+        <VBtn color="primary" @click="() => (success = null)">
           Tutup
         </VBtn>
       </VCardActions>
@@ -58,47 +51,28 @@ onUnmounted(() => {
   </VDialog>
 
   <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
-    >
+    <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
         Error Logs Perpindahan Material
       </h2>
     </VCol>
 
     <VCol cols="12">
-      <VTextField
-        v-model="search"
-        label="Cari Error Log Perpindahan Material"
-        placeholder="Cari Error Log Perpindahan Material"
-        clearable
-        :loading="loading"
-        variant="solo"
-      />
+      <VTextField v-model="search" label="Cari Error Log" placeholder="Cari Error Log" clearable :loading="loading"
+        variant="solo" />
     </VCol>
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable
-          :headers="headers"
-          :items="movements"
-          :loading="loading"
-          :search-value="search"
-          button-pagination
-          show-index
-          class="data-table"
-        >
+        <EasyDataTable :headers="headers" :items="movements" :loading="loading" :search-value="search" button-pagination
+          show-index class="data-table">
           <template #item-created_at="item">
             {{ formatDate(item.created_at) }}
           </template>
 
           <template #item-operation="item">
-            <VBtn
-              :to="{ name: 'admin-material-movement-error-log-view', params: { id: item.id } }"
-              color="info"
-              size="small"
-            >
+            <VBtn :to="{ name: 'admin-material-movement-error-log-view', params: { id: item.id } }" color="info"
+              size="small">
               Detail
             </VBtn>
           </template>

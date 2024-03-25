@@ -2,6 +2,7 @@ import adminCheckerRoutes from "./admin-checker"
 import adminClientRoutes from "./admin-client"
 import adminDriverRoutes from "./admin-driver"
 import adminFuelLogRoutes from "./admin-fuel-logs"
+import adminFuelLogErrorLogRoutes from "./admin-fuel-log-error-logs"
 import adminGasOperatorRoutes from "./admin-gas-operator"
 import adminHeavyVehicleRoutes from "./admin-heavy-vehicle"
 import adminMaterialRoutes from "./admin-material"
@@ -29,6 +30,7 @@ const adminRoutes = [
   ...adminMaterialRoutes,
   ...adminVehicleRentalRecordRoutes,
   ...adminFuelLogRoutes,
+  ...adminFuelLogErrorLogRoutes,
   ...adminTechnicalAdminRoutes,
   ...adminProjectRoutes,
   ...adminNotificationRecepientRoutes,
