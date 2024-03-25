@@ -1,5 +1,17 @@
 <template>
   <VRow>
+    <VAlert
+      v-if="error && !error.code && !error.truck_id && !error.heavy_vehicle_id && !error.start_date && !error.rental_duration && !error.rental_cost && !error.is_paid && !error.remarks && !error.payment_proof_image"
+      type="warning"
+      closable
+      close-icon="mdi-close"
+      close-label="Tutup"
+      elevation="2"
+    >
+      {{ error }}
+    </VAlert>
+
+
     <VCol
       cols="12"
       class="d-flex justify-space-between align-items-center"
@@ -43,6 +55,7 @@
                 :item-value="item => item.id"
                 label="Truk"
                 placeholder="Pilih Truk"
+                clearable
                 :error-messages="error && error.truck_id ? [error.truck_id] : []"
               />
             </VCol>
@@ -58,6 +71,7 @@
                 :item-value="item => item.id"
                 label="Alat Berat"
                 placeholder="Pilih Alat Berat"
+                clearable
                 :error-messages="error && error.heavy_vehicle_id ? [error.heavy_vehicle_id] : []"
               />
             </VCol>
