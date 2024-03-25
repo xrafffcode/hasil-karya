@@ -1,6 +1,6 @@
 import router from '@/router'
 import { handleError } from '@/helpers/errorHelper'
-
+import axios from 'axios'
 import { defineStore } from 'pinia'
 
 export const useEwsDeviceStore = defineStore({
@@ -15,19 +15,16 @@ export const useEwsDeviceStore = defineStore({
     async fetchEwsDevices() {
       try {
         this.loading = true
-      
-
-        const response = await fetch('https://ews.hasilkarya.co.id/api/v1/ews-devices', {
+        
+        const response = await axios.get('https://ews.hasilkarya.co.id/api/v1/ews-devices', {
           headers: {
             'X-API-KEY': 'CmNrYrcnOVQ92hDd',
           },
         })
 
-        const data = await response.json()
-
-        this.devices = data.data
+        this.devices = response.data.data
       } catch (error) {
-        this.handleError(error)
+        this.error = handleError(error)
       } finally {
         this.loading = false
       }
@@ -35,19 +32,17 @@ export const useEwsDeviceStore = defineStore({
     async fetchEwsDevice(id) {
       try {
         this.loading = true
-        
-        const response = await fetch(`https://ews.hasilkarya.co.id/api/v1/ews-device/${id}`, {
+
+        const response = await axios.get(`https://ews.hasilkarya.co.id/api/v1/ews-device/${id}`, {
           headers: {
             'X-API-KEY': 'CmNrYrcnOVQ92hDd',
           },
         })
 
-        const data = await response.json()
-
-        return data.data
+        return response.data.data
       }
       catch (error) {
-        this.handleError(error)
+        this.error = handleError(error)
       } finally {
         this.loading = false
       }
@@ -55,23 +50,18 @@ export const useEwsDeviceStore = defineStore({
     async createEwsDevice(payload) {
       try {
         this.loading = true
-        
-        fetch('https://ews.hasilkarya.co.id/api/v1/ews-device', {
-          method: 'POST',
+      
+        const response = await axios.post('https://ews.hasilkarya.co.id/api/v1/ews-device', payload, {
           headers: {
-            'Content-Type': 'application/json',
             'X-API-KEY': 'CmNrYrcnOVQ92hDd',
           },
-          body: JSON.stringify(payload),
         })
-          .then(response => response.json())
-          .then(data => {
-            this.success = data.message
 
-            router.push({ name: 'admin-ews-device' })
-          })
+        this.success = response.data.message
+        
+        router.push({ name: 'admin-ews-device' })
       } catch (error) {
-        this.handleError(error)
+        this.error = handleError(error)
       } finally {
         this.loading = false
       }
@@ -79,23 +69,18 @@ export const useEwsDeviceStore = defineStore({
     async updateEwsDevice(payload) {
       try {
         this.loading = true
-        
-        fetch(`https://ews.hasilkarya.co.id/api/v1/ews-device/${payload.id}`, {
-          method: 'POST',
+
+        const response = await axios.post(`https://ews.hasilkarya.co.id/api/v1/ews-device/${payload.id}`, payload, {
           headers: {
-            'Content-Type': 'application/json',
             'X-API-KEY': 'CmNrYrcnOVQ92hDd',
           },
-          body: JSON.stringify(payload),
         })
-          .then(response => response.json())
-          .then(data => {
-            this.success = data.message
 
-            router.push({ name: 'admin-ews-device' })
-          })
+        this.success = response.data.message
+
+        router.push({ name: 'admin-ews-device' })
       } catch (error) {
-        this.handleError(error)
+        this.error = handleError(error)
       } finally {
         this.loading = false
       }
@@ -103,17 +88,16 @@ export const useEwsDeviceStore = defineStore({
     async deleteEwsDevice(id) {
       try {
         this.loading = true
-        
-        fetch(`https://ews.hasilkarya.co.id/api/v1/ews-device/${id}`, {
-          method: 'DELETE',
+  
+        const response = await axios.delete(`https://ews.hasilkarya.co.id/api/v1/ews-device/${id}`, {
           headers: {
             'X-API-KEY': 'CmNrYrcnOVQ92hDd',
           },
         })
-          .then(response => response.json())
-          .then(data => {
-            this.success = data.message
-          })
+
+        this.success = response.data.message
+
+        router.push({ name: 'admin-ews-device' })
       } catch (error) {
         this.handleError(error)
       } finally {
