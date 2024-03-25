@@ -16,17 +16,13 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        fetch('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
-          .then(response => response.json())
-          .then(data => {
-            this.provinces = data.provinsi
-          })
-          .catch(error => {
-            console.error(error)
-          })
+        const response = await fetch('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
+        const data = await response.json()
 
+        this.provinces = data.provinsi
       } catch (error) {
         console.error(error)
+        this.error = error.message
       } finally {
         this.loading = false
       }
@@ -35,18 +31,13 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
-          .then(response => response.json())
-          .then(data => {
-            this.regencies = data.kota_kabupaten
+        const response = await fetch(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${provinceId}`)
+        const data = await response.json()
 
-            this.regencies = regencies
-          })
-          .catch(error => {
-            console.error(error)
-          })
+        this.regencies = data.kota_kabupaten
       } catch (error) {
         console.error(error)
+        this.error = error.message
       } finally {
         this.loading = false
       }
@@ -55,18 +46,13 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
-          .then(response => response.json())
-          .then(data => {
-            this.districts = data.kecamatan
+        const response = await fetch(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${regencyId}`)
+        const data = await response.json()
 
-            this.districts = districts
-          })
-          .catch(error => {
-            console.error(error)
-          })
+        this.districts = data.kecamatan
       } catch (error) {
         console.error(error)
+        this.error = error.message
       } finally {
         this.loading = false
       }
@@ -75,18 +61,13 @@ export const useRegionStore = defineStore({
       try {
         this.loading = true
 
-        fetch(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
-          .then(response => response.json())
-          .then(data => {
-            this.subdistricts = data.kelurahan
+        const response = await fetch(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${districtId}`)
+        const data = await response.json()
 
-            this.subdistricts = subdistricts
-          })
-          .catch(error => {
-            console.error(error)
-          })
+        this.subdistricts = data.kelurahan
       } catch (error) {
         console.error(error)
+        this.error = error.message
       } finally {
         this.loading = false
       }
