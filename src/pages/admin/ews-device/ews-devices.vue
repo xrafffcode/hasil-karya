@@ -34,6 +34,7 @@ async function handleDeleteEwsDevice(device) {
 
   if (confirmed) {
     await deleteEwsDevice(device.id)
+
     fetchEwsDevices()
   }
 }
@@ -81,7 +82,7 @@ onUnmounted(() => {
       </h2>
 
       <VBtn
-        :to="{ name: 'admin-driver-create' }"
+        :to="{ name: 'admin-ews-device-create' }"
         color="primary"
       >
         Tambah EWS Device
@@ -112,7 +113,7 @@ onUnmounted(() => {
         >         
           <template #item-operation="item">          
             <VBtn
-              :to="{ name: 'admin-driver-edit', params: { id: item.id } }"
+              :to="{ name: 'admin-ews-device-edit', params: { id: item.id } }"
               color="primary"
               size="small"
               class="m-5"
@@ -120,7 +121,7 @@ onUnmounted(() => {
               Ubah
             </VBtn>
             <VBtn
-              :to="{ name: 'admin-driver-view', params: { id: item.id } }"
+              :to="{ name: 'admin-ews-device-view', params: { id: item.id } }"
               color="info"
               size="small"
             >
