@@ -16,7 +16,7 @@ const { fetchDrivers } = useDriverStore()
 const { fetchStations, fetchStationCategoriesWithoutGas } = useStationStore()
 const { fetchTrucks } = useTruckStore()
 const { fetchCheckers } = useCheckerStore()
-const { fetchStatisticTruckPerDayByStation, fetchStatisticRitagePerDayByStation, fetchStatisticMeasurementVolumeByStation, fetchStatisticRitageVolumeByStation } = useMaterialMovementStore()
+const { fetchStatisticTruckPerDayByStation, fetchStatisticRitagePerDayByStation, fetchStatisticMeasurementVolumeByStation, fetchStatisticRitageVolumeByStation, fetchRatioMeasurementByRitage } = useMaterialMovementStore()
 const { fetchDatePeriods } = useCommonStore()
 
 const drivers = storeToRefs(useDriverStore()).drivers
@@ -51,15 +51,18 @@ const chartOptionsStatisticMeasurementVolumeByStation = ref({})
 const chartSeriesStatisticMeasurementVolumeByStation = ref([])
 const chartOptionsStatisticRitageVolumeByStation = ref({})
 const chartSeriesStatisticRitageVolumeByStation = ref([])
+const chartOptionsRatioMeasurementByRitage = ref({})
+const chartSeriesRatioMeasurementByRitage = ref([])
 
 
-async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, chartSeries) {
+async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, chartSeries, chartType) {
   const data = await fetchData(fetchFunction, options)
+
 
   chartOptions.value = {
     chart: {
       width: '100%',
-      type: 'pie',
+      type: chartType,
     },
     legend: {
       position: 'right',
@@ -79,14 +82,56 @@ async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, char
       },
     ],
   }
+
   chartSeries.value = data.map(item => item.value)
+
+  if (chartType === 'bar') {
+    chartOptions.value = {
+      chart: {
+        width: '100%',
+        type: chartType,
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        categories: data.map(item => item.station),
+      },
+      legend: {
+        position: 'right',
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: '100%',
+            },
+            legend: {
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+    }
+
+    chartSeries.value = [
+      {
+        name: 'Ratio',
+        data: data.map(item => item.value),
+      },
+    ]
+  }
 }
 
 async function fetchDataForCharts() {
-  await fetchDataAndSetupChart(fetchStatisticTruckPerDayByStation, { statistic_type: 'count', date_type: dateTypeStatisticTruckPerDayByStation.value, station_category: stationCategoryStatisticTruckPerDayByStation.value }, chartOptionsStatisticTruckPerDayByStation, chartSeriesStatisticTruckPerDayByStation)
-  await fetchDataAndSetupChart(fetchStatisticRitagePerDayByStation, { statistic_type: 'avg', date_type: dateTypeStatisticRitagePerDayByStation.value, station_category: stationCategoryStatisticRitagePerDayByStation.value }, chartOptionsStatisticRitagePerDayByStation, chartSeriesStatisticRitagePerDayByStation)
-  await fetchDataAndSetupChart(fetchStatisticMeasurementVolumeByStation, { statistic_type: 'sum', date_type: dateTypeStatisticMeasurementVolumeByStation.value, station_category: stationCategoryStatisticMeasurementVolumeByStation.value }, chartOptionsStatisticMeasurementVolumeByStation, chartSeriesStatisticMeasurementVolumeByStation)
-  await fetchDataAndSetupChart(fetchStatisticRitageVolumeByStation, { statistic_type: 'sum', date_type: dateTypeStatisticRitageVolumeByStation.value, station_category: stationCategoryStatisticRitageVolumeByStation.value }, chartOptionsStatisticRitageVolumeByStation, chartSeriesStatisticRitageVolumeByStation)
+  await fetchDataAndSetupChart(fetchStatisticTruckPerDayByStation, { statistic_type: 'count', date_type: dateTypeStatisticTruckPerDayByStation.value, station_category: stationCategoryStatisticTruckPerDayByStation.value }, chartOptionsStatisticTruckPerDayByStation, chartSeriesStatisticTruckPerDayByStation, 'pie')
+  await fetchDataAndSetupChart(fetchStatisticRitagePerDayByStation, { statistic_type: 'avg', date_type: dateTypeStatisticRitagePerDayByStation.value, station_category: stationCategoryStatisticRitagePerDayByStation.value }, chartOptionsStatisticRitagePerDayByStation, chartSeriesStatisticRitagePerDayByStation, 'pie')
+  await fetchDataAndSetupChart(fetchStatisticMeasurementVolumeByStation, { statistic_type: 'sum', date_type: dateTypeStatisticMeasurementVolumeByStation.value, station_category: stationCategoryStatisticMeasurementVolumeByStation.value }, chartOptionsStatisticMeasurementVolumeByStation, chartSeriesStatisticMeasurementVolumeByStation, 'pie')
+  await fetchDataAndSetupChart(fetchStatisticRitageVolumeByStation, { statistic_type: 'sum', date_type: dateTypeStatisticRitageVolumeByStation.value, station_category: stationCategoryStatisticRitageVolumeByStation.value }, chartOptionsStatisticRitageVolumeByStation, chartSeriesStatisticRitageVolumeByStation, 'pie')
+  await fetchDataAndSetupChart(fetchRatioMeasurementByRitage, { statistic_type: 'avg', date_type: dateTypeStatisticRitageVolumeByStation.value, station_category: stationCategoryStatisticRitageVolumeByStation.value }, chartOptionsRatioMeasurementByRitage, chartSeriesRatioMeasurementByRitage, 'bar')
 }
 
 fetchDataForCharts()
@@ -166,39 +211,46 @@ onMounted(() => {
 
       <VCol
         sm="12"
+        md="12"
+        lg="12"
+      >
+        <div class="d-flex gap-3 mt-3">
+          <div
+            v-for="datePeriod in datePeriods"
+            :key="datePeriod"
+          >
+            <button
+              class="btn-filter"
+              :class="{ active: dateTypeStatisticTruckPerDayByStation === datePeriod.name && dateTypeStatisticRitagePerDayByStation === datePeriod.name }"
+              @click="dateTypeStatisticTruckPerDayByStation = datePeriod.name; dateTypeStatisticRitagePerDayByStation = datePeriod.name; fetchDataForCharts()"
+            >
+              {{ datePeriod.name.toUpperCase() }}
+            </button>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mt-3">
+          <div
+            v-for="category in categories"
+            :key="category"
+          >
+            <button
+              class="btn-filter"
+              :class="{ active: stationCategoryStatisticTruckPerDayByStation === category.name && stationCategoryStatisticRitagePerDayByStation === category.name }"
+              @click="stationCategoryStatisticTruckPerDayByStation = category.name; stationCategoryStatisticRitagePerDayByStation = category.name; fetchDataForCharts()"
+            >
+              {{ category.name.toUpperCase() }}
+            </button>
+          </div>
+        </div>
+      </VCol>
+
+      <VCol
+        sm="12"
         md="6"
         lg="6"
       >
         <VCard class="pa-3">
           <h3>Mumet 1 Truk</h3>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="datePeriod in datePeriods"
-              :key="datePeriod"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: dateTypeStatisticTruckPerDayByStation === datePeriod.name }"
-                @click="dateTypeStatisticTruckPerDayByStation = datePeriod.name; fetchDataForCharts()"
-              >
-                {{ datePeriod.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="category in categories"
-              :key="category"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: stationCategoryStatisticTruckPerDayByStation === category.name }"
-                @click="stationCategoryStatisticTruckPerDayByStation = category.name; fetchDataForCharts()"
-              >
-                {{ category.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
           <VCardText>
             <apexchart
               width="500"
@@ -217,34 +269,6 @@ onMounted(() => {
       >
         <VCard class="pa-3">
           <h3>Mumet 2 Ritage</h3>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="datePeriod in datePeriods"
-              :key="datePeriod"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: dateTypeStatisticRitagePerDayByStation === datePeriod.name }"
-                @click="dateTypeStatisticRitagePerDayByStation = datePeriod.name; fetchDataForCharts()"
-              >
-                {{ datePeriod.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="category in categories"
-              :key="category"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: stationCategoryStatisticRitagePerDayByStation === category.name }"
-                @click="stationCategoryStatisticRitagePerDayByStation = category.name; fetchDataForCharts()"
-              >
-                {{ category.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
           <VCardText>
             <apexchart
               width="500"
@@ -258,39 +282,46 @@ onMounted(() => {
 
       <VCol
         sm="12"
+        md="12"
+        lg="12"
+      >
+        <div class="d-flex gap-3 mt-3">
+          <div
+            v-for="datePeriod in datePeriods"
+            :key="datePeriod"
+          >
+            <button
+              class="btn-filter"
+              :class="{ active: dateTypeStatisticMeasurementVolumeByStation === datePeriod.name && dateTypeStatisticRitageVolumeByStation === datePeriod.name }"
+              @click="dateTypeStatisticMeasurementVolumeByStation = datePeriod.name; dateTypeStatisticRitageVolumeByStation = datePeriod.name; fetchDataForCharts()"
+            >
+              {{ datePeriod.name.toUpperCase() }}
+            </button>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mt-3">
+          <div
+            v-for="category in categories"
+            :key="category"
+          >
+            <button
+              class="btn-filter"
+              :class="{ active: stationCategoryStatisticMeasurementVolumeByStation === category.name && stationCategoryStatisticRitageVolumeByStation === category.name }"
+              @click="stationCategoryStatisticMeasurementVolumeByStation = category.name; stationCategoryStatisticRitageVolumeByStation = category.name; fetchDataForCharts()"
+            >
+              {{ category.name.toUpperCase() }}
+            </button>
+          </div>
+        </div>
+      </VCol> 
+
+      <VCol
+        sm="12"
         md="6"
         lg="6"
       >
         <VCard class="pa-3">
           <h3>Mumet 3 Volume</h3>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="datePeriod in datePeriods"
-              :key="datePeriod"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: dateTypeStatisticMeasurementVolumeByStation === datePeriod.name }"
-                @click="dateTypeStatisticMeasurementVolumeByStation = datePeriod.name; fetchDataForCharts()"
-              >
-                {{ datePeriod.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="category in categories"
-              :key="category"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: stationCategoryStatisticMeasurementVolumeByStation === category.name }"
-                @click="stationCategoryStatisticMeasurementVolumeByStation = category.name; fetchDataForCharts()"
-              >
-                {{ category.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
           <VCardText>
             <apexchart
               width="500"
@@ -309,34 +340,6 @@ onMounted(() => {
       >
         <VCard class="pa-3">
           <h3>Mumet 4 Volume</h3>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="datePeriod in datePeriods"
-              :key="datePeriod"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: dateTypeStatisticRitageVolumeByStation === datePeriod.name }"
-                @click="dateTypeStatisticRitageVolumeByStation = datePeriod.name; fetchDataForCharts()"
-              >
-                {{ datePeriod.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
-          <div class="d-flex gap-3 mt-3">
-            <div
-              v-for="category in categories"
-              :key="category"
-            >
-              <button
-                class="btn-filter"
-                :class="{ active: stationCategoryStatisticRitageVolumeByStation === category.name }"
-                @click="stationCategoryStatisticRitageVolumeByStation = category.name; fetchDataForCharts()"
-              >
-                {{ category.name.toUpperCase() }}
-              </button>
-            </div>
-          </div>
           <VCardText>
             <apexchart
               width="500"
@@ -346,6 +349,23 @@ onMounted(() => {
             />
           </VCardText>
         </VCard>
+      </VCol>
+
+      <VCol
+        sm="12"
+        md="12"
+        lg="12"
+      >
+        <h4>
+          Ratio / Measurement by Ritage
+        </h4>
+        
+        <apexchart
+          width="100%"
+          type="bar"
+          :options="chartOptionsRatioMeasurementByRitage"
+          :series="chartSeriesRatioMeasurementByRitage"
+        />
       </VCol>
     </VRow>
   </VCol>

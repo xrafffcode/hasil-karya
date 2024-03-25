@@ -152,5 +152,18 @@ export const useMaterialMovementStore = defineStore({
         this.loading = false
       }
     },
+    async fetchRatioMeasurementByRitage(params) {
+      try {
+        this.loading = true
+  
+        const response = await axiosInstance.get('/material-movements/read/ratio-measurement-by-ritage', { params })
+        
+        return response.data.data.original
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
   },
 })
