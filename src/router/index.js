@@ -20,6 +20,11 @@ const router = createRouter({
           component: () => import('../pages/admin/dashboard.vue'),
           name: 'dashboard',
         },
+        {
+          path: 'dashboard-ews',
+          component: () => import('../pages/admin/dashboard-ews.vue'),
+          name: 'dashboard-ews',
+        },
         ...adminRoutes,
       ],
     },

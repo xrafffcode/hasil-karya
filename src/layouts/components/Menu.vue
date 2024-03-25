@@ -23,6 +23,15 @@ const is = roles => {
       to: '/admin/dashboard',
     }"
   />
+  
+  <VerticalNavLink
+    v-if="is(['admin'])"
+    :item="{
+      title: 'Dashboard Ews',
+      icon: 'bx-chart',
+      to: '/admin/dashboard-ews',
+    }"
+  />
 
   <VerticalNavLink
     v-if="is(['admin'])"

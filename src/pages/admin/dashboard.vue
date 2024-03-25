@@ -354,19 +354,19 @@ onMounted(() => {
 <style scoped>
 .btn-filter {
   padding: 5px 10px;
-  border: 1px solid rgb(105,108,255);
+  border: 1px solid rgb(105, 108, 255);
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
 }
 
 .btn-filter:hover {
-  background-color: rgb(105,108,255);
+  background-color: rgb(105, 108, 255);
   color: white;
 }
 
 .btn-filter.active {
-  background-color: rgb(105,108,255);
+  background-color: rgb(105, 108, 255);
   color: white;
 }
 </style>
