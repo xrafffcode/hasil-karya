@@ -185,6 +185,10 @@ const handleSubmit = () => {
     is_active: is_active.value,
   })
 }
+
+const handleReset = () => {
+  fetchTruckData()
+}
 </script>
 
 <style lang="scss">

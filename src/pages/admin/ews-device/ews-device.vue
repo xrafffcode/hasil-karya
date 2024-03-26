@@ -5,11 +5,11 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Penerima Notifikasi
+        EWS Device
       </h2>
 
       <VBtn
-        to="/admin/notification-recepient"
+        :to="{ name: 'admin-ews-device' }"
         color="primary"
       >
         Kembali
@@ -25,25 +25,10 @@
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Penerima"
-                :error-messages="error && error.name ? [error.name] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>     
-            
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="phone_number"
-                label="Nomor Telepon"
-                placeholder="Nomor Telepon"
-                :error-messages="error && error.phone_number ? [error.phone_number] : []"
+                v-model="code"
+                label="Kode"
+                placeholder="Kode EWS Device"
+                :error-messages="error && error.code ? [error.code] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -52,13 +37,28 @@
 
             <VCol
               cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama EWS Device"
+                :error-messages="error && error.name ? [error.name] : []"
+                :disabled="loading"
+                :loading="loading"
+                readonly
+              />
+            </VCol>   
+            
+            <VCol
+              cols="12"
               md="12"
             >
               <VTextField
-                v-model="job_title"
-                label="Jabatan"
-                placeholder="Jabatan"
-                :error-messages="error && error.job_title ? [error.job_title] : []"
+                v-model="type"
+                label="Tipe"
+                placeholder="Tipe EWS Device"
+                :error-messages="error && error.type ? [error.type] : []"
                 :disabled="loading"
                 :loading="loading"
                 readonly
@@ -72,38 +72,39 @@
 </template>
 
 <script setup>
-import { useNotificationRecepientStore } from '@/stores/notificationRecepient'
+import { useEwsDeviceStore } from '@/stores/ewsDevice'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useNotificationRecepientStore())
-const { fetchRecepient } = useNotificationRecepientStore()
+const { loading, error } = storeToRefs(useEwsDeviceStore())
+const { fetchEwsDevice } = useEwsDeviceStore()
 
-const recepientId = route.params.id
+const ewsDeviceId = route.params.id
 
+const code = ref('')
 const name = ref('')
-const phone_number = ref('')
-const job_title = ref('')
+const type = ref('')
 
-const fetchRecepientData = async () => {
+const fetchEwsDeviceData = async () => {
   try {
-    const recepient = await fetchRecepient(recepientId)
+    const ewsDevice = await fetchEwsDevice(ewsDeviceId)
 
-    name.value = recepient.name
-    phone_number.value = recepient.phone_number
-    job_title.value = recepient.job_title
+
+    code.value = ewsDevice.code
+    name.value = ewsDevice.name
+    type.value = ewsDevice.type
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchRecepientData()
+  fetchEwsDeviceData()
 
-  document.title = 'Penerima Notifikasi'
+  document.title = 'EWS Device'
 })
 </script>
 

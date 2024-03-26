@@ -44,6 +44,10 @@ const is = roles => {
           to: '/admin/notification-recepient',
         },
         {
+          title: 'EWS Device',
+          to: '/admin/ews-device',
+        },
+        {
           title: 'Pelanggan',
           to: '/admin/client',
         },

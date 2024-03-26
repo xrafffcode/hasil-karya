@@ -5,11 +5,11 @@
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Edit Penerima Notifikasi
+        Edit EWS Device
       </h2>
 
       <VBtn
-        to="/admin/notification-recepient"
+        :to="{ name: 'admin-ews-device' }"
         color="primary"
       >
         Kembali
@@ -25,10 +25,10 @@
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Penerima"
-                :error-messages="error && error.name ? [error.name] : []"
+                v-model="code"
+                label="Kode"
+                placeholder="Kode EWS Device"
+                :error-messages="error && error.code ? [error.code] : []"
                 :disabled="loading"
                 :loading="loading"
               />
@@ -39,10 +39,10 @@
               md="6"
             >
               <VTextField
-                v-model="phone_number"
-                label="Nomor Telepon"
-                placeholder="Nomor Telepon"
-                :error-messages="error && error.phone_number ? [error.phone_number] : []"
+                v-model="name"
+                label="Nama"
+                placeholder="Nama EWS Device"
+                :error-messages="error && error.name ? [error.name] : []"
                 :disabled="loading"
                 :loading="loading"
               />
@@ -53,10 +53,10 @@
               md="12"
             >
               <VTextField
-                v-model="job_title"
-                label="Jabatan"
-                placeholder="Jabatan"
-                :error-messages="error && error.job_title ? [error.job_title] : []"
+                v-model="type"
+                label="Tipe"
+                placeholder="Tipe EWS Device"
+                :error-messages="error && error.type ? [error.type] : []"
                 :disabled="loading"
                 :loading="loading"
               />
@@ -75,6 +75,7 @@
               </VBtn>
 
               <VBtn
+                type="reset"
                 color="secondary"
                 variant="tonal"
                 @click="handleReset"
@@ -90,54 +91,51 @@
 </template>
 
 <script setup>
-import { useNotificationRecepientStore } from '@/stores/notificationRecepient'
+import { useEwsDeviceStore } from '@/stores/ewsDevice'
 import { storeToRefs } from 'pinia'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { loading, error } = storeToRefs(useNotificationRecepientStore())
-const { fetchRecepient, updateRecepient } = useNotificationRecepientStore()
+const { loading, error } = storeToRefs(useEwsDeviceStore())
+const { fetchEwsDevice, updateEwsDevice } = useEwsDeviceStore()
 
-const recepientId = route.params.id
+const ewsDeviceId = route.params.id
 
+const code = ref('')
 const name = ref('')
-const phone_number = ref('')
-const job_title = ref('')
-const is_active = ref(1)
+const type = ref('')
 
-const fetchRecepientData = async () => {
+const fetchEwsDeviceData = async () => {
   try {
-    const recepient = await fetchRecepient(recepientId)
+    const device = await fetchEwsDevice(ewsDeviceId)
 
-    name.value = recepient.name
-    phone_number.value = recepient.phone_number
-    job_title.value = recepient.job_title
-    is_active.value = recepient.is_active === true ? 1 : 0
+    code.value = device.code
+    name.value = device.name
+    type.value = device.type
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  fetchRecepientData()
+  fetchEwsDeviceData()
 
-  document.title = 'Edit Penerima'
+  document.title = 'Edit EWS Device'
 })
 
 const handleSubmit = () => {
-  updateRecepient({
-    id: recepientId,
+  updateEwsDevice({
+    id: ewsDeviceId,
+    code: code.value,
     name: name.value,
-    phone_number: phone_number.value,
-    job_title: job_title.value,
-    is_active: is_active.value,
+    type: type.value,
   })
 }
 
 const handleReset = () => {
-  fetchRecepientData()
+  fetchEwsDeviceData()
 }
 </script>
 

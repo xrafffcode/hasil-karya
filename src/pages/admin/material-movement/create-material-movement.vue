@@ -43,7 +43,7 @@ const handleReset = () => {
   station_id.value = ''
   checker_id.value = ''
   observation_ratio_percentage.value = 0
-  solid_ratio.value = 0
+  solid_ratio.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16)
   date.value = null
   remarks.value = ''
 }

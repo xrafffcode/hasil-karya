@@ -15,6 +15,7 @@ import adminTechnicalAdminRoutes from "./admin-technical-admin"
 import adminTruckRoutes from "./admin-truck"
 import adminVehicleRentalRecordRoutes from "./admin-vehicle-rental-record"
 import adminVendorRoutes from "./admin-vendor"
+import adminEwsDeviceRoutes from "./admin-ews-device"
 
 const adminRoutes = [
   ...adminCheckerRoutes,
@@ -34,6 +35,7 @@ const adminRoutes = [
   ...adminTechnicalAdminRoutes,
   ...adminProjectRoutes,
   ...adminNotificationRecepientRoutes,
+  ...adminEwsDeviceRoutes,
 ]
 
 export default adminRoutes

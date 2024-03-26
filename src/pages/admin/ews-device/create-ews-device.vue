@@ -1,31 +1,31 @@
 <script setup>
-import { useNotificationRecepientStore } from '@/stores/notificationRecepient'
+import { useEwsDeviceStore } from '@/stores/ewsDevice'
 import { storeToRefs } from 'pinia'
 
-const { loading, error } = storeToRefs(useNotificationRecepientStore())
-const { createRecepient } = useNotificationRecepientStore()
+const { loading, error } = storeToRefs(useEwsDeviceStore())
+const { createEwsDevice } = useEwsDeviceStore()
 
+const code = ref('AUTO')
 const name = ref('')
-const phone_number = ref('')
-const job_title = ref('')
+const type = ref('')
+
 
 const handleReset = () => {
+  code.value = 'AUTO'
   name.value = ''
-  phone_number.value = ''
-  job_title.value = ''
+  type.value = ''
 }
 
 const handleSubmit = () => {
-  createRecepient({
+  createEwsDevice({
+    code: code.value,
     name: name.value,
-    phone_number: phone_number.value,
-    job_title: job_title.value,
-    is_active: 1,
+    type: type.value,
   })
 }
 
 onMounted(() => {
-  document.title = 'Tambah Penerima Notifikasi'
+  document.title = 'Tambah EWS Device'
 })
 
 onUnmounted(() => {
@@ -43,11 +43,11 @@ onUnmounted(() => {
       class="d-flex justify-space-between align-items-center"
     >
       <h2 class="mb-0">
-        Tambah Penerima Notifikasi
+        Tambah EWS Device
       </h2>
 
       <VBtn
-        to="/admin/notification-recepient"
+        to="/admin/ews-device"
         color="primary"
       >
         Kembali
@@ -63,10 +63,10 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Penerima"
-                :error-messages="error && error.name ? [error.name] : []"
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Device"
+                :error-messages="error && error.code ? [error.code] : []"
               />
             </VCol>
 
@@ -75,10 +75,10 @@ onUnmounted(() => {
               md="6"
             >
               <VTextField
-                v-model="phone_number"
-                label="Nomor Telepon"
-                placeholder="Nomor Telepon"
-                :error-messages="error && error.phone_number ? [error.phone_number] : []"
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Device"
+                :error-messages="error && error.name ? [error.name] : []"
               />
             </VCol>
 
@@ -87,13 +87,13 @@ onUnmounted(() => {
               md="12"
             >
               <VTextField
-                v-model="job_title"
-                label="Jabatan"
-                placeholder="Jabatan"
-                :error-messages="error && error.job_title ? [error.job_title] : []"
+                v-model="type"
+                label="Tipe"
+                placeholder="Tipe Device"
+                :error-messages="error && error.type ? [error.type] : []"
               />
             </VCol>
-            
+
             <VCol
               cols="12"
               class="d-flex gap-4"
