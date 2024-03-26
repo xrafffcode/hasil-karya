@@ -174,7 +174,7 @@ onUnmounted(() => {
           </template>
 
           <template #item-solid_ratio="item">
-            {{ toPercentage(item.solid_ratio) }}
+            {{ toNumeral(item.solid_ratio) }}
           </template>
 
           <template #item-solid_volume_estimate="item">

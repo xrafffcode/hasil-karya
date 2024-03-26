@@ -19,7 +19,7 @@ const { fetchCheckers } = useCheckerStore()
 
 fetchDrivers()
 fetchTrucks()
-fetchStations({ type: 'station' }) 
+fetchStations({ type: 'station' })
 fetchCheckers()
 
 const { loading, error } = storeToRefs(useMaterialMovementStore())
@@ -38,13 +38,13 @@ const remarks = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
+  date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16)
   driver_id.value = ''
   truck_id.value = ''
   station_id.value = ''
   checker_id.value = ''
   observation_ratio_percentage.value = 0
-  solid_ratio.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 16)
-  date.value = null
+  solid_ratio.value = 0
   remarks.value = ''
 }
 
@@ -57,7 +57,7 @@ const handleSubmit = () => {
     checker_id: checker_id.value,
     date: date.value.split('T').join(' ') + ':00',
     observation_ratio_percentage: observation_ratio_percentage.value / 100,
-    solid_ratio: solid_ratio.value / 100,
+    solid_ratio: solid_ratio.value,
     remarks: remarks.value,
   })
 }
@@ -203,9 +203,7 @@ onUnmounted(() => {
                 label="Rasio Padat"
                 placeholder="Masukan Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
-                type="number"
                 step="1"
-                suffix="%"
               />
             </VCol>
 
