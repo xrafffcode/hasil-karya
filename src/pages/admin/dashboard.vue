@@ -99,12 +99,13 @@ async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, char
   if (chartType === 'bar') {
     chartOptions.value = {
       chart: {
-        width: '100%',
+        height: 350,
         type: chartType,
       },
       plotOptions: {
         bar: {
-          horizontal: false,
+          borderRadius: 4,
+          horizontal: true,
         },
       },
       xaxis: {
@@ -120,19 +121,6 @@ async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, char
         },
         offsetY: -20, 
       },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '100%',
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
-        },
-      ],
     }
 
     chartSeries.value = [
@@ -379,8 +367,8 @@ onMounted(() => {
         </h4>
 
         <apexchart
-          width="100%"
           type="bar"
+          height="350"
           :options="chartOptionsRatioMeasurementByRitage"
           :series="chartSeriesRatioMeasurementByRitage"
         />

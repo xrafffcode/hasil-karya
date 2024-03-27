@@ -22,323 +22,179 @@
           <VRow>
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Projek"
-                :error-messages="error && error.code ? [error.code] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
+              <h3>Infromasi Projek</h3>
+
+              <VDivider class="my-4" />
+              
+              <table class="table table-bordered">
+                <tr>
+                  <td>Kode</td>
+                  <td>{{ code }}</td>
+                </tr>
+                <tr>
+                  <td>Nama</td>
+                  <td>{{ name }}</td>
+                </tr>
+                <tr>
+                  <td>Deskripsi</td>
+                  <td>{{ description }}</td>
+                </tr>
+                <tr>
+                  <td>Tanggal Mulai</td>
+                  <td>{{ startDate }}</td>
+                </tr>
+                <tr>
+                  <td>Tanggal Selesai</td>
+                  <td>{{ endDate }}</td>
+                </tr>
+                <tr>
+                  <td>Penanggung Jawab</td>
+                  <td>{{ personInCharge }}</td>
+                </tr>
+                <tr>
+                  <td>Jumlah</td>
+                  <td>{{ amount }}</td>
+                </tr>
+                <tr>
+                  <td>Pelanggan</td>
+                  <td>{{ client }}</td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  <td>
+                    <VChip
+                      :color="status === 'On Going' ? 'success' : 'error'"
+                      label="status"
+                    >
+                      {{ status }}
+                    </VChip>
+                  </td>
+                </tr>
+              </table>
             </VCol>
 
             <VCol
               cols="12"
-              md="6"
+              md="12
+            "
             >
-              <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Projek"
-                :error-messages="error && error.name ? [error.name] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
+              <h3>Informasi Lokasi</h3>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="description"
-                label="Deskripsi"
-                placeholder="Deskripsi Projek"
-                :error-messages="error && error.description ? [error.description] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
+              <VDivider class="my-4" />
 
+              <table class="table table-bordered">
+                <tr>
+                  <td>Provinsi</td>
+                  <td>{{ province }}</td>
+                </tr>
+                <tr>
+                  <td>Kabupaten/Kota</td>
+                  <td>{{ regency }}</td>
+                </tr>
+                <tr>
+                  <td>Kecamatan</td>
+                  <td>{{ district }}</td>
+                </tr>
+                <tr>
+                  <td>Kelurahan</td>
+                  <td>{{ subdistrict }}</td>
+                </tr>
+              </table>
+            </VCol>
+    
             <VCol
               cols="12"
-              md="6"
+              md="12"
             >
-              <VTextField
-                v-model="startDate"
-                label="Tanggal Mulai"
-                placeholder="Tanggal Mulai Projek"
-                :error-messages="error && error.startDate ? [error.startDate] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
+              <h3>Informasi Personil</h3>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="endDate"
-                label="Tanggal Selesai"
-                placeholder="Tanggal Selesai Projek"
-                :error-messages="error && error.endDate ? [error.endDate] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
+              <VDivider class="my-4" />
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="personInCharge"
-                label="Penanggung Jawab"
-                placeholder="Penanggung Jawab Projek"
-                :error-messages="error && error.personInCharge ? [error.personInCharge] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="amount"
-                label="Jumlah"
-                placeholder="Jumlah Projek"
-                :error-messages="error && error.amount ? [error.amount] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="client"
-                label="Pelanggan"
-                placeholder="Pelanggan Projek"
-                :error-messages="error && error.client ? [error.client] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="province"
-                label="Provinsi"
-                placeholder="Provinsi"
-                :error-messages="error && error.province ? [error.province] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="regency"
-                label="Kabupaten/Kota"
-                placeholder="Kabupaten/Kota"
-                :error-messages="error && error.regency ? [error.regency] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="district"
-                label="Kecamatan"
-                placeholder="Kecamatan"
-                :error-messages="error && error.district ? [error.district] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="subdistrict"
-                label="Kelurahan"
-                placeholder="Kelurahan"
-                :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="status"
-                label="Status"
-                placeholder="Status Projek"
-                :error-messages="error && error.status ? [error.status] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-              />
-            </VCol>
-            
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="drivers"
-                label="Driver"
-                :items="drivers"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-                :error-messages="error && error.drivers ? [error.drivers] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="trucks"
-                label="Truk"
-                :items="trucks"
-                :item-title="item => item.brand + ' ' + item.model"
-                :item-value="item => item.id"
-                :error-messages="error && error.trucks ? [error.trucks] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="heavyVehicles"
-                label="Alat Berat"
-                :items="heavyVehicles"
-                :item-title="item => item.brand + ' ' + item.model"
-                :item-value="item => item.id"
-                :error-messages="error && error.heavyVehicles ? [error.heavyVehicles] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="stations"
-                label="Stasiun"
-                :items="stations"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-                :error-messages="error && error.stations ? [error.stations] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="checkers"
-                label="Checker"
-                :items="checkers"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-                :error-messages="error && error.checkers ? [error.checkers] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="technicalAdmins"
-                label="Admin Teknis"
-                :items="technicalAdmins"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-                :error-messages="error && error.technicalAdmins ? [error.technicalAdmins] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
-            </VCol>
-
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VSelect
-                v-model="gasOperators"
-                label="Operator Gas"
-                :items="gasOperators"
-                :item-title="item => item.name"
-                :item-value="item => item.id"
-                :error-messages="error && error.gasOperators ? [error.gasOperators] : []"
-                :disabled="loading"
-                :loading="loading"
-                readonly
-                multiple
-              />
+              <table class="table table-bordered">
+                <tr>
+                  <th>Driver</th>
+                  <th>Truk</th>
+                  <th>Alat Berat</th>
+                  <th>Stasiun</th>
+                  <th>Checker</th>
+                  <th>Admin Teknis</th>
+                  <th>Operator Gas</th>
+                </tr>
+                <tr>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="driver in drivers"
+                        :key="driver.id"
+                      >
+                        {{ driver.name }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="truck in trucks"
+                        :key="truck.id"
+                      >
+                        {{ truck.brand }} {{ truck.model }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="heavyVehicle in heavyVehicles"
+                        :key="heavyVehicle.id"
+                      >
+                        {{ heavyVehicle.brand }} {{ heavyVehicle.model }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="station in stations"
+                        :key="station.id"
+                      >
+                        {{ station.name }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="checker in checkers"
+                        :key="checker.id"
+                      >
+                        {{ checker.name }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="technicalAdmin in technicalAdmins"
+                        :key="technicalAdmin.id"
+                      >
+                        {{ technicalAdmin.name }}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li
+                        v-for="gasOperator in gasOperators"
+                        :key="gasOperator.id"
+                      >
+                        {{ gasOperator.name }}
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
             </VCol>
           </VRow>
         </VForm>
@@ -422,5 +278,58 @@ onMounted(() => {
 <style lang="scss">
 .v-row {
   margin: 0px !important;
+}
+
+.table {
+  width: 100%;
+}
+
+.table-bordered {
+  border-collapse: collapse;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-bordered th {
+  background-color: #f5f5f5;
+  font-weight: 500;
+}
+
+.table-bordered td {
+  background-color: #fff;
+}
+
+.table-bordered tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+.table-bordered tr:nth-child(odd) td {
+  background-color: #fff;
+}
+
+.table-bordered tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-bordered tr td:last-child {
+  border-right: 0;
+}
+
+.table-bordered tr td:first-child {
+  border-left: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
 }
 </style>
