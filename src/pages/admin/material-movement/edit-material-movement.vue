@@ -129,12 +129,9 @@
                 label="Rasio Padat"
                 placeholder="Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
-                type="number"
                 step="1"
-                suffix="%"
               />
             </VCol>
-
 
             <VCol
               cols="12"
@@ -185,6 +182,7 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDate } from 'vuetify'
+import { toNumeral } from '@/@core/utils/formatters'
 
 const route = useRoute()
 const adapter = useDate()
@@ -201,7 +199,7 @@ const { fetchCheckers } = useCheckerStore()
 
 fetchDrivers()
 fetchTrucks()
-fetchStations({ type: 'station' }) 
+fetchStations({ type: 'station' })
 fetchCheckers()
 
 const { materialMovement, loading, error } = storeToRefs(useMaterialMovementStore())
@@ -233,7 +231,7 @@ const fetchMaterialMovementData = async () => {
     station_id.value = materialMovementData.station.id
     checker_id.value = materialMovementData.checker.id
     observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage * 100
-    solid_ratio.value = materialMovementData.solid_ratio * 100
+    solid_ratio.value = toNumeral(materialMovementData.solid_ratio)
     remarks.value = materialMovementData.remarks
     payment_proof_image.value = materialMovementData.payment_proof_image
   } catch (error) {
@@ -256,7 +254,7 @@ const handleSubmit = () => {
     station_id: station_id.value,
     checker_id: checker_id.value,
     observation_ratio_percentage: observation_ratio_percentage.value / 100,
-    solid_ratio: solid_ratio.value / 100,
+    solid_ratio: solid_ratio.value,
     remarks: remarks.value,
   })
 }

@@ -167,9 +167,7 @@
                 label="Rasio Padat"
                 placeholder="Rasio Padat"
                 :error-messages="error && error.solid_ratio ? [error.solid_ratio] : []"
-                type="number"
                 step="1"
-                suffix="%"
                 readonly=""
               />
             </VCol>
@@ -217,6 +215,7 @@ import { useCheckerStore } from '@/stores/checker'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { toNumeral } from '@/@core/utils/formatters'
 
 const route = useRoute()
 
@@ -257,6 +256,8 @@ const fetchMaterialMovementData = async () => {
   try {
     const materialMovementData = await fetchMaterialMovement(materialMovementId)
 
+
+
     code.value = materialMovementData.code
     driver_id.value = materialMovementData.driver.id
     truck_id.value = materialMovementData.truck.id
@@ -266,7 +267,7 @@ const fetchMaterialMovementData = async () => {
     truck_capacity.value = materialMovementData.truck_capacity * 1
     observation_ratio_percentage.value = materialMovementData.observation_ratio_percentage * 100
     observation_ratio_number.value = materialMovementData.observation_ratio_number * 1
-    solid_ratio.value = materialMovementData.solid_ratio * 100
+    solid_ratio.value = toNumeral(materialMovementData.solid_ratio)
     solid_volume_estimate.value = materialMovementData.solid_volume_estimate * 1
     remarks.value = materialMovementData.remarks
   } catch (error) {

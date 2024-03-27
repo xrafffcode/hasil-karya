@@ -102,6 +102,13 @@ async function fetchDataAndSetupChart(fetchFunction, options, chartOptions, char
       legend: {
         position: 'right',
       },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val.toFixed(2) + "%"
+        },
+        offsetY: -20, 
+      },
       responsive: [
         {
           breakpoint: 480,
@@ -250,7 +257,7 @@ onMounted(() => {
         lg="6"
       >
         <VCard class="pa-3">
-          <h3>Mumet 1 Truk</h3>
+          <h3>DUMPTRUCK</h3>
           <VCardText>
             <apexchart
               width="500"
@@ -268,7 +275,7 @@ onMounted(() => {
         lg="6"
       >
         <VCard class="pa-3">
-          <h3>Mumet 2 Ritage</h3>
+          <h3>RITAGE / DAY</h3>
           <VCardText>
             <apexchart
               width="500"
@@ -313,24 +320,6 @@ onMounted(() => {
             </button>
           </div>
         </div>
-      </VCol> 
-
-      <VCol
-        sm="12"
-        md="6"
-        lg="6"
-      >
-        <VCard class="pa-3">
-          <h3>Mumet 3 Volume</h3>
-          <VCardText>
-            <apexchart
-              width="500"
-              type="pie"
-              :options="chartOptionsStatisticMeasurementVolumeByStation"
-              :series="chartSeriesStatisticMeasurementVolumeByStation"
-            />
-          </VCardText>
-        </VCard>
       </VCol>
 
       <VCol
@@ -339,7 +328,7 @@ onMounted(() => {
         lg="6"
       >
         <VCard class="pa-3">
-          <h3>Mumet 4 Volume</h3>
+          <h3>MEASUREMENT VOLUME</h3>
           <VCardText>
             <apexchart
               width="500"
@@ -353,13 +342,31 @@ onMounted(() => {
 
       <VCol
         sm="12"
+        md="6"
+        lg="6"
+      >
+        <VCard class="pa-3">
+          <h3>RITAGE VOLUME</h3>
+          <VCardText>
+            <apexchart
+              width="500"
+              type="pie"
+              :options="chartOptionsStatisticMeasurementVolumeByStation"
+              :series="chartSeriesStatisticMeasurementVolumeByStation"
+            />
+          </VCardText>
+        </VCard>
+      </VCol>
+
+      <VCol
+        sm="12"
         md="12"
         lg="12"
       >
         <h4>
           Ratio / Measurement by Ritage
         </h4>
-        
+
         <apexchart
           width="100%"
           type="bar"

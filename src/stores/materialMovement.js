@@ -158,7 +158,13 @@ export const useMaterialMovementStore = defineStore({
   
         const response = await axiosInstance.get('/material-movements/read/ratio-measurement-by-ritage', { params })
         
-        return response.data.data.original
+        const formattedResponse = response.data.data.original
+
+        formattedResponse.forEach(item => {
+          item.value = (item.value * 100).toFixed(2)
+        })
+        
+        return formattedResponse
       } catch (error) {
         this.handleError(error)
       } finally {
