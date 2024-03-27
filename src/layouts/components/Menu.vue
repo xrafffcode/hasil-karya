@@ -16,7 +16,7 @@ const is = roles => {
 
 <template>
   <VerticalNavLink
-    v-if="is(['admin', 'checker', 'gas-operator', 'technical-admin'])"
+    v-if="is(['admin'])"
     :item="{
       title: 'Dashboard',
       icon: 'bx-home',

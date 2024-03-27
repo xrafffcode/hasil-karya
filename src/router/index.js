@@ -4,6 +4,7 @@ import publicRouter from './public'
 import { useAuthStore } from '@/stores/auth'
 import checkerRoutes from './checker'
 import gasOperatorRoutes from './gas-operator'
+import technicalAdminRoutes from './technical-admin'
 
 
 const router = createRouter({
@@ -31,7 +32,7 @@ const router = createRouter({
     {
       path: '/checker',
       component: () => import('../layouts/default.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, role: 'checker' },
       children: [
         ...checkerRoutes,
       ],
@@ -39,9 +40,17 @@ const router = createRouter({
     {
       path: '/gas-operator',
       component: () => import('../layouts/default.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, role: 'gas-operator' },
       children: [
         ...gasOperatorRoutes,
+      ],
+    },
+    {
+      path: '/technical-admin',
+      component: () => import('../layouts/default.vue'),
+      meta: { requiresAuth: true, role: 'technical-admin' },
+      children: [
+        ...technicalAdminRoutes,
       ],
     },
     {
@@ -68,11 +77,18 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore()
 
+  const authStore = useAuthStore()
+  
   if (to.meta.requiresAuth) {
     try {
       await authStore.checkAuth()
+
+      const userRole = authStore.user.roles[0].name
+
+      if (to.meta.role && to.meta.role !== userRole) {
+        next({ name: '403' })
+      }
 
       next()
     } catch (error) {

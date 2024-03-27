@@ -9,7 +9,7 @@
       </h2>
 
       <VBtn
-        :to="{ name: 'admin-material-movement' }"
+        :to="{ name: 'technical-admin-material-movement' }"
         color="primary"
       >
         Kembali
@@ -29,6 +29,7 @@
                 label="Kode"
                 placeholder="Kode Material Movement"
                 :error-messages="error && error.code ? [error.code] : []"
+                disabled
               />
             </VCol>
 
@@ -42,6 +43,7 @@
                 placeholder="Masukan Tanggal"
                 :error-messages="error && error.date ? [error.date] : []"
                 type="datetime-local"
+                disabled
               />
             </VCol>
 
@@ -57,6 +59,7 @@
                 :error-messages="error && error.driver_id ? [error.driver_id] : []"
                 :item-title="driver => driver.name"
                 :item-value="driver => driver.id"
+                disabled
               />
             </VCol>
 
@@ -72,6 +75,7 @@
                 :error-messages="error && error.truck_id ? [error.truck_id] : []"
                 :item-title="truck => truck.name"
                 :item-value="truck => truck.id"
+                disabled
               />
             </VCol>
 
@@ -87,6 +91,7 @@
                 :error-messages="error && error.station_id ? [error.station_id] : []"
                 :item-title="station => station.name"
                 :item-value="station => station.id"
+                disabled
               />
             </VCol>
 
@@ -102,6 +107,7 @@
                 :error-messages="error && error.checker_id ? [error.checker_id] : []"
                 :item-title="checker => checker.name"
                 :item-value="checker => checker.id"
+                disabled
               />
             </VCol>
 
@@ -117,6 +123,7 @@
                 type="number"
                 step="1"
                 suffix="%"
+                disabled
               />
             </VCol>
 
@@ -204,8 +211,8 @@ fetchTrucks()
 fetchStations({ type: 'station' }) 
 fetchCheckers()
 
-const { materialMovement, loading, error } = storeToRefs(useMaterialMovementStore())
-const { fetchMaterialMovement, updateMaterialMovement } = useMaterialMovementStore()
+const {  loading, error } = storeToRefs(useMaterialMovementStore())
+const { fetchMaterialMovementTechnicalAdmin, updateMaterialMovementTechnicalAdmin } = useMaterialMovementStore()
 
 const materialMovementId = route.params.id
 
@@ -220,11 +227,9 @@ const solid_ratio = ref('')
 const remarks = ref('')
 const payment_proof_image = ref(null)
 
-const fetchMaterialMovementData = async () => {
+const fetchMaterialMovementTechnicalAdminData = async () => {
   try {
-    const materialMovementData = await fetchMaterialMovement(materialMovementId)
-
-    console.log(adapter.parseISO(materialMovementData.date))
+    const materialMovementData = await fetchMaterialMovementTechnicalAdmin(materialMovementId)
 
     code.value = materialMovementData.code
     date.value = materialMovementData.date
@@ -242,24 +247,16 @@ const fetchMaterialMovementData = async () => {
 }
 
 onMounted(() => {
-  fetchMaterialMovementData()
+  fetchMaterialMovementTechnicalAdminData()
   document.title = 'Edit Material Movement'
 })
 
 const handleReset = () => {
-  code.value = ''
-  date.value = ''
-  driver_id.value = ''
-  truck_id.value = ''
-  station_id.value = ''
-  checker_id.value = ''
-  observation_ratio_percentage.value = ''
-  solid_ratio.value = ''
-  remarks.value = ''
+  fetchMaterialMovementTechnicalAdminData()
 }
 
 const handleSubmit = () => {
-  updateMaterialMovement({
+  updateMaterialMovementTechnicalAdmin({
     id: materialMovementId,
     code: code.value,
     date: date.value,

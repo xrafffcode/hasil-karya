@@ -127,13 +127,6 @@ onUnmounted(() => {
       <h2 class="mb-0">
         Perpindahan Material
       </h2>
-
-      <VBtn
-        :to="{ name: 'admin-material-movement-create' }"
-        color="primary"
-      >
-        Tambah Perpindahan Material
-      </VBtn>
     </VCol>
 
     <VCol cols="12">
@@ -184,7 +177,7 @@ onUnmounted(() => {
 
           <template #item-operation="item">
             <VBtn
-              :to="{ name: 'admin-material-movement-edit', params: { id: item.id } }"
+              :to="{ name: 'technical-admin-material-movement-edit', params: { id: item.id } }"
               color="primary"
               size="small"
               class="m-5"
@@ -192,19 +185,11 @@ onUnmounted(() => {
               Ubah
             </VBtn>
             <VBtn
-              :to="{ name: 'admin-material-movement-view', params: { id: item.id } }"
+              :to="{ name: 'technical-admin-material-movement-view', params: { id: item.id } }"
               color="info"
               size="small"
             >
               Detail
-            </VBtn>
-            <VBtn
-              color="error"
-              size="small"
-              class="m-5"
-              @click="() => handleDeleteMaterialMovement(item)"
-            >
-              Hapus
             </VBtn>
           </template>
         </EasyDataTable>

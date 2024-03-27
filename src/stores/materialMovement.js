@@ -43,6 +43,19 @@ export const useMaterialMovementStore = defineStore({
         this.loading = false
       }
     },
+    async fetchMaterialMovementTechnicalAdmin(id) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.get(`/technical-admin/material-movement/${id}`)
+
+        return response.data.data
+      } catch (error) {
+        this.handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
     async createMaterialMovement(payload) {
       try {
         this.loading = true
@@ -81,6 +94,21 @@ export const useMaterialMovementStore = defineStore({
         this.success = response.data.message
 
         router.push({ name: 'admin-material-movement' })
+      } catch (error) {
+        this.error = handleError(error)
+      } finally {
+        this.loading = false
+      }
+    },
+    async updateMaterialMovementTechnicalAdmin(payload) {
+      try {
+        this.loading = true
+
+        const response = await axiosInstance.post(`/technical-admin/material-movement/update/${payload.id}`, payload)
+
+        this.success = response.data.message
+
+        router.push({ name: 'technical-admin-material-movement' })
       } catch (error) {
         this.error = handleError(error)
       } finally {

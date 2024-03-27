@@ -25,7 +25,20 @@ export const useAuthStore = defineStore({
 
         localStorage.setItem('token', token)
 
-        router.push({ name: 'dashboard' })
+        const user = await this.checkAuth()
+
+        if (user.roles[0].name === 'admin') {
+          router.push({ name: 'dashboard' })
+        } else if (user.roles[0].name === 'checker') {
+          router.push({ name: 'checker-material-movement-create' })
+        } else if (user.roles[0].name === 'gas-operator') {
+          router.push({ name: 'gas-operator-fuel-log-truck-create' })
+        } else if (user.roles[0].name === 'technical-admin') {
+          router.push({ name: 'technical-admin-material-movement' })
+        }else{
+          router.push({ name: 'dashboard' })
+        }
+
       } catch (error) {
         this.error = handleError(error)
       } finally {

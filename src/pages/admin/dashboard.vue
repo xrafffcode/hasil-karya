@@ -7,6 +7,17 @@ import { useTruckStore } from '@/stores/truck'
 import { useCheckerStore } from '@/stores/checker'
 import { useMaterialMovementStore } from '@/stores/materialMovement'
 import { useCommonStore } from '@/stores/common'
+import { useAuthStore } from '@/stores/auth'
+
+const { user, checkAuth } = useAuthStore()
+
+checkAuth()
+
+const is = roles => {
+  const userRole = user?.roles[0].name
+
+  return roles.includes(userRole)
+}
 
 async function fetchData(fetchFunction, options) {
   return await fetchFunction(options)
