@@ -1,206 +1,202 @@
 <template>
-  <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
+  <VCol
+    cols="12"
+    class="d-flex justify-space-between align-items-center"
+  >
+    <h2 class="mb-0">
+      Projek
+    </h2>
+
+    <VBtn
+      :to="{ name: 'admin-project' }"
+      color="primary"
     >
-      <h2 class="mb-0">
-        Projek
-      </h2>
+      Kembali
+    </VBtn>
+  </VCol>
 
-      <VBtn
-        :to="{ name: 'admin-project' }"
-        color="primary"
-      >
-        Kembali
-      </VBtn>
-    </VCol>
+  <VCol cols="12">
+    <VCard>
+      <VRow>
+        <VCol
+          cols="12"
+          md="12"
+        >
+          <h3>Infromasi Projek</h3>
 
-    <VCol cols="12">
-      <VCard>
-        <VForm>
-          <VRow>
-            <VCol
-              cols="12"
-              md="12"
-            >
-              <h3>Infromasi Projek</h3>
-
-              <VDivider class="my-4" />
+          <VDivider class="my-4" />
               
-              <table class="table table-bordered">
-                <tr>
-                  <td>Kode</td>
-                  <td>{{ code }}</td>
-                </tr>
-                <tr>
-                  <td>Nama</td>
-                  <td>{{ name }}</td>
-                </tr>
-                <tr>
-                  <td>Deskripsi</td>
-                  <td>{{ description }}</td>
-                </tr>
-                <tr>
-                  <td>Tanggal Mulai</td>
-                  <td>{{ startDate }}</td>
-                </tr>
-                <tr>
-                  <td>Tanggal Selesai</td>
-                  <td>{{ endDate }}</td>
-                </tr>
-                <tr>
-                  <td>Penanggung Jawab</td>
-                  <td>{{ personInCharge }}</td>
-                </tr>
-                <tr>
-                  <td>Jumlah</td>
-                  <td>{{ amount }}</td>
-                </tr>
-                <tr>
-                  <td>Pelanggan</td>
-                  <td>{{ client }}</td>
-                </tr>
-                <tr>
-                  <td>Status</td>
-                  <td>
-                    <VChip
-                      :color="status === 'On Going' ? 'success' : 'error'"
-                      label="status"
-                    >
-                      {{ status }}
-                    </VChip>
-                  </td>
-                </tr>
-              </table>
-            </VCol>
+          <table class="table table-bordered">
+            <tr>
+              <td>Kode</td>
+              <td>{{ code }}</td>
+            </tr>
+            <tr>
+              <td>Nama</td>
+              <td>{{ name }}</td>
+            </tr>
+            <tr>
+              <td>Deskripsi</td>
+              <td>{{ description }}</td>
+            </tr>
+            <tr>
+              <td>Tanggal Mulai</td>
+              <td>{{ startDate }}</td>
+            </tr>
+            <tr>
+              <td>Tanggal Selesai</td>
+              <td>{{ endDate }}</td>
+            </tr>
+            <tr>
+              <td>Penanggung Jawab</td>
+              <td>{{ personInCharge }}</td>
+            </tr>
+            <tr>
+              <td>Jumlah</td>
+              <td>{{ amount }}</td>
+            </tr>
+            <tr>
+              <td>Pelanggan</td>
+              <td>{{ client }}</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td>
+                <VChip
+                  :color="status === 'On Going' ? 'success' : 'error'"
+                  label="status"
+                >
+                  {{ status }}
+                </VChip>
+              </td>
+            </tr>
+          </table>
+        </VCol>
 
-            <VCol
-              cols="12"
-              md="12
+        <VCol
+          cols="12"
+          md="12
             "
-            >
-              <h3>Informasi Lokasi</h3>
+        >
+          <h3>Informasi Lokasi</h3>
 
-              <VDivider class="my-4" />
+          <VDivider class="my-4" />
 
-              <table class="table table-bordered">
-                <tr>
-                  <td>Provinsi</td>
-                  <td>{{ province }}</td>
-                </tr>
-                <tr>
-                  <td>Kabupaten/Kota</td>
-                  <td>{{ regency }}</td>
-                </tr>
-                <tr>
-                  <td>Kecamatan</td>
-                  <td>{{ district }}</td>
-                </tr>
-                <tr>
-                  <td>Kelurahan</td>
-                  <td>{{ subdistrict }}</td>
-                </tr>
-              </table>
-            </VCol>
+          <table class="table table-bordered">
+            <tr>
+              <td>Provinsi</td>
+              <td>{{ province }}</td>
+            </tr>
+            <tr>
+              <td>Kabupaten/Kota</td>
+              <td>{{ regency }}</td>
+            </tr>
+            <tr>
+              <td>Kecamatan</td>
+              <td>{{ district }}</td>
+            </tr>
+            <tr>
+              <td>Kelurahan</td>
+              <td>{{ subdistrict }}</td>
+            </tr>
+          </table>
+        </VCol>
     
-            <VCol
-              cols="12"
-              md="12"
-            >
-              <h3>Informasi Personil</h3>
+        <VCol
+          cols="12"
+          md="12"
+        >
+          <h3>Informasi Personil</h3>
 
-              <VDivider class="my-4" />
+          <VDivider class="my-4" />
 
-              <table class="table table-bordered">
-                <tr>
-                  <th>Driver</th>
-                  <th>Truk</th>
-                  <th>Alat Berat</th>
-                  <th>Stasiun</th>
-                  <th>Checker</th>
-                  <th>Admin Teknis</th>
-                  <th>Operator Gas</th>
-                </tr>
-                <tr>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="driver in drivers"
-                        :key="driver.id"
-                      >
-                        {{ driver.name }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="truck in trucks"
-                        :key="truck.id"
-                      >
-                        {{ truck.brand }} {{ truck.model }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="heavyVehicle in heavyVehicles"
-                        :key="heavyVehicle.id"
-                      >
-                        {{ heavyVehicle.brand }} {{ heavyVehicle.model }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="station in stations"
-                        :key="station.id"
-                      >
-                        {{ station.name }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="checker in checkers"
-                        :key="checker.id"
-                      >
-                        {{ checker.name }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="technicalAdmin in technicalAdmins"
-                        :key="technicalAdmin.id"
-                      >
-                        {{ technicalAdmin.name }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      <li
-                        v-for="gasOperator in gasOperators"
-                        :key="gasOperator.id"
-                      >
-                        {{ gasOperator.name }}
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </table>
-            </VCol>
-          </VRow>
-        </VForm>
-      </VCard>
-    </VCol>
-  </VRow>
+          <table class="table table-bordered">
+            <tr>
+              <th>Driver</th>
+              <th>Truk</th>
+              <th>Alat Berat</th>
+              <th>Stasiun</th>
+              <th>Checker</th>
+              <th>Admin Teknis</th>
+              <th>Operator Gas</th>
+            </tr>
+            <tr>
+              <td>
+                <ul>
+                  <li
+                    v-for="driver in drivers"
+                    :key="driver.id"
+                  >
+                    {{ driver.name }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="truck in trucks"
+                    :key="truck.id"
+                  >
+                    {{ truck.brand }} {{ truck.model }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="heavyVehicle in heavyVehicles"
+                    :key="heavyVehicle.id"
+                  >
+                    {{ heavyVehicle.brand }} {{ heavyVehicle.model }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="station in stations"
+                    :key="station.id"
+                  >
+                    {{ station.name }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="checker in checkers"
+                    :key="checker.id"
+                  >
+                    {{ checker.name }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="technicalAdmin in technicalAdmins"
+                    :key="technicalAdmin.id"
+                  >
+                    {{ technicalAdmin.name }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    v-for="gasOperator in gasOperators"
+                    :key="gasOperator.id"
+                  >
+                    {{ gasOperator.name }}
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </VCol>
+      </VRow>
+    </VCard>
+  </VCol>
 </template>
 
 <script setup>
